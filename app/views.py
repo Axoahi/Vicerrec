@@ -60,6 +60,13 @@ def upload():
                 textoSacado.append(ConversionPDF.extraeInfo(destination))
                 print(textoSacado)
 
+                # Una vez se ha subido el archivo y se ha procesado, se elimina
+                if os.path.exists(destination):
+                    os.remove(destination)
+                    print("Archivo eliminado")
+                else:
+                    print("El archivo no existe")
+
 
 
         return render_template("public/complete.html")
