@@ -2,6 +2,7 @@ import tika
 import itertools
 from tika import parser
 import re
+import creadExport
 
 tika.initVM()
 
@@ -9,7 +10,7 @@ tika.initVM()
 def extraeInfo(fileName):
     ###### BÚSQUEDA DE RECOMENDACIONES ################################
     recomendaciones = [['curriculum', 'currículum', 'currícula', 'curricula'],
-                       ['docentia'],
+                       ['docentia', 'DOCENTIA'],
                        ['web'],
                        ['coordinación', 'coordinacion'],
                        ['se recomienda', 'se aconseja', 'optimizar', 'revisar', 'baja respuesta',
@@ -23,9 +24,17 @@ def extraeInfo(fileName):
     textofilter = re.sub("\\n", " ", textoraw)
     prueba2 = re.sub("\\s\\s", " ", textofilter)
 
+    # Extracción código
+    numRUCT = re.search("Número de RUCT:(.*) Fecha ", prueba2)
+    numRUCT = numRUCT[1].lstrip()
+
     # Extracción título
     titulo = re.search("(Título(.*) Universidad:)", prueba2)
     titulo = titulo[0].replace("Título: ", "").replace(" Universidad:", "")
+
+    # Extracción año
+    anyo = re.search("verificación:\s*(\d*)\s*Valoración", prueba2)
+    anyo = anyo[1]
 
     # Extracción universidad
     universidad = re.search("(Universidad: )(.*)Centro:", prueba2)
@@ -57,6 +66,9 @@ def extraeInfo(fileName):
     ## [1]: Estándard del criterio
     ## [2]: Descripción del criterio
 
+    # Lista de criterios básicos para la creación del JSON final
+    listValCrit = []
+
     arrayCriterios = []
     auxCriterio = []
 
@@ -66,7 +78,10 @@ def extraeInfo(fileName):
                       prueba2)
     crit1 = crit1[0].replace("Organización y desarrollo (Criterio 1) ", "").replace(
         "Información y transparencia (Criterio 2)", "")
+    # Se añade al listado de criterios, y se añade la valoración básica al listado de valoraciones listValCrit
     auxCriterio.append(crit1)
+    listValCrit.append(crit1)
+
     # Extracción estándard de criterio 1
     crit1est = re.search("Criterio 1\.\- Organización y desarrollo\.(\s*?)(.*?)Calificación", prueba2)
     crit1est = crit1est[0].replace("Calificación", "").replace("Estándar", "").replace(
@@ -91,6 +106,8 @@ def extraeInfo(fileName):
     crit2 = crit2[0].replace("Información y transparencia (Criterio 2) ", "").replace(
         "Sistema de garantía interno de calidad (Criterio 3)", "")
     auxCriterio.append(crit2)
+    listValCrit.append(crit2)
+
     # Extracción estándar de criterio 2
     buffXX = re.search("Criterio 2\.\- Información y transparencia.\s*?Estándar(.*?)Calificación", prueba2)
     crit2est = buffXX[1]
@@ -113,6 +130,8 @@ def extraeInfo(fileName):
     crit3 = crit3[0].replace("Sistema de garantía interno de calidad (Criterio 3) ", "").replace(
         "Personal académico (Criterio 4)", "")
     auxCriterio.append(crit3)
+    listValCrit.append(crit3)
+
     # Extracción estándar de criterio 3
     buff = re.search("Criterio 3\.\- Sistema de garantía interno de calidad \(SGIC\)\.(\s*?)Estándar(.*?)Calificación",
                      prueba2)
@@ -137,6 +156,8 @@ def extraeInfo(fileName):
     crit4 = crit4[0].replace("Personal académico (Criterio 4) ", "").replace(
         "Personal de apoyo, recursos materiales y servicios (Criterio 5)", "")
     auxCriterio.append(crit4)
+    listValCrit.append(crit4)
+
     # Extracción estándar de criterio 4
     buff = re.search("Criterio 4\.\- Personal académico\.(\s*?)Estándar(.*?)Calificación", prueba2)
     crit4est = buff[2]
@@ -160,6 +181,8 @@ def extraeInfo(fileName):
     crit5 = crit5[0].replace("Personal de apoyo, recursos materiales y servicios (Criterio 5) ", "").replace(
         "Resultados de Aprendizaje (Criterio 6)", "")
     auxCriterio.append(crit5)
+    listValCrit.append(crit5)
+
     # Extracción estándar de criterio 5
     buff = re.search(
         "Criterio 5\.\- Personal de apoyo, recursos materiales y servicios\.(\s*?)Estándar(.*?)Calificación",
@@ -185,6 +208,8 @@ def extraeInfo(fileName):
     crit6 = crit6[0].replace("Resultados de Aprendizaje (Criterio 6) ", "").replace(
         "Indicadores de Satisfacción y Rendimiento (Criterio 7)", "")
     auxCriterio.append(crit6)
+    listValCrit.append(crit6)
+
     # Extracción estándar de criterio 6
     buff = re.search("Criterio 6\.\- Resultados de Aprendizaje\.(\s*?)Estándar(.*?)Calificación", prueba2)
     crit6est = buff[2]
@@ -208,6 +233,8 @@ def extraeInfo(fileName):
     crit7 = crit7[0].replace("Indicadores de Satisfacción y Rendimiento (Criterio 7) ", "").replace(
         "Escala: se supera excelentemente, se alcanza, se alcanza parcialmente y no se alcanza.", "")
     auxCriterio.append(crit7)
+    listValCrit.append(crit7)
+
     # Extracción estándar de criterio 7
     buff = re.search("Criterio 7\.\- Indicadores de Satisfacción y Rendimiento\.(\s*?)Estándar(.*?)Calificación",
                      prueba2)
@@ -265,8 +292,11 @@ def extraeInfo(fileName):
     # principales campos clave) y el frasesOtros (con las frases del
     # campoClave "Otros") para que tengan la estructua necesaria para formar
     # el JSON
-    finalJSON = preparaJSONfinal(frasesJSON, otrosJSON)
-    return (finalJSON)
+    criteriosJSON = reordena(frasesJSON, otrosJSON, recomendaciones)
+
+    dataToFront = creadExport.creaJSON(numRUCT, titulo, anyo, listValCrit, valGlob, criteriosJSON)
+    print(dataToFront)
+    return (dataToFront)
 
 
 # Método para facilitar la visualización de las frases
@@ -328,24 +358,54 @@ def limpiaFrases(frasesALimpiar, indCriter):
     return frasesALimpiar
 
 
-# Reordenado y limpieza de los dos listados antes dee la creación del
-# JSON final
-def preparaJSONfinal(listaCriterios, otrosCriterios):
-    auxCriterio = []
-    finalJSON = []
-    for i in range(len(listaCriterios)):
-        auxCriterio.clear()
-        auxCriterio.append(listaCriterios[i])
-        auxCriterio.append(otrosCriterios[i])
+# # Reordenado y limpieza de los dos listados antes de la creación del
+# # # JSON final
+# # def preparaJSONfinal(listaCriterios, otrosCriterios):
+# #     auxCriterio = []
+# #     finalJSON = []
+# #     for i in range(len(listaCriterios)):
+# #         auxCriterio.clear()
+# #         auxCriterio.append(listaCriterios[i])
+# #         auxCriterio.append(otrosCriterios[i])
+# #
+# #         #         print(auxCriterio)
+# #         #         print("--------------")
+# #
+# #         # Deshacemos todas las listas anidadas para "flatear"
+# #         chain = itertools.chain(*auxCriterio)
+# #         #         print(list(chain))
+# #         #        print("-----------")
+# #         cleanSent = [x for x in chain if x != '[]']
+# #         #         print(mierda)
+# #         finalJSON.append(cleanSent)
+# #     return finalJSON
 
-        #         print(auxCriterio)
-        #         print("--------------")
 
-        # Deshacemos todas las listas anidadas para "flatear"
-        chain = itertools.chain(*auxCriterio)
-        #         print(list(chain))
-        #        print("-----------")
-        cleanSent = [x for x in chain if x != '[]']
-        #         print(mierda)
-        finalJSON.append(cleanSent)
-    return finalJSON
+# Reordenamiento de las frases sacadas del JSON
+def reordena(frases, otrosJSON, recomendaciones):
+    recomend = recomendaciones[:-1]
+    listaplana = list(itertools.chain(*frases))
+
+    # Se crea una lista con X posiciones vacías (se debe hacer así), que será
+    # la variable a devolver
+    listaOrdenada = []
+    for i in range(len(recomend)):
+        listaOrdenada.append([])
+
+    # Iteramos por cada acepción de cada campo clave
+    for intcc in range(len(recomend)):
+        for intcadaAcep in range(len(recomend[intcc])):
+            # Buscamos cada acepción en cada frases, y si está la añadimos a la lista correspondiente
+            for sent in listaplana:
+                if recomend[intcc][intcadaAcep] in sent:
+                    listaOrdenada[intcc].append(sent)
+
+    ###Añadimos las frases de Otros
+    # 1ro flateamos el JSON y eliminamos listas vacías
+    merged = itertools.chain(*otrosJSON)
+    flated = list(merged)
+    cleanSent = [x for x in flated if x != '[]']
+    listaOrdenada.append(cleanSent)
+
+    # Devolvemos la lista ordenada a la cuál se le ha anexado listaOtros flateada
+    return (listaOrdenada)
