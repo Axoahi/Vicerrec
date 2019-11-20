@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-def creaJSON(codig, titulo, anyo, criterios, valoracionGlobal, observaciones):
+    def creaJSON(codig, titulo, anyo, criterios, valoracionGlobal, observaciones):
     data = {
                 "codigo": codig,
                 "titulo": titulo,
