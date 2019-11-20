@@ -6,5 +6,14 @@
 </head>
 <body>
     <h1> Archivos subidos</h1>
+    {% for i in data %}
+    <h3> {{ data }}</h3>
+    {% endfor %}
+
+    <form id="download-form" action="{{ url_for('download') }}" method="POST">
+        <label for="excel-name">Nombre del archivo</label>
+        <br> <input name="excel-name" id="excel-name">
+        <input type="submit" value="Bajar archivo" id="down-file">
+    </form>
 </body>
 </html>

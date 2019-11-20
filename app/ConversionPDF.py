@@ -1,3 +1,5 @@
+import json
+
 import tika
 import itertools
 from tika import parser
@@ -294,8 +296,8 @@ def extraeInfo(fileName):
     # el JSON
     criteriosJSON = reordena(frasesJSON, otrosJSON, recomendaciones)
 
-    dataToFront = creadExport.creaJSON(numRUCT, titulo, anyo, listValCrit, valGlob, criteriosJSON)
-    print(dataToFront)
+    dataTo = creadExport.creaJSON(numRUCT, titulo, anyo, listValCrit, valGlob, criteriosJSON)
+    dataToFront = json.dumps(dataTo, sort_keys = False, indent = 2)
     return (dataToFront)
 
 

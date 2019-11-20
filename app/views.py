@@ -4,7 +4,7 @@ from flask import Flask
 app = Flask(__name__)
 
 from flask import render_template
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, send_file, send_from_directory, safe_join, abort
 from werkzeug.utils import secure_filename
 import os
 import ConversionPDF
@@ -58,7 +58,6 @@ def upload():
                 file.save(destination)
                 # Leemos la información del archivo
                 textoSacado.append(ConversionPDF.extraeInfo(destination))
-                print(textoSacado)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -67,9 +66,12 @@ def upload():
                 else:
                     print("El archivo no existe")
 
+        return render_template("public/complete.html", data=textoSacado)
 
-
-        return render_template("public/complete.html")
+# Procesamiento de subida de archivo, previo a muestra de
+@app.route("/download", methods=['POST'])
+def download():
+    target = os.path.join(app.instance_path)
 
 
 def archivoPermitido(fileName):
