@@ -61,7 +61,7 @@ def upload():
                 # Leemos la información del archivo
                 textoSacado.append(ConversionPDF.extraeInfo(destination))
 
-                # Una vez se ha subido el archivo y se ha procesado, se elimina
+                #Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
                     os.remove(destination)
                     print("Archivo eliminado")
