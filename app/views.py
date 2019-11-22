@@ -1,4 +1,5 @@
 from flask import Flask
+import creadExport
 
 
 app = Flask(__name__)
@@ -12,6 +13,7 @@ import mongoDB
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
+app.config["CLIENT_DIRECTORY"] = 'C:\\Users\\Buba\\Desktop\\LucentiaLab\\PDF2CSV\\PruebasFlask\\app\\data'
 
 # Página index
 @app.route("/")
@@ -60,7 +62,7 @@ def upload():
                 # Leemos la información del archivo
                 textoSacado.append(ConversionPDF.extraeInfo(destination))
 
-                # Una vez se ha subido el archivo y se ha procesado, se elimina
+                #Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
                     os.remove(destination)
                     print("Archivo eliminado")
@@ -70,9 +72,64 @@ def upload():
         return render_template("public/complete.html", data=textoSacado)
 
 # Procesamiento de subida de archivo, previo a muestra de
-@app.route("/download", methods=['POST'])
-def download():
-    target = os.path.join(app.instance_path)
+@app.route("/getExcel", methods=['POST','GET'])
+def getExcel():
+
+    ##### Variable auxiliar que debe ser sustituida por la lista de importada desde el front
+    listaTitula = []
+    titula = {
+    "codigo": 696969,
+    "titulo": "GRADO EN QUÍMICA",
+    "anyo": 2014,
+    "gestiontitulo": {
+        "organizacionydesarrollo": "AD",
+        "informacionytransparencia":"AD",
+        "SGIC":"AD"
+    },
+    "recursos":{
+        "personalacademico":"SA",
+        "apoyoyrecursosmateriales":"SA"
+    },
+    "resultados":{
+        "resultados": "AD",
+        "indicadores": "AD"
+    },
+    "finaltotal":"FAVORABLE",
+    "recomendaciones":{
+        "curriculum": [],
+        "docentia":["Se recomienda la implantación definitiva del programa DOCENTIA"],
+        "web":[],
+        "coordinacion":["Mejorar coordinación entre actividades de evaluación y las docentes (CR1)"],
+        "otras":["Alumnado no conoce sistema de tramitación de quejas (CR1)",
+                 "Puede mejorar consulta a agentes externos (CR1) (CR3)",
+                 "Perfil de ingreso no bien definido puede explicar bajas tasas en algunos indicadores (CR1)",
+                 "Potenciar acción tutorial (CR1)","Aumentar participacion estudiantes en encuestas (CR1) (CR3)",
+                 "Difundir mejor informes de seguimiento del título (CR2)",
+                 "Baja participación en programas de movilidad (CR2)",
+                 "Faltan competencias básicas en guías docentes (CR2)",
+                 "Adecuar programas de formación pedagógica del profesorado a las necesidades (CR3)",
+                 "Profesorado desconoce y desconfía de resultados del SIGC, y alumnado lo desconoce también (CR3)",
+                 "Falta información de sexenios y quinquenios del profesorado (CR4)",
+                 "Poca información sobre movilidad y prácticas en empresas (CR5)",
+                 "Baja tasa de rendimiento en algunas asignaturas (CR6)",
+                 "Posibilidad de curso cero o cambiar perfil de ingreso (CR6)",
+                 "Alumnado solicita formación (en plan de estudios o no) sobre comunicación y relaciones con clientes/emprendimiento (CR6)","Tasa de abandono superior a la memoria (CR7)","Revisar encuestas para incluir competencias (CR7)","Necesario aumentar la participación de los alumnos en encuestas (CR7)","Actualizar el Plan de  actuación institucional en lo referente a inserción laboral, aunque los resultados son aceptables (CR7)"]
+    }
+}
+    listaTitula.append(titula)
+    listaTitula.append(titula)
+    ###############################################################################
+
+    nombreEstudio = request.form["excel-name"]
+    # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
+    nombre = creadExport.exportarExcel(nombreEstudio, listaTitula) + ".xls"
+    try:
+        print('/data/' + nombre)
+        return send_from_directory(
+            app.config["CLIENT_DIRECTORY"], filename=nombre, as_attachment=True)
+
+    except FileNotFoundError:
+            abort(404)
 
 def archivoPermitido(fileName):
     # 1 seg: Se mira que sea un archivo.

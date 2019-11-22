@@ -230,7 +230,7 @@ def extraeInfo(fileName):
     # CRITERIO 7
     # Extracción valoración criterio 7
     crit7 = re.search(
-        "(Indicadores de Satisfacción y Rendimiento \(Criterio 7\))(.*)Escala: se supera excelentemente, se alcanza, se alcanza parcialmente y no se alcanza.",
+        "(Indicadores de Satisfacción y Rendimiento \(Criterio 7\))(.*)Escala:",
         prueba2)
     crit7 = crit7[0].replace("Indicadores de Satisfacción y Rendimiento (Criterio 7) ", "").replace(
         "Escala: se supera excelentemente, se alcanza, se alcanza parcialmente y no se alcanza.", "")

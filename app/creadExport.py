@@ -44,11 +44,12 @@ def aplanarRecomendaciones(lista):
     return recomendacion
 
 def exportarExcel(nombreExcel, listadoJSON):
-    lista = ["titulo", "anyo","crit1","crit2","crit3","crit4","crit5","crit6","crit7","final","curriculum","docentia","web","coordinacion","otras"]
+    lista = ["codigo","titulo", "anyo","crit1","crit2","crit3","crit4","crit5","crit6","crit7","final","curriculum","docentia","web","coordinacion","otras"]
     df = pd.DataFrame(columns=lista)
     for i in range(0,len(listadoJSON)):
         print("ITERACION;", i)
         item = listadoJSON[i]
+        codigo = item["codigo"]
         titulo = item["titulo"]
         anyo = item["anyo"]
         crit1 = item["gestiontitulo"]["organizacionydesarrollo"]
@@ -65,12 +66,12 @@ def exportarExcel(nombreExcel, listadoJSON):
         coordinacion = aplanarRecomendaciones(item["recomendaciones"]["coordinacion"])
         otras = aplanarRecomendaciones(item["recomendaciones"]["otras"])
        
-        data = [titulo,anyo,crit1,crit2,crit3,crit4,crit5,crit6,crit7,final,curriculum,docentia,web,coordinacion,otras]
+        data = [codigo,titulo,anyo,crit1,crit2,crit3,crit4,crit5,crit6,crit7,final,curriculum,docentia,web,coordinacion,otras]
         df_item = pd.DataFrame([data],columns=lista)
-#         print(df_item)
         df = df.append(df_item)
-    print(df)
-    return df
+    df.to_excel("data/" + nombreExcel + ".xls")
+
+    return nombreExcel
 
 
 def creaEstudio(nombEstudio, listaTitula):
