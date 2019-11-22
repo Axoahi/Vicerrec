@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mongoDB</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+
+<form id="newest-form" action="{{ url_for('crearNuevoEstudio') }}" method="POST" enctype="multipart/form-data">
+    <input type="submit" value="Nuevo estudio" id="newest-button">
+</form>
+
+<form id="list-form" action="{{ url_for('listaEstudios') }}" method="POST" enctype="multipart/form-data">
+    <input type="submit" value="Lista Estudios" id="list-button">
+</form>
+
+<form id="detalles-form" action="{{ url_for('verDetalles') }}" method="POST" enctype="multipart/form-data">
+    <input type="submit" value="Ver detalles" id="detalles-button">
+</form>
+
+<form id="actualizar-form" action="{{ url_for('actualizarEstudio') }}" method="POST" enctype="multipart/form-data">
+    <input type="submit" value="Actualizar detalles" id="actualizar-button">
+</form>
+
+<form id="borrar-form" action="{{ url_for('borrarEstudio') }}" method="POST" enctype="multipart/form-data">
+    <input type="submit" value="Borrar Estudio" id="borrar-button">
+</form>
+</body>
+</html>
