@@ -1,6 +1,7 @@
+import json
+
 from flask import Flask
 import creadExport
-
 
 app = Flask(__name__)
 
@@ -11,6 +12,7 @@ import os
 import ConversionPDF
 import mongoDB
 import json
+
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
@@ -69,7 +71,6 @@ def upload():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-
         return render_template("public/complete.html", data=textoSacado)
 
 # Procesamiento de subida de archivo, previo a muestra de

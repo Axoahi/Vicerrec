@@ -47,6 +47,50 @@
                 </form>
             </div>
 
+            <h1> Archivos subidos</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Título</th>
+                  <th scope="col">Año</th>
+                  <th scope="col">Organización y desarrollo</th>
+                  <th scope="col">Información y transparencia</th>
+                  <th scope="col">SGID</th>
+                  <th scope="col">Personal académico</th>
+                  <th scope="col">Apoyo y recursos a materiales</th>
+                  <th scope="col">Resultados</th>
+                  <th scope="col">Indicadores</th>
+                  <th scope="col">Final Total</th>
+                  <th scope="col">Curriculum</th>
+                  <th scope="col">Docentia</th>
+                  <th scope="col">Web</th>
+                  <th scope="col">Coordinacion</th>
+                  <th scope="col">Otras</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for i in data %}
+                <tr>
+                    <td>{{i["codigo"]}}</td>
+                    <td>{{i["titulo"]}}</td>
+                    <td>{{i["anyo"]}}</td>
+                    <td>{{i["gestiontitulo"]["organizacionydesarrollo"]}}</td>
+                    <td>{{i["gestiontitulo"]["informacionytransparencia"]}}</td>
+                    <td>{{i["gestiontitulo"]["SGIC"]}}</td>
+                    <td>{{i["recursos"]["personalacademico"]}}</td>
+                    <td>{{i["recursos"]["apoyoyrecursosmateriales"]}}</td>
+                    <td>{{i["resultados"]["resultados"]}}</td>
+                    <td>{{i["resultados"]["indicadores"]}}</td>
+                    <td>{{i["finaltotal"]}}</td>
+                    <td>{{i["recomendaciones"]["curriculum"]}}</td>
+                    <td>{{i["recomendaciones"]["docentia"]}}</td>
+                    <td>{{i["recomendaciones"]["web"]}}</td>
+                    <td>{{i["recomendaciones"]["otras"]}}</td>
+                </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
         </div>
     </div>
 </div>
