@@ -13,7 +13,7 @@ tika.initVM()
 def extraeInfo(fileName):
     ###### BÚSQUEDA DE RECOMENDACIONES ################################
     recomendaciones = [['curriculum', 'currículum', 'currícula', 'curricula'],
-                       ['docentia', 'DOCENTIA'],
+                       ['docentia', 'DOCENTIA', 'Docentia'],
                        ['web'],
                        ['coordinación', 'coordinacion'],
                        ['se recomienda', 'se aconseja', 'optimizar', 'revisar', 'baja respuesta',
@@ -233,8 +233,7 @@ def extraeInfo(fileName):
     crit7 = re.search(
         "(Indicadores de Satisfacción y Rendimiento \(Criterio 7\))(.*)Escala:",
         prueba2)
-    crit7 = crit7[0].replace("Indicadores de Satisfacción y Rendimiento (Criterio 7) ", "").replace(
-        "Escala: se supera excelentemente, se alcanza, se alcanza parcialmente y no se alcanza.", "")
+    crit7 = crit7[2]
     auxCriterio.append(crit7)
     listValCrit.append(crit7)
 
@@ -256,7 +255,8 @@ def extraeInfo(fileName):
 
     # Extracción valoración global
     # Al añadir el ? dentro del (.*?) hacemos que no busque de manera tan greedy, y solo se queda con la primera solución
-    valGlob = re.search("(Valoración global )(.*?)INFORME DEFINITIVO DE RENOVACIÓN", prueba2)
+    #valGlob = re.search("(Valoración global )(.*?)INFORME DEFINITIVO DE RENOVACIÓN", prueba2)
+    valGlob = re.search("Valoración global (\w*)", prueba2)
     valGlob = valGlob[0].replace("Valoración global ", "").replace("INFORME DEFINITIVO DE RENOVACIÓN", "")
     # Esta línea elimina los espacios del string al principio (a la parte left, por eso la l del lstrip)
     # también está el comando rstrip, para eliminar a la derecha (que sería el que sustituiría a nuesto  valGlob[:-1])

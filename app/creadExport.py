@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import ast
 
 def creaJSON(codig, titulo, anyo, criterios, valoracionGlobal, observaciones):
     data = {
@@ -29,9 +30,7 @@ def creaJSON(codig, titulo, anyo, criterios, valoracionGlobal, observaciones):
                 }
             }
 
-    json_data = json.dumps(data, ensure_ascii=False, indent=4)
-
-    return json_data
+    return data
 
 
 def aplanarRecomendaciones(lista):
@@ -79,6 +78,5 @@ def creaEstudio(nombEstudio, listaTitula):
         "nombre": nombEstudio,
         "comparativa": listaTitula
     }
-    json_data = json.dumps(estudio, ensure_ascii=False, indent=4)
 
-    return json_data
+    return estudio
