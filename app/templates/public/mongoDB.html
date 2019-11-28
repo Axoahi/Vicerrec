@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mongoDB</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <a class="navbar-brand" href="#">Vicerrectorado</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:5000">Principal <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/upload">Subir archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/listado">Base de datos</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <h1>MongoDB</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            <div class="form-group">
+
+                <form id="newest-form" action="{{ url_for('crearNuevoEstudio') }}" method="POST" enctype="multipart/form-data">
+                    <input type="submit" value="Nuevo estudio" id="newest-button" class="btn btn-primary" style="width: 150px">
+                </form>
+                <br>
+                <form id="list-form" action="{{ url_for('listaEstudios') }}" method="POST" enctype="multipart/form-data">
+                    <input type="submit" value="Lista Estudios" id="list-button" class="btn btn-primary" style="width: 150px">
+                </form>
+                <br>
+                <form id="detalles-form" action="{{ url_for('verDetalles') }}" method="POST" enctype="multipart/form-data">
+                    <input type="submit" value="Ver detalles" id="detalles-button" class="btn btn-primary" style="width: 150px">
+                </form>
+                <br>
+                <form id="actualizar-form" action="{{ url_for('actualizarEstudio') }}" method="POST" enctype="multipart/form-data">
+                    <input type="submit" value="Actualizar detalles" id="actualizar-button" class="btn btn-primary" style="width: 150px">
+                </form>
+                <br>
+                <form id="borrar-form" action="{{ url_for('borrarEstudio') }}" method="POST" enctype="multipart/form-data">
+                    <input type="submit" value="Borrar Estudio" id="borrar-button" class="btn btn-primary" style="width: 150px">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

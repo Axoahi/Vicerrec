@@ -1,17 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Upload</title>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <title>Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <a class="navbar-brand" href="#">Vicerrectorado</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:5000">Principal <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/upload">Subir archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/listado">Base de datos</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <br>
+            <br>
+            <br>
+            <h1>Subir informes de rendimiento</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file-picker">Files:</label>
+                    <input class="form-control-file" id="file-picker" type="file" name="file" accept="pdf/*" multiple>
+                    <br>
+                    <input type="submit" value="Subir pdfs" id="upload-button" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <strong>Files:</strong><br>
-    <input id="file-picker" type="file" name="file" accept="pdf/*" multiple>
-    <div id="msg"></div>
-    <input type="submit" value="Subir pdfs" id="upload-button">
-</form>
+</div>
 </body>
 </html>
