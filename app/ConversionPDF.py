@@ -5,6 +5,7 @@ import itertools
 from tika import parser
 import re
 import creadExport
+import json
 
 tika.initVM()
 
@@ -297,8 +298,9 @@ def extraeInfo(fileName):
     criteriosJSON = reordena(frasesJSON, otrosJSON, recomendaciones)
 
     dataTo = creadExport.creaJSON(numRUCT, titulo, anyo, listValCrit, valGlob, criteriosJSON)
-    dataToFront = json.dumps(dataTo, sort_keys = False, indent = 2)
-    return (dataToFront)
+    # dataToFront = json.dumps(dataTo, sort_keys = False, indent = 2)
+
+    return (dataTo)
 
 
 # Método para facilitar la visualización de las frases

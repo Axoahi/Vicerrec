@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 import os
 import ConversionPDF
 import mongoDB
+import json
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
@@ -60,7 +61,7 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                textoSacado.append(ConversionPDF.extraeInfo(destination))
+                textoSacado.append(json.loads(ConversionPDF.extraeInfo(destination)))
 
                 #Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
