@@ -63,7 +63,8 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                textoSacado.append(json.loads(ConversionPDF.extraeInfo(destination)))
+                #textoSacado.append(json.loads(ConversionPDF.extraeInfo(destination)))
+                textoSacado.append(ConversionPDF.extraeInfo(destination))
 
                 #Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):

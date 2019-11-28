@@ -35,9 +35,6 @@
     <div class="row">
         <div class="col-md">
             <h1> Archivos subidos</h1>
-            {% for i in data %}
-             {{ i }}
-            {% endfor %}
             <div class="form-group">
                 <form id="download-form" action="{{ url_for('getExcel') }}" method="POST">
                     <label for="excel-name">Nombre del archivo</label>
@@ -86,6 +83,7 @@
                     <td>{{i["recomendaciones"]["curriculum"]}}</td>
                     <td>{{i["recomendaciones"]["docentia"]}}</td>
                     <td>{{i["recomendaciones"]["web"]}}</td>
+                    <td>{{i["recomendaciones"]["coordinacion"]}}</td>
                     <td>{{i["recomendaciones"]["otras"]}}</td>
                 </tr>
                   {% endfor %}
@@ -94,6 +92,5 @@
         </div>
     </div>
 </div>
-    <
 </body>
 </html>
