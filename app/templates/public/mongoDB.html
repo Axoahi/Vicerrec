@@ -2,12 +2,15 @@
 <html>
 <head>
 <title>mongoDB</title>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ <title>Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 </head>
 <body>
+<br>
+<br>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <a class="navbar-brand" href="#">Vicerrectorado</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,11 +25,12 @@
                 <a class="nav-link" href="http://localhost:5000/upload">Subir archivos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost:5000/listado">Base de datos</a>
+                <a class="nav-link disabled" href="http://localhost:5000/listado">Base de datos</a>
             </li>
         </ul>
     </div>
 </nav>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"
         integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
@@ -39,7 +43,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <h1>MongoDB</h1>
+            <h1>Operaciones contra la BD</h1>
         </div>
     </div>
     <div class="row">
