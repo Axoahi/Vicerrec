@@ -16,7 +16,7 @@ import json
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
-app.config["CLIENT_DIRECTORY"] = '../appVicerrectorado'
+app.config["CLIENT_DIRECTORY"] = '../appVicerrectorado/'
 
 # Página index
 @app.route("/")
