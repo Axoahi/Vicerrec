@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 
 from flask import Flask, send_from_directory
@@ -16,7 +17,7 @@ import json
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
-app.config["CLIENT_DIRECTORY"] = '../appVicerrectorado/'
+app.config["CLIENT_DIRECTORY"] = "../appVicerrectorado/"
 
 # Página index
 @app.route("/")
@@ -352,4 +353,4 @@ def borrarEstudio():
     return render_template("public/about.html")
 
 if __name__ == "__main__":
-    app.run(port=5000,debug=True)
+    app.run(host='0.0.0.0', port=80,debug=True)
