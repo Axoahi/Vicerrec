@@ -17,7 +17,7 @@ import json
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
-app.config["CLIENT_DIRECTORY"] = "../appVicerrectorado/"
+app.config["CLIENT_DIRECTORY"] = "/data/"
 
 # Página index
 @app.route("/")
@@ -40,7 +40,6 @@ def loadWebpage():
 @app.route("/complete", methods=['POST', "GET"])
 def upload():
     target = os.path.join(app.instance_path)
-
     # Si no existe el directorio donde dejar los archivos, se crea
     if not os.path.isdir(target):
         os.mkdir(target)
@@ -64,7 +63,6 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                #textoSacado.append(json.loads(ConversionPDF.extraeInfo(destination)))
                 textoSacado.append(ConversionPDF.extraeInfo(destination))
 
                 #Una vez se ha subido el archivo y se ha procesado, se elimina
@@ -73,64 +71,23 @@ def upload():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-        return render_template("public/complete.html", data=textoSacado)
+        return render_template("public/complete.html", data=json.dumps(textoSacado))
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST','GET'])
 def getExcel():
-
-    ##### Variable auxiliar que debe ser sustituida por la lista de importada desde el front
-    listaTitula = []
-    titula = {
-    "codigo": 696969,
-    "titulo": "GRADO EN QUÍMICA",
-    "anyo": 2014,
-    "gestiontitulo": {
-        "organizacionydesarrollo": "AD",
-        "informacionytransparencia":"AD",
-        "SGIC":"AD"
-    },
-    "recursos":{
-        "personalacademico":"SA",
-        "apoyoyrecursosmateriales":"SA"
-    },
-    "resultados":{
-        "resultados": "AD",
-        "indicadores": "AD"
-    },
-    "finaltotal":"FAVORABLE",
-    "recomendaciones":{
-        "curriculum": [],
-        "docentia":["Se recomienda la implantación definitiva del programa DOCENTIA"],
-        "web":[],
-        "coordinacion":["Mejorar coordinación entre actividades de evaluación y las docentes (CR1)"],
-        "otras":["Alumnado no conoce sistema de tramitación de quejas (CR1)",
-                 "Puede mejorar consulta a agentes externos (CR1) (CR3)",
-                 "Perfil de ingreso no bien definido puede explicar bajas tasas en algunos indicadores (CR1)",
-                 "Potenciar acción tutorial (CR1)","Aumentar participacion estudiantes en encuestas (CR1) (CR3)",
-                 "Difundir mejor informes de seguimiento del título (CR2)",
-                 "Baja participación en programas de movilidad (CR2)",
-                 "Faltan competencias básicas en guías docentes (CR2)",
-                 "Adecuar programas de formación pedagógica del profesorado a las necesidades (CR3)",
-                 "Profesorado desconoce y desconfía de resultados del SIGC, y alumnado lo desconoce también (CR3)",
-                 "Falta información de sexenios y quinquenios del profesorado (CR4)",
-                 "Poca información sobre movilidad y prácticas en empresas (CR5)",
-                 "Baja tasa de rendimiento en algunas asignaturas (CR6)",
-                 "Posibilidad de curso cero o cambiar perfil de ingreso (CR6)",
-                 "Alumnado solicita formación (en plan de estudios o no) sobre comunicación y relaciones con clientes/emprendimiento (CR6)","Tasa de abandono superior a la memoria (CR7)","Revisar encuestas para incluir competencias (CR7)","Necesario aumentar la participación de los alumnos en encuestas (CR7)","Actualizar el Plan de  actuación institucional en lo referente a inserción laboral, aunque los resultados son aceptables (CR7)"]
-    }
-}
-    listaTitula.append(titula)
-    listaTitula.append(titula)
-    ###############################################################################
-
-    nombreEstudio = request.form["excel-name"]
+    estudio = request.get_json()
+    name = estudio['nombre']
+    listaTitulaciones= []
+    for i in estudio['comparativa']:
+        listaTitulaciones.append(i)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
-    nombre = creadExport.exportarExcel(nombreEstudio, listaTitula) + ".xls"
+    nombre = creadExport.exportarExcel(name, listaTitulaciones) + ".xls"
     try:
         print('/data/' + nombre)
+        print(app.config["CLIENT_DIRECTORY"])
         return send_from_directory(
-            app.config["CLIENT_DIRECTORY"], filename=nombre, as_attachment=True)
+           directory=os.getcwd() + app.config["CLIENT_DIRECTORY"], filename=nombre, as_attachment=True)
 
     except FileNotFoundError:
             abort(404)
@@ -152,101 +109,10 @@ def archivoPermitido(fileName):
 def newEstudio():
     return render_template('public/mongoDB.html')
 
-@app.route("/new", methods=['POST','GET'])
+@app.route("/new", methods=['POST'])
 def crearNuevoEstudio():
-    comparativa = {
-        "nombre": "Estudios de grado de alguna cosa",
-        "comparativa": [{
-            "codigo": 11111111,
-            "titulo": "GRADO EN QUÍMICA",
-            "anyo": 1234,
-            "gestiontitulo": {
-                "organizacionydesarrollo": "AD",
-                "informacionytransparencia": "AD",
-                "SGIC": "AD"
-            },
-            "recursos": {
-                "personalacademico": "SA",
-                "apoyoyrecursosmateriales": "SA"
-            },
-            "resultados": {
-                "resultados": "AD",
-                "indicadores": "AD"
-            },
-            "finaltotal": "FAVORABLE",
-            "recomendaciones": {
-                "curriculum": [],
-                "docentia": ["Se recomienda la implantación definitiva del programa DOCENTIA"],
-                "web": [],
-                "coordinacion": ["Mejorar coordinación entre actividades de evaluación y las docentes (CR1)"],
-                "otras": ["Alumnado no conoce sistema de tramitación de quejas (CR1)",
-                          "Puede mejorar consulta a agentes externos (CR1) (CR3)",
-                          "Perfil de ingreso no bien definido puede explicar bajas tasas en algunos indicadores (CR1)",
-                          "Potenciar acción tutorial (CR1)",
-                          "Aumentar participacion estudiantes en encuestas (CR1) (CR3)",
-                          "Difundir mejor informes de seguimiento del título (CR2)",
-                          "Baja participación en programas de movilidad (CR2)",
-                          "Faltan competencias básicas en guías docentes (CR2)",
-                          "Adecuar programas de formación pedagógica del profesorado a las necesidades (CR3)",
-                          "Profesorado desconoce y desconfía de resultados del SIGC, y alumnado lo desconoce también (CR3)",
-                          "Falta información de sexenios y quinquenios del profesorado (CR4)",
-                          "Poca información sobre movilidad y prácticas en empresas (CR5)",
-                          "Baja tasa de rendimiento en algunas asignaturas (CR6)",
-                          "Posibilidad de curso cero o cambiar perfil de ingreso (CR6)",
-                          "Alumnado solicita formación (en plan de estudios o no) sobre comunicación y relaciones con clientes/emprendimiento (CR6)",
-                          "Tasa de abandono superior a la memoria (CR7)",
-                          "Revisar encuestas para incluir competencias (CR7)",
-                          "Necesario aumentar la participación de los alumnos en encuestas (CR7)",
-                          "Actualizar el Plan de  actuación institucional en lo referente a inserción laboral, aunque los resultados son aceptables (CR7)"]
-            }
-
-        },
-            {
-                "codigo": 222222,
-                "titulo": "GRADO EN QUÍMICA",
-                "anyo": 201414,
-                "gestiontitulo": {
-                    "organizacionydesarrollo": "AD",
-                    "informacionytransparencia": "AD",
-                    "SGIC": "AD"
-                },
-                "recursos": {
-                    "personalacademico": "SA",
-                    "apoyoyrecursosmateriales": "SA"
-                },
-                "resultados": {
-                    "resultados": "AD",
-                    "indicadores": "AD"
-                },
-                "finaltotal": "FAVORABLE",
-                "recomendaciones": {
-                    "curriculum": [],
-                    "docentia": ["Se recomienda la implantación definitiva del programa DOCENTIA"],
-                    "web": [],
-                    "coordinacion": ["Mejorar coordinación entre actividades de evaluación y las docentes (CR1)"],
-                    "otras": ["Alumnado no conoce sistema de tramitación de quejas (CR1)",
-                              "Puede mejorar consulta a agentes externos (CR1) (CR3)",
-                              "Perfil de ingreso no bien definido puede explicar bajas tasas en algunos indicadores (CR1)",
-                              "Potenciar acción tutorial (CR1)",
-                              "Aumentar participacion estudiantes en encuestas (CR1) (CR3)",
-                              "Difundir mejor informes de seguimiento del título (CR2)",
-                              "Baja participación en programas de movilidad (CR2)",
-                              "Faltan competencias básicas en guías docentes (CR2)",
-                              "Adecuar programas de formación pedagógica del profesorado a las necesidades (CR3)",
-                              "Profesorado desconoce y desconfía de resultados del SIGC, y alumnado lo desconoce también (CR3)",
-                              "Falta información de sexenios y quinquenios del profesorado (CR4)",
-                              "Poca información sobre movilidad y prácticas en empresas (CR5)",
-                              "Baja tasa de rendimiento en algunas asignaturas (CR6)",
-                              "Posibilidad de curso cero o cambiar perfil de ingreso (CR6)",
-                              "Alumnado solicita formación (en plan de estudios o no) sobre comunicación y relaciones con clientes/emprendimiento (CR6)",
-                              "Tasa de abandono superior a la memoria (CR7)",
-                              "Revisar encuestas para incluir competencias (CR7)",
-                              "Necesario aumentar la participación de los alumnos en encuestas (CR7)",
-                              "Actualizar el Plan de  actuación institucional en lo referente a inserción laboral, aunque los resultados son aceptables (CR7)"]
-                }
-            }]
-    }
-    id = mongoDB.crearEstudio(comparativa)
+    estudio = request.get_json()
+    id = mongoDB.crearEstudio(estudio)
     print(id)
     return render_template("public/about.html")
 

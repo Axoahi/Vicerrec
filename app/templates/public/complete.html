@@ -31,66 +31,154 @@
         </ul>
     </div>
 </nav>
+<!-- Formulario para recoger el nombre del estudio-->
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <h1> Archivos subidos</h1>
             <div class="form-group">
-                <form id="download-form" action="{{ url_for('getExcel', data=data) }}" method="POST">
-                    <label for="excel-name">Nombre del archivo</label>
-                    <br> <input name="excel-name" id="excel-name" class="form-control">
+                <form id="formulario">
                     <br>
-                    <input type="submit" value="Bajar archivo" id="down-file" class="btn btn-primary">
+                    <br>
+                    <br>
+                    <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio:</label>
+                    <input type="text" class="form-control" id="nombre">
+                    <br>
+                    <button onclick="descargarExcel()" type="button" class="btn-lg btn-primary">Descargar Excel</button>
+                    <button onclick="guardarEstudio()" type="button" class="btn-lg btn-primary">Guardar Estudio</button>
                 </form>
             </div>
-
-            <h1> Archivos subidos</h1>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Código</th>
-                  <th scope="col">Título</th>
-                  <th scope="col">Año</th>
-                  <th scope="col">Organización y desarrollo</th>
-                  <th scope="col">Información y transparencia</th>
-                  <th scope="col">SGID</th>
-                  <th scope="col">Personal académico</th>
-                  <th scope="col">Apoyo y recursos a materiales</th>
-                  <th scope="col">Resultados</th>
-                  <th scope="col">Indicadores</th>
-                  <th scope="col">Final Total</th>
-                  <th scope="col">Curriculum</th>
-                  <th scope="col">Docentia</th>
-                  <th scope="col">Web</th>
-                  <th scope="col">Coordinacion</th>
-                  <th scope="col">Otras</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for i in data %}
-                <tr>
-                    <td>{{i["codigo"]}}</td>
-                    <td>{{i["titulo"]}}</td>
-                    <td>{{i["anyo"]}}</td>
-                    <td>{{i["gestiontitulo"]["organizacionydesarrollo"]}}</td>
-                    <td>{{i["gestiontitulo"]["informacionytransparencia"]}}</td>
-                    <td>{{i["gestiontitulo"]["SGIC"]}}</td>
-                    <td>{{i["recursos"]["personalacademico"]}}</td>
-                    <td>{{i["recursos"]["apoyoyrecursosmateriales"]}}</td>
-                    <td>{{i["resultados"]["resultados"]}}</td>
-                    <td>{{i["resultados"]["indicadores"]}}</td>
-                    <td>{{i["finaltotal"]}}</td>
-                    <td>{{i["recomendaciones"]["curriculum"]}}</td>
-                    <td>{{i["recomendaciones"]["docentia"]}}</td>
-                    <td>{{i["recomendaciones"]["web"]}}</td>
-                    <td>{{i["recomendaciones"]["coordinacion"]}}</td>
-                    <td>{{i["recomendaciones"]["otras"]}}</td>
-                </tr>
-                  {% endfor %}
-              </tbody>
-            </table>
         </div>
     </div>
+          <!-- Listado con los items -->
+          <div class="row" id="listado">
+
+          </div>
+            <h1> Archivos subidos</h1>
 </div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+    //Rellenamos los datos de la tabla
+    $(document).ready(function(){
+    var aux = '{{ data|safe }}'
+    var datos = JSON.parse(aux);
+    var htmlTable = ""
+
+    htmlTable +=  "<table class='table'>" +
+                    "<thead>" +
+                      "<tr>" +
+                        "<th scope='col'>Código</th>" +
+                        "<th scope='col'>Título</th>" +
+                        "<th scope='col'>Año</th>" +
+                        "<th scope='col'>Organización y desarrollo</th>" +
+                        "<th scope='col'>Información y transparencia</th>" +
+                        "<th scope='col'>SGID</th>" +
+                        "<th scope='col'>Personal académico</th>" +
+                        "<th scope='col'>Apoyo y recursos a materiales</th>" +
+                        "<th scope='col'>Resultados</th>" +
+                        "<th scope='col'>Indicadores</th>" +
+                        "<th scope='col'>Final Total</th>" +
+                        "<th scope='col'>Curriculum</th>" +
+                        "<th scope='col'>Docentia</th>" +
+                        "<th scope='col'>Web</th>" +
+                        "<th scope='col'>Coordinacion</th>" +
+                        "<th scope='col'>Otras</th>" +
+                      "</tr>" +
+                    "</thead>" +
+                    "<tbody>";
+    for(var i in datos) {
+        htmlTable += "<tr>" + 
+                        "<td>" + datos[i]['codigo'] + "</td>" +
+                        "<td>" + datos[i]['titulo'] + "</td>" +
+                        "<td>" + datos[i]['anyo'] + "</td>" +
+                        "<td>" + datos[i]['gestiontitulo']['organizacionydesarrollo'] + "</td>" +
+                        "<td>" + datos[i]['gestiontitulo']['informacionytransparencia'] + "</td>" +
+                        "<td>" + datos[i]['gestiontitulo']['SGIC'] + "</td>" +
+                        "<td>" + datos[i]['recursos']['personalacademico'] + "</td>" +
+                        "<td>" + datos[i]['recursos']['apoyoyrecursosmateriales'] + "</td>" +
+                        "<td>" + datos[i]['resultados']['resultados'] + "</td>" +
+                        "<td>" + datos[i]['resultados']['indicadores'] + "</td>" +
+                        "<td>" + datos[i]['finaltotal'] + "</td>" +
+                        "<td>" + datos[i]['recomendaciones']['curriculum'] + "</td>" +
+                        "<td>" + datos[i]['recomendaciones']['docentia'] + "</td>" +
+                        "<td>" + datos[i]['recomendaciones']['web'] + "</td>" +
+                        "<td>" + datos[i]['recomendaciones']['coordinacion'] + "</td>" +
+                        "<td>" + datos[i]['recomendaciones']['otras'] + "</td>" +
+                      "</tr>"
+    }
+    htmlTable += "</tbody>" +
+                 "</table"                 
+
+    document.getElementById("listado").innerHTML= htmlTable;
+    });
+
+    //Guardamos el estudio en la bd
+    function guardarEstudio(){
+                var name = document.getElementById("nombre").value;
+                var estudio = {
+                            "nombre": name,
+                            "comparativa": []
+                         };
+                var aux = '{{ data|safe }}'
+                var datos = JSON.parse(aux);
+
+                for(var i in datos) {
+                  var item = datos[i];
+                  estudio.comparativa.push(item);
+                }
+                $.ajax({
+                           type        :'POST',
+                           url         :"http://localhost:80/new",
+                           data        :JSON.stringify(estudio),
+                           contentType: "application/json",
+                           encode      :true,
+                           success     :function(data){
+                                          alert("Estudio añadido!!! :) ");
+                                          window.location.href = "http://localhost:80";
+                                         }, 
+                           error       :function(data){
+                                          alert("Algo ha fallado!!! :( ");
+                                         } 
+                      });
+                event.preventDefault();
+          };
+    //funcion para descargar un excel
+    function descargarExcel(){
+                var name = document.getElementById("nombre").value;
+                var estudio = {
+                            "nombre": name,
+                            "comparativa": []
+                         };
+                var aux = '{{ data|safe }}'
+                var datos = JSON.parse(aux);
+
+                for(var i in datos) {
+                  var item = datos[i];
+                  estudio.comparativa.push(item);
+                }
+                $.ajax({
+                           type        :'POST',
+                           url         :"http://localhost:80/getExcel",
+                           data        :JSON.stringify(estudio),
+                           contentType: "application/json",
+                           encode      :true,
+                           success     :function(data){
+                                          alert("Estudio listo para descargar!!! :) ");
+                                          //window.location.href = "http://localhost:80";
+                                         }, 
+                           error       :function(data){
+                                          alert("Algo ha fallado!!! :( ");
+                                         } 
+                      });
+                event.preventDefault();
+          };     
+
+
+
+</script>
+
+
 </body>
 </html>
