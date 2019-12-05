@@ -36,16 +36,17 @@
     <div class="row">
         <div class="col-md">
             <div class="form-group">
-                <form id="formulario">
+                <form id="formulario" action="{{url_for('getExcel')}}" method="POST">
                     <br>
                     <br>
                     <br>
                     <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio:</label>
-                    <input type="text" class="form-control" id="nombre">
+                    <input type="text" class="form-control" id="nombre" name="pynombre">
                     <br>
-                    <button onclick= {{url_for()}} type="button" class="btn-lg btn-primary">Descargar Excel</button>
-                    <button onclick="guardarEstudio()" type="button" class="btn-lg btn-primary">Guardar Estudio</button>
+                    <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
+                    <input type="submit" value="Bajar Archivo">
                 </form>
+                <button onclick="guardarEstudio()" type="button" class="btn-lg btn-primary">Guardar Estudio</button>
             </div>
         </div>
     </div>
@@ -112,6 +113,7 @@
                  "</table"                 
 
     document.getElementById("listado").innerHTML= htmlTable;
+    document.getElementById("listaAneca").value=aux;
     });
 
     //Guardamos el estudio en la bd

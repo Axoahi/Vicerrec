@@ -1,4 +1,5 @@
 # coding=utf-8
+import ast
 import json
 
 from flask import Flask, send_from_directory
@@ -77,14 +78,11 @@ def upload():
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
 def getExcel():
-    estudio = request.get_json()
-    name = estudio['nombre']
-    listaTitulaciones = []
-    for i in estudio['comparativa']:
-        listaTitulaciones.append(i)
+    nombre = request.form["pynombre"]
+    listado = request.form["pylistadoAneca"]
+    newlistado = ast.literal_eval(listado)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
-    nombreFile = creadExport.exportarExcel(name, listaTitulaciones) + ".xls"
-    print(nombreFile)
+    nombreFile = creadExport.exportarExcel(nombre, newlistado) + ".xls"
     try:
         return send_from_directory(
             app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
