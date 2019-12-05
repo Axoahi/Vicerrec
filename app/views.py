@@ -14,10 +14,10 @@ import ConversionPDF
 import mongoDB
 import json
 
-
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
-app.config["CLIENT_DIRECTORY"] = "/data/"
+app.config["CLIENT_DIRECTORY"] = "C:\\Users\\Buba\\Desktop\\LucentiaLab\\PDF2CSV\\PruebasFlask\\app\\data"
+
 
 # Página index
 @app.route("/")
@@ -65,7 +65,7 @@ def upload():
                 # Leemos la información del archivo
                 textoSacado.append(ConversionPDF.extraeInfo(destination))
 
-                #Una vez se ha subido el archivo y se ha procesado, se elimina
+                # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
                     os.remove(destination)
                     print("Archivo eliminado")
@@ -73,24 +73,36 @@ def upload():
                     print("El archivo no existe")
         return render_template("public/complete.html", data=json.dumps(textoSacado))
 
+
 # Procesamiento de subida de archivo, previo a muestra de
-@app.route("/getExcel", methods=['POST','GET'])
+@app.route("/getExcel", methods=['POST'])
 def getExcel():
     estudio = request.get_json()
     name = estudio['nombre']
-    listaTitulaciones= []
+    listaTitulaciones = []
     for i in estudio['comparativa']:
         listaTitulaciones.append(i)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
-    nombre = creadExport.exportarExcel(name, listaTitulaciones) + ".xls"
+    nombreFile = creadExport.exportarExcel(name, listaTitulaciones) + ".xls"
+    print(nombreFile)
     try:
-        print('/data/' + nombre)
-        print(app.config["CLIENT_DIRECTORY"])
         return send_from_directory(
-           directory=os.getcwd() + app.config["CLIENT_DIRECTORY"], filename=nombre, as_attachment=True)
-
+            app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
+        )
     except FileNotFoundError:
-            abort(404)
+        abort(404)
+
+
+@app.route("/bajaExcel")
+def bajaExcel():
+    req = request.args
+    nombreFile = "".join(f" {k}" for k, v in req.items()) + ".xls"
+    nombreFile = nombreFile.lstrip(" ")
+    print(nombreFile)
+    return send_from_directory(
+        app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
+    )
+
 
 def archivoPermitido(fileName):
     # 1 seg: Se mira que sea un archivo.
@@ -104,10 +116,12 @@ def archivoPermitido(fileName):
     else:
         return False
 
+
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/newEst", methods=['POST', 'GET'])
 def newEstudio():
     return render_template('public/mongoDB.html')
+
 
 @app.route("/new", methods=['POST'])
 def crearNuevoEstudio():
@@ -116,35 +130,41 @@ def crearNuevoEstudio():
     print(id)
     return render_template("public/about.html")
 
-#Listado de estudios
+
+# Listado de estudios
 @app.route("/listado", methods=['POST', 'GET'])
 def listado():
     return render_template('public/mongoDB.html')
 
-@app.route("/list", methods=['POST','GET'])
+
+@app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
     listado = mongoDB.listaEstudios()
     for item in listado:
         print(item)
     return render_template("public/about.html")
 
-#Detalles de un estudio
+
+# Detalles de un estudio
 @app.route("/detalles", methods=['POST', 'GET'])
 def detalles():
     return render_template('public/mongoDB.html')
 
-@app.route("/verDetalles", methods=['POST','GET'])
+
+@app.route("/verDetalles", methods=['POST', 'GET'])
 def verDetalles():
     detallesEstudio = mongoDB.findEstudio("5dd68c5b676e2498b6a929a9")
     print(detallesEstudio)
     return render_template("public/about.html")
 
-#Actualizar un estudio
+
+# Actualizar un estudio
 @app.route("/actualizar", methods=['POST', 'GET'])
 def actualizar():
     return render_template('public/mongoDB.html')
 
-@app.route("/actualizarEstudio", methods=['POST','GET'])
+
+@app.route("/actualizarEstudio", methods=['POST', 'GET'])
 def actualizarEstudio():
     act = {
         "nombre": "Estudios de grado de alguna cosa",
@@ -208,15 +228,18 @@ def actualizarEstudio():
     print(estudio)
     return render_template("public/about.html")
 
-#Detalles de un estudio
+
+# Detalles de un estudio
 @app.route("/borrar", methods=['POST', 'GET'])
 def borrar():
     return render_template('public/mongoDB.html')
 
-@app.route("/borrarEstudio", methods=['POST','GET'])
+
+@app.route("/borrarEstudio", methods=['POST', 'GET'])
 def borrarEstudio():
     mongoDB.borrarEstudio("5dd68c5b676e2498b6a929a9")
     return render_template("public/about.html")
 
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80,debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
