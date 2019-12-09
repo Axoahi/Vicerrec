@@ -7,12 +7,13 @@ import creadExport
 app = Flask(__name__)
 
 from flask import render_template
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, Response
 from werkzeug.utils import secure_filename
 import os
 import ConversionPDF
 import mongoDB
 import json
+from flask import jsonify
 
 
 # Variable que nos marca que se permite subir
@@ -34,7 +35,6 @@ def about():
 @app.route("/upload", methods=['POST', 'GET'])
 def loadWebpage():
     return render_template("public/upload.html")
-
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/complete", methods=['POST', "GET"])
@@ -71,7 +71,7 @@ def upload():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-        return render_template("public/complete.html", data=json.dumps(textoSacado))
+    return render_template("public/complete.html", data=json.dumps(textoSacado))
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST','GET'])
@@ -123,21 +123,33 @@ def listado():
 
 @app.route("/list", methods=['POST','GET'])
 def listaEstudios():
-    listado = mongoDB.listaEstudios()
-    for item in listado:
-        print(item)
-    return render_template("public/about.html")
+    response = mongoDB.listaEstudios()
+    listadoJson = []
+    for item in response:
+        element = {
+            'id': str(item['_id']),
+            'nombre': item['nombre']
+        }
+        listadoJson.append(element)
+    # return jsonify(results=listadoJson)
+    # return listadoJson
+    return Response(json.dumps(listadoJson),  mimetype='application/json')
+
 
 #Detalles de un estudio
-@app.route("/detalles", methods=['POST', 'GET'])
-def detalles():
-    return render_template('public/mongoDB.html')
+@app.route("/detalles/<id>", methods=["GET"])
+def detalles(id):
+    datajson = {"id": id}
+    return render_template("public/complete.html", data=json.dumps(datajson))
 
 @app.route("/verDetalles", methods=['POST','GET'])
 def verDetalles():
-    detallesEstudio = mongoDB.findEstudio("5dd68c5b676e2498b6a929a9")
-    print(detallesEstudio)
-    return render_template("public/about.html")
+    data = request.get_json(force=True)
+    detalles = mongoDB.findEstudio(data['id'])
+    detalles['_id'] = str(detalles['_id'])
+    print(detalles)
+    return Response(json.dumps(detalles), mimetype='application/json')
+
 
 #Actualizar un estudio
 @app.route("/actualizar", methods=['POST', 'GET'])
@@ -215,7 +227,8 @@ def borrar():
 
 @app.route("/borrarEstudio", methods=['POST','GET'])
 def borrarEstudio():
-    mongoDB.borrarEstudio("5dd68c5b676e2498b6a929a9")
+    estudio = request.get_json(force=True)
+    mongoDB.borrarEstudio(estudio['id'])
     return render_template("public/about.html")
 
 if __name__ == "__main__":
