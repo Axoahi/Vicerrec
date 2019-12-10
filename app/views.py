@@ -87,7 +87,6 @@ def upload():
 def getExcel():
     nombre = request.form["pynombre"]
     listado = request.form["pylistadoAneca"]
-    print(listado)
     newlistado = ast.literal_eval(listado)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
     nombreFile = creadExport.exportarExcel(nombre, newlistado) + ".xls"
