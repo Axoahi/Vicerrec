@@ -84,7 +84,7 @@
                           "</tr>" +
                         "</thead>" +
                         "<tbody>";
-        for(var i in datos) {
+        for(var i=0; i < datos.length; i++) {
             htmlTable += "<tr>" + 
                             "<td>" + datos[i]['codigo'] + "</td>" +
                             "<td>" + datos[i]['titulo'] + "</td>" +
@@ -114,7 +114,6 @@
       var aux = '{{ data|safe }}'
       var datos = JSON.parse(aux)
       if(datos.hasOwnProperty('id')){
-        console.log("Tiene id")
         $.ajax({
                            type        :'POST',
                            url         :"/verDetalles",
@@ -122,10 +121,7 @@
                            contentType: "application/json",
                            encode      :true,
                            success     :function rellena(data){
-                                            console.log("datos")
-                                            console.log(data)
-                                            console.log("peta")
-                                            tablaHtml(data)
+                                            tablaHtml(data['comparativa'])
                                           }, 
                            error       :function(data){
                                           alert("Algo ha fallado!!! :( ");
@@ -133,7 +129,6 @@
                                          } 
                       });
       }else{
-        console.log("¿has entrado aqui?")
         tablaHtml(datos)
       }
     /*var aux = '{{ data|safe }}'
