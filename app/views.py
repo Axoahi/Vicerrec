@@ -87,11 +87,11 @@ def upload():
 def getExcel():
     nombre = request.form["pynombre"]
     listado = request.form["pylistadoAneca"]
-    print(listado)
     newlistado = ast.literal_eval(listado)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
     nombreFile = creadExport.exportarExcel(nombre, newlistado) + ".xls"
-
+    print(os.getcwd())
+    print(app.config['CLIENT_DIRECTORY'])
     try:
         return send_from_directory(
             app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
@@ -170,8 +170,10 @@ def detalles(id):
 @app.route("/verDetalles", methods=['POST', 'GET'])
 def verDetalles():
     data = request.get_json(force=True)
+    print(data)
     detalles = mongoDB.findEstudio(data['id'])
     detalles['_id'] = str(detalles['_id'])
+    print(detalles)
     return Response(json.dumps(detalles), mimetype='application/json')
 
 
