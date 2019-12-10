@@ -2,7 +2,7 @@
 import ast
 import json
 
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, after_this_request
 import creadExport
 
 app = Flask(__name__)
@@ -14,10 +14,11 @@ import os
 import ConversionPDF
 import mongoDB
 import json
+import glob
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
-app.config["CLIENT_DIRECTORY"] = "C:\\Users\\Buba\\Desktop\\LucentiaLab\\PDF2CSV\\PruebasFlask\\app\\data"
+app.config["CLIENT_DIRECTORY"] = os.getcwd() + "/data/"
 
 
 # Página index
@@ -40,6 +41,12 @@ def loadWebpage():
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/complete", methods=['POST', "GET"])
 def upload():
+    # Borramos todos los archivos excel que existan previamente en el servidor
+    files = glob.glob(app.config["CLIENT_DIRECTORY"]+"*.xls")
+    for f in files:
+        os.remove(f)
+
+
     target = os.path.join(app.instance_path)
     # Si no existe el directorio donde dejar los archivos, se crea
     if not os.path.isdir(target):
@@ -83,6 +90,7 @@ def getExcel():
     newlistado = ast.literal_eval(listado)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
     nombreFile = creadExport.exportarExcel(nombre, newlistado) + ".xls"
+
     try:
         return send_from_directory(
             app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
@@ -91,15 +99,16 @@ def getExcel():
         abort(404)
 
 
-@app.route("/bajaExcel")
-def bajaExcel():
-    req = request.args
-    nombreFile = "".join(f" {k}" for k, v in req.items()) + ".xls"
-    nombreFile = nombreFile.lstrip(" ")
-    print(nombreFile)
-    return send_from_directory(
-        app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
-    )
+@app.route("/borraExcel", methods=['POST'])
+def borraExcel():
+    nombre = request.form["pynombre"]
+    nombreFile = nombre + ".xls"
+
+    if os.path.exists(app.config["CLIENT_DIRECTORY"] + nombreFile):
+        os.remove(app.config["CLIENT_DIRECTORY"] + nombreFile)
+        print("Archivo Excel eliminado")
+    else:
+        print("El archivo Excel no existe")
 
 
 def archivoPermitido(fileName):
