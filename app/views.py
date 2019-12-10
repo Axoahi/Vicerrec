@@ -85,7 +85,6 @@ def upload():
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
 def getExcel():
-    print("Entra")
     nombre = request.form["pynombre"]
     listado = request.form["pylistadoAneca"]
     newlistado = ast.literal_eval(listado)
