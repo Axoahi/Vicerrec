@@ -65,15 +65,15 @@
       for(var i = 0; i < comparativas.length; i++ )
       {
         //Fila con el nombre y los botones para operar
-        htmlListado +=  "<div class='col-xs-12 col-sm-6 col-lg-5'> " +
+        htmlListado +=  "<div class='col-xs-8 col-sm-8 col-lg-8'> " +
                               "<h3 class='listadoNuevas'>" + comparativas[i].nombre + "</h3>" +
                           "</div>" +
                           //Boton Ver detalles
-                          "<div class='col-xs-12 col-sm-4 col-lg-2 centrarBotones'>" +
+                          "<div class='col-xs-2 col-sm-2 col-lg-2 centrarBotones'>" +
                             "<button onclick='verEstudio(\"m" + comparativas[i].id + "\");' type='button' class='btn btn-primary'>Ver Estudio</button>" +
                           "</div>" +
                           //Boton Eliminar estudio
-                          "<div class='col-xs-12 col-sm-4 col-lg-2 centrarBotones'>" +
+                          "<div class='col-xs-2 col-sm-2 col-lg-2 centrarBotones'>" +
                             //"<button onclick='eliminarEstudio(\"m" + comparativas[i].id +"\",\"" + comparativas[i].nombre + 
                               "<button onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");' type='button' " + 
                               "class='btn btn-danger'>Eliminar</button>" +
