@@ -61,7 +61,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script>
     function tablaHtml(datos){
-        console.log(datos)
         var htmlTable = ""
 
         htmlTable +=  "<table class='table'>" +
@@ -111,12 +110,12 @@
 
         document.getElementById("listado").innerHTML= htmlTable;
     };
+    var actualizar
     //Rellenamos los datos de la tabla
     $(document).ready(function(){
       var aux = '{{ data|safe }}'
       var datos = JSON.parse(aux)
       if(datos.hasOwnProperty('id')){
-        console.log("entras con id")
         $.ajax({
                            type        :'POST',
                            url         :"/verDetalles",
@@ -124,8 +123,13 @@
                            contentType: "application/json",
                            encode      :true,
                            success     :function rellena(data){
+                                            actualizar = data
                                             tablaHtml(data['comparativa'])
                                             document.getElementById("listaAneca").value=JSON.stringify(data['comparativa']);
+                                            //Actualizamos el boton
+                                            document.getElementById("botonEstudio").setAttribute("onclick", "actualizarEstudio()");
+                                            document.getElementById("botonEstudio").innerHTML= "Actualizar estudio"
+                                            document.getElementById("nombre").value = data['nombre']
                                           }, 
                            error       :function(data){
                                           alert("Algo ha fallado!!! :( ");
@@ -133,7 +137,6 @@
                                          } 
                       });
       }else{
-        console.log("entras sin id")
         tablaHtml(datos)
         document.getElementById("listaAneca").value=aux;
       }
@@ -169,6 +172,16 @@
                       });
                 event.preventDefault();
           };    
+    //Guardamos el estudio en la bd
+    function actualizarEstudio(){
+      //actualizamos el nombre
+      var name = document.getElementById("nombre").value;
+      actualizar.nombre = name
+      //Aqui tendriamos que cojer los datos de la tabla(han eliminado archivos, han añadido archivos)
+      //actualizar.comparativa = 
+      console.log(actualizar)
+                alert("funciona");
+    };
 </script>
 
 
