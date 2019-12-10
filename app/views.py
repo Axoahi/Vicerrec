@@ -135,7 +135,6 @@ def newEstudio():
 def crearNuevoEstudio():
     estudio = request.get_json()
     id = mongoDB.crearEstudio(estudio)
-    print(id)
     return render_template("public/about.html")
 
 
@@ -170,10 +169,8 @@ def detalles(id):
 @app.route("/verDetalles", methods=['POST', 'GET'])
 def verDetalles():
     data = request.get_json(force=True)
-    print(data)
     detalles = mongoDB.findEstudio(data['id'])
     detalles['_id'] = str(detalles['_id'])
-    print(detalles)
     return Response(json.dumps(detalles), mimetype='application/json')
 
 
