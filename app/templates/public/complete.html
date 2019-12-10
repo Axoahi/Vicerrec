@@ -152,13 +152,13 @@
                 }
                 $.ajax({
                            type        :'POST',
-                           url         :"http://localhost:80/new",
+                           url         :"/new",
                            data        :JSON.stringify(estudio),
                            contentType: "application/json",
                            encode      :true,
                            success     :function(data){
                                           alert("Estudio añadido!!! :) ");
-                                          window.location.href = "http://localhost:80";
+                                          window.location.href = "/";
                                          }, 
                            error       :function(data){
                                           alert("Algo ha fallado!!! :( ");
