@@ -26,7 +26,7 @@
                 <a class="nav-link" href="/upload">Subir archivos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="/listado">Base de datos</a>
+                <a class="nav-link" href="/listado">Visualizar estudios</a>
             </li>
         </ul>
     </div>
@@ -54,66 +54,86 @@
           <div class="row" id="listado">
 
           </div>
-            <h1> Archivos subidos</h1>
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script>
+    function tablaHtml(datos){
+        var htmlTable = ""
+
+        htmlTable +=  "<table class='table'>" +
+                        "<thead>" +
+                          "<tr>" +
+                            "<th scope='col'>Código</th>" +
+                            "<th scope='col'>Título</th>" +
+                            "<th scope='col'>Año</th>" +
+                            "<th scope='col'>Organización y desarrollo</th>" +
+                            "<th scope='col'>Información y transparencia</th>" +
+                            "<th scope='col'>SGID</th>" +
+                            "<th scope='col'>Personal académico</th>" +
+                            "<th scope='col'>Apoyo y recursos a materiales</th>" +
+                            "<th scope='col'>Resultados</th>" +
+                            "<th scope='col'>Indicadores</th>" +
+                            "<th scope='col'>Final Total</th>" +
+                            "<th scope='col'>Curriculum</th>" +
+                            "<th scope='col'>Docentia</th>" +
+                            "<th scope='col'>Web</th>" +
+                            "<th scope='col'>Coordinacion</th>" +
+                            "<th scope='col'>Otras</th>" +
+                          "</tr>" +
+                        "</thead>" +
+                        "<tbody>";
+        for(var i=0; i < datos.length; i++) {
+            htmlTable += "<tr>" + 
+                            "<td>" + datos[i]['codigo'] + "</td>" +
+                            "<td>" + datos[i]['titulo'] + "</td>" +
+                            "<td>" + datos[i]['anyo'] + "</td>" +
+                            "<td>" + datos[i]['gestiontitulo']['organizacionydesarrollo'] + "</td>" +
+                            "<td>" + datos[i]['gestiontitulo']['informacionytransparencia'] + "</td>" +
+                            "<td>" + datos[i]['gestiontitulo']['SGIC'] + "</td>" +
+                            "<td>" + datos[i]['recursos']['personalacademico'] + "</td>" +
+                            "<td>" + datos[i]['recursos']['apoyoyrecursosmateriales'] + "</td>" +
+                            "<td>" + datos[i]['resultados']['resultados'] + "</td>" +
+                            "<td>" + datos[i]['resultados']['indicadores'] + "</td>" +
+                            "<td>" + datos[i]['finaltotal'] + "</td>" +
+                            "<td>" + datos[i]['recomendaciones']['curriculum'] + "</td>" +
+                            "<td>" + datos[i]['recomendaciones']['docentia'] + "</td>" +
+                            "<td>" + datos[i]['recomendaciones']['web'] + "</td>" +
+                            "<td>" + datos[i]['recomendaciones']['coordinacion'] + "</td>" +
+                            "<td>" + datos[i]['recomendaciones']['otras'] + "</td>" +
+                          "</tr>"
+        }
+        htmlTable += "</tbody>" +
+                     "</table"
+
+        document.getElementById("listado").innerHTML= htmlTable;
+    };
     //Rellenamos los datos de la tabla
     $(document).ready(function(){
-    var aux = '{{ data|safe }}'
-    var datos = JSON.parse(aux);
-    var htmlTable = ""
-
-    htmlTable +=  "<table class='table'>" +
-                    "<thead>" +
-                      "<tr>" +
-                        "<th scope='col'>Código</th>" +
-                        "<th scope='col'>Título</th>" +
-                        "<th scope='col'>Año</th>" +
-                        "<th scope='col'>Organización y desarrollo</th>" +
-                        "<th scope='col'>Información y transparencia</th>" +
-                        "<th scope='col'>SGID</th>" +
-                        "<th scope='col'>Personal académico</th>" +
-                        "<th scope='col'>Apoyo y recursos a materiales</th>" +
-                        "<th scope='col'>Resultados</th>" +
-                        "<th scope='col'>Indicadores</th>" +
-                        "<th scope='col'>Final Total</th>" +
-                        "<th scope='col'>Curriculum</th>" +
-                        "<th scope='col'>Docentia</th>" +
-                        "<th scope='col'>Web</th>" +
-                        "<th scope='col'>Coordinacion</th>" +
-                        "<th scope='col'>Otras</th>" +
-                      "</tr>" +
-                    "</thead>" +
-                    "<tbody>";
-    for(var i in datos) {
-        htmlTable += "<tr>" + 
-                        "<td>" + datos[i]['codigo'] + "</td>" +
-                        "<td>" + datos[i]['titulo'] + "</td>" +
-                        "<td>" + datos[i]['anyo'] + "</td>" +
-                        "<td>" + datos[i]['gestiontitulo']['organizacionydesarrollo'] + "</td>" +
-                        "<td>" + datos[i]['gestiontitulo']['informacionytransparencia'] + "</td>" +
-                        "<td>" + datos[i]['gestiontitulo']['SGIC'] + "</td>" +
-                        "<td>" + datos[i]['recursos']['personalacademico'] + "</td>" +
-                        "<td>" + datos[i]['recursos']['apoyoyrecursosmateriales'] + "</td>" +
-                        "<td>" + datos[i]['resultados']['resultados'] + "</td>" +
-                        "<td>" + datos[i]['resultados']['indicadores'] + "</td>" +
-                        "<td>" + datos[i]['finaltotal'] + "</td>" +
-                        "<td>" + datos[i]['recomendaciones']['curriculum'] + "</td>" +
-                        "<td>" + datos[i]['recomendaciones']['docentia'] + "</td>" +
-                        "<td>" + datos[i]['recomendaciones']['web'] + "</td>" +
-                        "<td>" + datos[i]['recomendaciones']['coordinacion'] + "</td>" +
-                        "<td>" + datos[i]['recomendaciones']['otras'] + "</td>" +
-                      "</tr>"
-    }
-    htmlTable += "</tbody>" +
-                 "</table"                 
-
-    document.getElementById("listado").innerHTML= htmlTable;
-    document.getElementById("listaAneca").value=aux;
+      var aux = '{{ data|safe }}'
+      var datos = JSON.parse(aux)
+      if(datos.hasOwnProperty('id')){
+        $.ajax({
+                           type        :'POST',
+                           url         :"/verDetalles",
+                           data        :aux,
+                           contentType: "application/json",
+                           encode      :true,
+                           success     :function rellena(data){
+                                            tablaHtml(data['comparativa'])
+                                            document.getElementById("listaAneca").value=JSON.stringify(data['comparativa']);
+                                          }, 
+                           error       :function(data){
+                                          alert("Algo ha fallado!!! :( ");
+                                          console.log(data)
+                                         } 
+                      });
+      }else{
+        tablaHtml(datos)
+        document.getElementById("listaAneca").value=aux;
+      }
     });
 
     //Guardamos el estudio en la bd
@@ -145,39 +165,7 @@
                                          } 
                       });
                 event.preventDefault();
-          };
-    //funcion para descargar un excel
-    function descargarExcel(){
-                var name = document.getElementById("nombre").value;
-                var estudio = {
-                            "nombre": name,
-                            "comparativa": []
-                         };
-                var aux = '{{ data|safe }}'
-                var datos = JSON.parse(aux);
-
-                for(var i in datos) {
-                  var item = datos[i];
-                  estudio.comparativa.push(item);
-                }
-                $.ajax({
-                           type        :'POST',
-                           url         :"http://localhost:80/getExcel",
-                           data        :JSON.stringify(estudio),
-                           contentType: "application/json",
-                           encode      :true,
-                           success     :function(data){
-                                        console.log("MElon");
-                                         },
-                           error       :function(data){
-                                          alert("Algo ha fallado!!! :( ");
-                                         } 
-                      });
-                event.preventDefault();
-          };     
-
-
-
+          };    
 </script>
 
 

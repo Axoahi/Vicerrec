@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>mongoDB</title>
- <title>Upload</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
+    <meta charset="UTF-8">
+    <title>index</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+
 </head>
 <body>
-<br>
-<br>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <a class="navbar-brand" href="#">Vicerrectorado</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,61 +20,118 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="http://localhost:5000">Principal <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Principal <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost:5000/upload">Subir archivos</a>
+                <a class="nav-link" href="/upload">Subir archivos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="http://localhost:5000/listado">Base de datos</a>
+                <a class="nav-link" href="/listado">Visualizar estudios</a>
             </li>
         </ul>
     </div>
 </nav>
+    <br>
+    <br>
+    <br>
+    <!-- Listado con los items -->
+    <div class="row" id="listado">
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-        crossorigin="anonymous"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-        crossorigin="anonymous"></script>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md">
-            <h1>Operaciones contra la BD</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            <div class="form-group">
-
-                <form id="newest-form" action="{{ url_for('crearNuevoEstudio') }}" method="POST" enctype="multipart/form-data">
-                    <input type="submit" value="Nuevo estudio" id="newest-button" class="btn btn-primary" style="width: 150px">
-                </form>
-                <br>
-                <form id="list-form" action="{{ url_for('listaEstudios') }}" method="POST" enctype="multipart/form-data">
-                    <input type="submit" value="Lista Estudios" id="list-button" class="btn btn-primary" style="width: 150px">
-                </form>
-                <br>
-                <form id="detalles-form" action="{{ url_for('verDetalles') }}" method="POST" enctype="multipart/form-data">
-                    <input type="submit" value="Ver detalles" id="detalles-button" class="btn btn-primary" style="width: 150px">
-                </form>
-                <br>
-                <form id="actualizar-form" action="{{ url_for('actualizarEstudio') }}" method="POST" enctype="multipart/form-data">
-                    <input type="submit" value="Actualizar detalles" id="actualizar-button" class="btn btn-primary" style="width: 150px">
-                </form>
-                <br>
-                <form id="borrar-form" action="{{ url_for('borrarEstudio') }}" method="POST" enctype="multipart/form-data">
-                    <input type="submit" value="Borrar Estudio" id="borrar-button" class="btn btn-primary" style="width: 150px">
-                </form>
-            </div>
-        </div>
     </div>
 </div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+    //Cuando la pagina este lista...
+    $(document).ready(function(){
+      rellenaEstudios();
+    });
+
+    function rellenaEstudios(){
+        var xmlhttp = new XMLHttpRequest();
+      //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
+      xmlhttp.open("GET", "/list" , false);
+      //Enviamos la peticion
+      xmlhttp.send();
+      var comparativas = JSON.parse(xmlhttp.responseText);
+      var htmlListado = ""
+      htmlListado += 
+                       "<div class='col-xs-12 col-sm-12 col-lg-12'>" +
+                          "<h2>Estudios</h2>" +
+                          "<hr class='separador'>" +
+                       "</div>";
+      for(var i = 0; i < comparativas.length; i++ )
+      {
+        //Fila con el nombre y los botones para operar
+        htmlListado +=  "<div class='col-xs-12 col-sm-6 col-lg-5'> " +
+                              "<h3 class='listadoNuevas'>" + comparativas[i].nombre + "</h3>" +
+                          "</div>" +
+                          //Boton Ver detalles
+                          "<div class='col-xs-12 col-sm-4 col-lg-2 centrarBotones'>" +
+                            "<button onclick='verEstudio(\"m" + comparativas[i].id + "\");' type='button' class='btn btn-primary'>Ver Estudio</button>" +
+                          "</div>" +
+                          //Boton Eliminar estudio
+                          "<div class='col-xs-12 col-sm-4 col-lg-2 centrarBotones'>" +
+                            //"<button onclick='eliminarEstudio(\"m" + comparativas[i].id +"\",\"" + comparativas[i].nombre + 
+                              "<button onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");' type='button' " + 
+                              "class='btn btn-danger'>Eliminar</button>" +
+                          "</div>"
+      }                
+      document.getElementById("listado").innerHTML= htmlListado;
+    }    
+    function verEstudio(id) {
+      /*var url = "itemPelicula.html?id=" + id;
+      window.location = url;*/
+      console.log("funciona verEstudio")
+    }
+
+    function eliminarEstudio(aux) {
+      var id = aux.substr(1)
+      var estudio = JSON.stringify({ "id": id })
+      $.ajax({
+                           type        :'POST',
+                           url         :"/borrarEstudio",
+                           data        :estudio,
+                           contentType: "application/json",
+                           encode      :true,
+                           success     :function(data){
+                                          alert("Estudio borrado!!! :) ");
+                                          rellenaEstudios();
+                                         }, 
+                           error       :function(data){
+                                          alert("Algo ha fallado!!! :( ");
+                                         } 
+                      });
+                event.preventDefault();
+    }
+
+    function verEstudio(aux) {
+      var id = aux.substr(1)
+      var estudio = JSON.stringify({ "id": id })
+      window.location.href = "/detalles/"+id
+      /*console.log("entra en verEstudio")
+      console.log(estudio)
+      $.ajax({
+                           type        :'POST',
+                           url         :"/verDetalles",
+                           data        :estudio,
+                           contentType: "application/json",
+                           encode      :true,
+                           success     :function(data){
+                                          alert("Estudio añadido!!! :) ");
+                                          window.location.href = "/complete/ ";
+                                         }, 
+                           error       :function(data){
+                                          alert("Algo ha fallado!!! :( ");
+                                         } 
+                      });
+                event.preventDefault();*/
+    }
+</script>
 
 
 </body>
 </html>
+
