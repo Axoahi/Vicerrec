@@ -1,86 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>index</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 
+<head>
+  <meta charset="UTF-8">
+  <title>Listas</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+    integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+
+  <style type="text/css">
+    nav {
+      background-color: #465881 !important;
+    }
+
+    h1 {
+      margin-top: 2em;
+    }
+  </style>
 </head>
+
 <body>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+    integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+    crossorigin="anonymous"></script>
+
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <a class="navbar-brand" href="#">Vicerrectorado</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Principal <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/upload">Subir archivos</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/listado">Visualizar estudios</a>
-            </li>
-        </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Estudio de informes <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/listado">Lista de estudios</a>
+        </li>
+      </ul>
     </div>
-</nav>
-    <br>
-    <br>
-    <br>
-    <!-- Listado con los items -->
-    <div class="row" id="listado">
+  </nav>
 
-    </div>
-</div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script>
+
+
+
+
+  <br>
+  <br>
+  <br>
+  <!-- Listado con los items -->
+  <div class="row" id="listado">
+
+  </div>
+  </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <script>
     //Cuando la pagina este lista...
-    $(document).ready(function(){
+    $(document).ready(function () {
       rellenaEstudios();
     });
 
-    function rellenaEstudios(){
-        var xmlhttp = new XMLHttpRequest();
+    function rellenaEstudios() {
+      var xmlhttp = new XMLHttpRequest();
       //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
-      xmlhttp.open("GET", "/list" , false);
+      xmlhttp.open("GET", "/list", false);
       //Enviamos la peticion
       xmlhttp.send();
       var comparativas = JSON.parse(xmlhttp.responseText);
       var htmlListado = ""
-      htmlListado += 
-                       "<div class='col-xs-12 col-sm-12 col-lg-12'>" +
-                          "<h2>Estudios</h2>" +
-                          "<hr class='separador'>" +
-                       "</div>";
-      for(var i = 0; i < comparativas.length; i++ )
-      {
+      htmlListado +=
+        "<div class='col-xs-12 col-sm-12 col-lg-12'>" +
+        "<h2>Estudios</h2>" +
+        "<hr class='separador'>" +
+        "</div>";
+      for (var i = 0; i < comparativas.length; i++) {
         //Fila con el nombre y los botones para operar
-        htmlListado +=  "<div class='col-xs-8 col-sm-8 col-lg-8'> " +
-                              "<h3 class='listadoNuevas'>" + comparativas[i].nombre + "</h3>" +
-                          "</div>" +
-                          //Boton Ver detalles
-                          "<div class='col-xs-2 col-sm-2 col-lg-2 centrarBotones'>" +
-                            "<button onclick='verEstudio(\"m" + comparativas[i].id + "\");' type='button' class='btn btn-primary'>Ver Estudio</button>" +
-                          "</div>" +
-                          //Boton Eliminar estudio
-                          "<div class='col-xs-2 col-sm-2 col-lg-2 centrarBotones'>" +
-                            //"<button onclick='eliminarEstudio(\"m" + comparativas[i].id +"\",\"" + comparativas[i].nombre + 
-                              "<button onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");' type='button' " + 
-                              "class='btn btn-danger'>Eliminar</button>" +
-                          "</div>"
-      }                
-      document.getElementById("listado").innerHTML= htmlListado;
-    }    
+        htmlListado += "<div class='col-xs-8 col-sm-8 col-lg-8'> " +
+          "<h3 class='listadoNuevas'>" + comparativas[i].nombre + "</h3>" +
+          "</div>" +
+          //Boton Ver detalles
+          "<div class='col-xs-2 col-sm-2 col-lg-2 centrarBotones'>" +
+          "<button onclick='verEstudio(\"m" + comparativas[i].id + "\");' type='button' class='btn btn-primary'>Ver Estudio</button>" +
+          "</div>" +
+          //Boton Eliminar estudio
+          "<div class='col-xs-2 col-sm-2 col-lg-2 centrarBotones'>" +
+          //"<button onclick='eliminarEstudio(\"m" + comparativas[i].id +"\",\"" + comparativas[i].nombre + 
+          "<button onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");' type='button' " +
+          "class='btn btn-danger'>Eliminar</button>" +
+          "</div>"
+      }
+      document.getElementById("listado").innerHTML = htmlListado;
+    }
     function verEstudio(id) {
       /*var url = "itemPelicula.html?id=" + id;
       window.location = url;*/
@@ -91,26 +114,26 @@
       var id = aux.substr(1)
       var estudio = JSON.stringify({ "id": id })
       $.ajax({
-                           type        :'POST',
-                           url         :"/borrarEstudio",
-                           data        :estudio,
-                           contentType: "application/json",
-                           encode      :true,
-                           success     :function(data){
-                                          alert("Estudio borrado!!! :) ");
-                                          rellenaEstudios();
-                                         }, 
-                           error       :function(data){
-                                          alert("Algo ha fallado!!! :( ");
-                                         } 
-                      });
-                event.preventDefault();
+        type: 'POST',
+        url: "/borrarEstudio",
+        data: estudio,
+        contentType: "application/json",
+        encode: true,
+        success: function (data) {
+          alert("Estudio borrado!!! :) ");
+          rellenaEstudios();
+        },
+        error: function (data) {
+          alert("Algo ha fallado!!! :( ");
+        }
+      });
+      event.preventDefault();
     }
 
     function verEstudio(aux) {
       var id = aux.substr(1)
       var estudio = JSON.stringify({ "id": id })
-      window.location.href = "/detalles/"+id
+      window.location.href = "/detalles/" + id
       /*console.log("entra en verEstudio")
       console.log(estudio)
       $.ajax({
@@ -129,9 +152,9 @@
                       });
                 event.preventDefault();*/
     }
-</script>
+  </script>
 
 
 </body>
-</html>
 
+</html>
