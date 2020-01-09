@@ -158,7 +158,7 @@ def newEstudio():
 def crearNuevoEstudio():
     estudio = request.get_json()
     id = mongoDB.crearEstudio(estudio)
-    return render_template("public/about.html")
+    return render_template("public/complete.html")
 
 
 # Listado de estudios
@@ -210,7 +210,7 @@ def borrar():
 def borrarEstudio():
     estudio = request.get_json(force=True)
     mongoDB.borrarEstudio(estudio['id'])
-    return render_template("public/about.html")
+    return render_template("public/index.html")
 
 
 if __name__ == "__main__":

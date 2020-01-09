@@ -85,69 +85,65 @@
             </nav>
         </div>
     </div>
+
+<!-- jQuery,Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+crossorigin="anonymous"></script>
+
+<script>
+//Cuando la pagina este lista...
+$(document).ready(function () {
+    rellenaEstudios();
+});
+
+function rellenaEstudios() {
+    var xmlhttp = new XMLHttpRequest();
+    //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
+    xmlhttp.open("GET", "/list", false);
+    //Enviamos la peticion
+    xmlhttp.send();
+    var comparativas = JSON.parse(xmlhttp.responseText);
+    var htmlListado = ""
+    for (var i = 0; i < comparativas.length; i++) {
+        htmlListado +=
+            "<tr>" +
+            "<td>" + comparativas[i].nombre + "</td>" +
+            "<td><button type='button' class='btn btn-primary' onclick='verEstudio(\"m" + comparativas[i].id + "\");'><i class='material-icons'>assignment</i></button></td>" +
+            "<td><button type='button' class='btn btn-danger' onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");'><i class='material-icons'>delete_outline</i></button></td>" +
+            "</tr>"
+    }
+    document.getElementById("listado").innerHTML = htmlListado;
+}
+
+function verEstudio(aux) {
+    var id = aux.substr(1)
+    var estudio = JSON.stringify({ "id": id })
+    window.location.href = "/detalles/" + id
+}
+
+function eliminarEstudio(aux) {
+    var id = aux.substr(1)
+    var estudio = JSON.stringify({ "id": id })
+    $.ajax({
+        type: 'POST',
+        url: "/borrarEstudio",
+        data: estudio,
+        contentType: "application/json",
+        encode: true,
+        success: function (data) {
+            alert("Estudio borrado!!! :) ");
+            rellenaEstudios();
+        },
+        error: function (data) {
+            alert("Algo ha fallado!!! :( ");
+        }
+    });
+    event.preventDefault();
+}
+// </script>
 </body>
 
 </html>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
-    integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
-    crossorigin="anonymous"></script>
-<script>
-    //Cuando la pagina este lista...
-    $(document).ready(function () {
-        rellenaEstudios();
-    });
-
-    function rellenaEstudios() {
-        var xmlhttp = new XMLHttpRequest();
-        //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
-        xmlhttp.open("GET", "/list", false);
-        //Enviamos la peticion
-        xmlhttp.send();
-        var comparativas = JSON.parse(xmlhttp.responseText);
-        var htmlListado = ""
-        for (var i = 0; i < comparativas.length; i++) {
-            htmlListado +=
-                "<tr>" +
-                "<td>" + comparativas[i].nombre + "</td>" +
-                "<td><button type='button' class='btn btn-primary' onclick='verEstudio(\"m" + comparativas[i].id + "\");'><i class='material-icons'>assignment</i></button></td>" +
-                "<td><button type='button' class='btn btn-danger' onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");'><i class='material-icons'>delete_outline</i></button></td>" +
-                "</tr>"
-        }
-        document.getElementById("listado").innerHTML = htmlListado;
-    }
-
-    function verEstudio(aux) {
-        var id = aux.substr(1)
-        var estudio = JSON.stringify({ "id": id })
-        window.location.href = "/detalles/" + id
-    }
-
-    function eliminarEstudio(aux) {
-        var id = aux.substr(1)
-        var estudio = JSON.stringify({ "id": id })
-        $.ajax({
-            type: 'POST',
-            url: "/borrarEstudio",
-            data: estudio,
-            contentType: "application/json",
-            encode: true,
-            success: function (data) {
-                alert("Estudio borrado!!! :) ");
-                rellenaEstudios();
-            },
-            error: function (data) {
-                alert("Algo ha fallado!!! :( ");
-            }
-        });
-        event.preventDefault();
-    }
-</script>
