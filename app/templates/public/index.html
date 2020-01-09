@@ -1,49 +1,50 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Estudio</title>
+
+    <!-- Style  -->
+    <link rel="stylesheet" type="text/css" href="/templates/public/css/style.css">
+
+    <!-- Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
         integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
-
-    <title>Estudio</title>
-
-    <style type="text/css">
-        nav {
-            background-color: #465881 !important;
-        }
-
-        h1 {
-            margin-top: 2em;
-        }
-    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <a class="navbar-brand" href="#">Vicerrectorado</a>
+    <nav class=" menu navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="/">Vicerrectorado</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <!-- <li class="nav-item active">
                     <a class="nav-link" href="/">Estudio de informes <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
+                </li> -->
+                <!-- <li class="nav-item active">
                     <a class="nav-link" href="/listado">Lista de estudios</a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </nav>
     <div class="container">
-        <h1>Informes de rendimiento</h1>
-        <div class="row">
+        <div class="row title">
+            <h1>Extracción de información de informes en PDF</h1>
+            <p>Interfaz web para automatizar la extracción de información. Para ello solo debes seleccionar los informes
+                PDF a analizar, cuando acabes tu estudio puedes guardarlo para tenerlo siempre accesible.</p>
+        </div>
+        <h4>Nuevo estudio:</h4>
+        <div class="row files">
             <div class="col-md-6">
                 <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
@@ -56,8 +57,37 @@
                 </form>
             </div>
         </div>
+        <div class="row">
+            <h4>Estudios guardados:</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Visualizar</th>
+                        <th scope="col">Borrar</th>
+                    </tr>
+                </thead>
+                <tbody id="listado"></tbody>
+            </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </body>
+
+</html>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -70,5 +100,54 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
     integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
     crossorigin="anonymous"></script>
+<script>
+    //Cuando la pagina este lista...
+    $(document).ready(function () {
+        rellenaEstudios();
+    });
 
-</html>
+    function rellenaEstudios() {
+        var xmlhttp = new XMLHttpRequest();
+        //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
+        xmlhttp.open("GET", "/list", false);
+        //Enviamos la peticion
+        xmlhttp.send();
+        var comparativas = JSON.parse(xmlhttp.responseText);
+        var htmlListado = ""
+        for (var i = 0; i < comparativas.length; i++) {
+            htmlListado +=
+                "<tr>" +
+                "<td>" + comparativas[i].nombre + "</td>" +
+                "<td><button type='button' class='btn btn-primary' onclick='verEstudio(\"m" + comparativas[i].id + "\");'><i class='material-icons'>assignment</i></button></td>" +
+                "<td><button type='button' class='btn btn-danger' onclick='eliminarEstudio(\"m" + comparativas[i].id + "\");'><i class='material-icons'>delete_outline</i></button></td>" +
+                "</tr>"
+        }
+        document.getElementById("listado").innerHTML = htmlListado;
+    }
+
+    function verEstudio(aux) {
+        var id = aux.substr(1)
+        var estudio = JSON.stringify({ "id": id })
+        window.location.href = "/detalles/" + id
+    }
+
+    function eliminarEstudio(aux) {
+        var id = aux.substr(1)
+        var estudio = JSON.stringify({ "id": id })
+        $.ajax({
+            type: 'POST',
+            url: "/borrarEstudio",
+            data: estudio,
+            contentType: "application/json",
+            encode: true,
+            success: function (data) {
+                alert("Estudio borrado!!! :) ");
+                rellenaEstudios();
+            },
+            error: function (data) {
+                alert("Algo ha fallado!!! :( ");
+            }
+        });
+        event.preventDefault();
+    }
+</script>

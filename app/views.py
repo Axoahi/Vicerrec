@@ -1,4 +1,12 @@
 # coding=utf-8
+from flask import jsonify
+import glob
+import mongoDB
+import ConversionPDF
+import os
+from werkzeug.utils import secure_filename
+from flask import request, redirect, url_for, Response
+from flask import render_template
 import ast
 import json
 
@@ -7,19 +15,26 @@ import creadExport
 
 app = Flask(__name__)
 
-from flask import render_template
-from flask import request, redirect, url_for, Response
-from werkzeug.utils import secure_filename
-import os
-import ConversionPDF
-import mongoDB
-import json
-import glob
-from flask import jsonify
 
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
 app.config["CLIENT_DIRECTORY"] = os.getcwd() + "/data/"
+
+
+def root_dir():  # pragma: no cover
+    return os.path.abspath(os.path.dirname(__file__))
+
+def get_file(filename):  # pragma: no cover
+    try:
+        src = os.path.join(root_dir(), filename)
+        # Figure out how flask returns static files
+        # Tried:
+        # - render_template
+        # - send_file
+        # This should not be so non-obvious
+        return open(src).read()
+    except IOError as exc:
+        return str(exc)
 
 
 # Página index
@@ -27,10 +42,19 @@ app.config["CLIENT_DIRECTORY"] = os.getcwd() + "/data/"
 def index():
     return render_template("/public/index.html")
 
-
-@app.route("/about")
-def about():
-    return render_template("/public/about.html")
+#  Carga de css y js
+@app.route('/<path:path>')
+def get_resource(path):  # pragma: no cover
+    mimetypes = {
+        ".css": "text/css",
+        ".html": "text/html",
+        ".js": "application/javascript",
+    }
+    complete_path = os.path.join(root_dir(), path)
+    ext = os.path.splitext(path)[1]
+    mimetype = mimetypes.get(ext, "text/html")
+    content = get_file(complete_path)
+    return Response(content, mimetype=mimetype)
 
 
 # Página de carga de archivos
@@ -45,7 +69,6 @@ def upload():
     files = glob.glob(app.config["CLIENT_DIRECTORY"]+"*.xls")
     for f in files:
         os.remove(f)
-
 
     target = os.path.join(app.instance_path)
     # Si no existe el directorio donde dejar los archivos, se crea
@@ -154,12 +177,10 @@ def listaEstudios():
             'nombre': item['nombre']
         }
         listadoJson.append(element)
-    # return jsonify(results=listadoJson)
-    # return listadoJson
     return Response(json.dumps(listadoJson),  mimetype='application/json')
 
 
-#Detalles de un estudio
+# Detalles de un estudio
 @app.route("/detalles/<id>", methods=["GET"])
 def detalles(id):
     datajson = {"id": id}
@@ -174,77 +195,10 @@ def verDetalles():
     return Response(json.dumps(detalles), mimetype='application/json')
 
 
-
 # Actualizar un estudio
 @app.route("/actualizar", methods=['POST', 'GET'])
 def actualizar():
     return render_template('public/mongoDB.html')
-
-
-@app.route("/actualizarEstudio", methods=['POST', 'GET'])
-def actualizarEstudio():
-    act = {
-        "nombre": "Estudios de grado de alguna cosa",
-        "comparativa": [{
-            "codigo": 978454,
-            "titulo": "GRADO EN QUÍMICA",
-            "anyo": 1234,
-            "gestiontitulo": {
-                "organizacionydesarrollo": "AD",
-                "informacionytransparencia": "AD",
-                "SGIC": "AD"
-            },
-            "recursos": {
-                "personalacademico": "SA",
-                "apoyoyrecursosmateriales": "SA"
-            },
-            "resultados": {
-                "resultados": "AD",
-                "indicadores": "AD"
-            },
-            "finaltotal": "FAVORABLE",
-            "recomendaciones": {
-                "curriculum": ["Puede mejorar consulta a agentes externos (CR1) (CR3)"],
-                "docentia": ["Se recomienda la implantación definitiva del programa DOCENTIA"],
-                "web": ["Puede mejorar consulta a agentes externos (CR1) (CR3)"],
-                "coordinacion": ["Mejorar coordinación entre actividades de evaluación y las docentes (CR1)"],
-                "otras": ["Alumnado no conoce sistema de tramitación de quejas (CR1)",
-                          "Puede mejorar consulta a agentes externos (CR1) (CR3)"]
-            }
-
-        },
-            {
-                "codigo": 123456,
-                "titulo": "GRADO EN QUÍMICA",
-                "anyo": 201414,
-                "gestiontitulo": {
-                    "organizacionydesarrollo": "AD",
-                    "informacionytransparencia": "AD",
-                    "SGIC": "AD"
-                },
-                "recursos": {
-                    "personalacademico": "SA",
-                    "apoyoyrecursosmateriales": "SA"
-                },
-                "resultados": {
-                    "resultados": "AD",
-                    "indicadores": "AD"
-                },
-                "finaltotal": "FAVORABLE",
-                "recomendaciones": {
-                    "curriculum": ["Se recomienda la implantación definitiva del programa DOCENTIA"],
-                    "docentia": ["Se recomienda la implantación definitiva del programa DOCENTIA"],
-                    "web": ["Se recomienda la implantación definitiva del programa DOCENTIA"],
-                    "coordinacion": ["Mejorar coordinación entre actividades de evaluación y las docentes (CR1)"],
-                    "otras": ["Alumnado no conoce sistema de tramitación de quejas (CR1)",
-                              "Puede mejorar consulta a agentes externos (CR1) (CR3)"]
-                }
-            }]
-    }
-    estudio = mongoDB.actualizarEstudio("5dd68c5b676e2498b6a929a9", act)
-    print(estudio)
-    return render_template("public/about.html")
-
 
 # Detalles de un estudio
 @app.route("/borrar", methods=['POST', 'GET'])

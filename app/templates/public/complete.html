@@ -56,10 +56,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Estudio de informes <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/listado">Lista de estudios</a>
+                    <a class="nav-link" href="/">Salir <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
@@ -115,27 +112,6 @@
     <script>
         function tablaHtml(datos) {
             var htmlTable = ""
-
-            // htmlTable +=
-            //     "<div class='tabbable-panel'>" +
-            //     "<div class='tabbable-line'>" +
-            //     "<ul class='nav nav-tabs'>"
-
-            // for (var i = 0; i < datos.length; i++) {
-
-            //     htmlTable +=
-            //         "<li class='active'>" +
-            //         "<a href='#tab_default_" + i + "' data - toggle='tab'>" +
-            //         datos[i]['codigo'] +
-            //         "</a>"
-            //     "</li >"
-
-            // }
-
-            // htmlTable +=
-            //     "</ul>"
-            //     "<div class='tab-content'>"
-
             for (var i = 0; i < datos.length; i++) {
 
                 htmlTable +=
@@ -259,55 +235,7 @@
                     "</div>" +
                     "</section>"+
                     "<br>"
-                // "</div>" +
-                // "</div>" +
-                // "</div>"
             }
-
-            // htmlTable += "<table class='table'>" +
-            //     "<thead>" +
-            //     "<tr>" +
-            //     "<th scope='col'>Código</th>" +
-            //     "<th scope='col'>Título</th>" +
-            //     "<th scope='col'>Año</th>" +
-            //     "<th scope='col'>Organización y desarrollo</th>" +
-            //     "<th scope='col'>Información y transparencia</th>" +
-            //     "<th scope='col'>SGID</th>" +
-            //     "<th scope='col'>Personal académico</th>" +
-            //     "<th scope='col'>Apoyo y recursos a materiales</th>" +
-            //     "<th scope='col'>Resultados</th>" +
-            //     "<th scope='col'>Indicadores</th>" +
-            //     "<th scope='col'>Final Total</th>" +
-            //     "<th scope='col'>Curriculum</th>" +
-            //     "<th scope='col'>Docentia</th>" +
-            //     "<th scope='col'>Web</th>" +
-            //     "<th scope='col'>Coordinacion</th>" +
-            //     "<th scope='col'>Otras</th>" +
-            //     "</tr>" +
-            //     "</thead>" +
-            //     "<tbody>";
-            // for (var i = 0; i < datos.length; i++) {
-            //     htmlTable += "<tr>" +
-            //         "<td>" + datos[i]['codigo'] + "</td>" +
-            //         "<td>" + datos[i]['titulo'] + "</td>" +
-            //         "<td>" + datos[i]['anyo'] + "</td>" +
-            //         "<td>" + datos[i]['gestiontitulo']['organizacionydesarrollo'] + "</td>" +
-            //         "<td>" + datos[i]['gestiontitulo']['informacionytransparencia'] + "</td>" +
-            //         "<td>" + datos[i]['gestiontitulo']['SGIC'] + "</td>" +
-            //         "<td>" + datos[i]['recursos']['personalacademico'] + "</td>" +
-            //         "<td>" + datos[i]['recursos']['apoyoyrecursosmateriales'] + "</td>" +
-            //         "<td>" + datos[i]['resultados']['resultados'] + "</td>" +
-            //         "<td>" + datos[i]['resultados']['indicadores'] + "</td>" +
-            //         "<td>" + datos[i]['finaltotal'] + "</td>" +
-            //         "<td>" + datos[i]['recomendaciones']['curriculum'] + "</td>" +
-            //         "<td>" + datos[i]['recomendaciones']['docentia'] + "</td>" +
-            //         "<td>" + datos[i]['recomendaciones']['web'] + "</td>" +
-            //         "<td>" + datos[i]['recomendaciones']['coordinacion'] + "</td>" +
-            //         "<td>" + datos[i]['recomendaciones']['otras'] + "</td>" +
-            //         "</tr>"
-            // }
-            // htmlTable += "</tbody>" +
-            //     "</table>"
 
             document.getElementById("listado").innerHTML = htmlTable;
         };
