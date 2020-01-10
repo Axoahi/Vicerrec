@@ -3,43 +3,38 @@
 }
 
 .menu {
-    background-color: #465881 !important;
+    background-color: #465881;
+}
+
+.menu>a {
+    color: #fff !important;
 }
 
 .title {
-    margin-top: 6em;
-    display: flex;
+    margin-top     : 3em;
+    display        : flex;
     justify-content: center;
 }
 
 .files {
-    display: flex;
-    flex-direction: row;
+    display        : flex;
+    flex-direction : row;
     justify-content: center;
 }
 
-.fileContainer {
-    overflow: hidden;
-    position: relative;
+img {
+    max-width: 180px;
 }
 
-.fileContainer [type=file] {
-    cursor: inherit;
-    display: block;
-    font-size: 999px;
-    filter: alpha(opacity=0);
-    min-height: 100%;
-    min-width: 100%;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    text-align: right;
-    top: 0;
+input[type=file] {
+    padding: 10px;
 }
+
+
 
 thead {
     background-color: #465881 !important;
-    color: #fff;
+    color           : #fff;
 }
 
 h1 {
@@ -49,4 +44,171 @@ h1 {
 
 .row {
     margin-bottom: 2em;
+}
+
+
+
+/* FILES  */
+
+#one {
+    /* margin-top: 50px;
+    box-shadow   : 0px 0px 5px 2px rgba(0, 0, 0, 0.2); */
+}
+
+.it {
+    justify-content: center;
+}
+
+.it .btn-orange {
+    background-color: transparent;
+    border-color    : #777 !important;
+    color           : #777;
+    text-align      : left;
+    width           : 100%;
+}
+
+.it input.form-control {
+    height       : 54px;
+    border       : none;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #ddd;
+    box-shadow   : none;
+}
+
+.it .form-control:focus {
+    border-color: #ff4d0d;
+    box-shadow  : none;
+    outline     : none;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin  : 10px;
+}
+
+.fileUpload input.upload {
+    position : absolute;
+    top      : 0;
+    right    : 0;
+    margin   : 0;
+    padding  : 0;
+    font-size: 20px;
+    cursor   : pointer;
+    opacity  : 0;
+    filter   : alpha(opacity=0);
+}
+
+.it .btn-new,
+.it .btn-next {
+    margin          : 30px 0px;
+    border-radius   : 0px;
+    background-color: #7F8697;
+    color           : #f5f5f5;
+    font-size       : 16px;
+    width           : 155px;
+}
+
+.it .btn-next {
+    background-color: #849ACF;
+    color           : #fff;
+}
+
+.it .btn-check {
+    cursor     : pointer;
+    line-height: 54px;
+    color      : red;
+}
+
+.it .uploadDoc {
+    margin-bottom: 20px;
+}
+
+.it .uploadDoc {
+    margin-bottom: 20px;
+}
+
+.it .btn-orange img {
+    width: 30px;
+}
+
+p {
+    font-size : 16px;
+    text-align: center;
+    margin    : 30px 0px;
+}
+
+.it #uploader .docErr {
+    position        : absolute;
+    right           : auto;
+    left            : 10px;
+    top             : -56px;
+    padding         : 10px;
+    font-size       : 15px;
+    background-color: #fff;
+    color           : red;
+    box-shadow      : 0px 0px 7px 2px rgba(0, 0, 0, 0.2);
+    display         : none;
+}
+
+.it #uploader .docErr:after {
+    content    : '\f0d7';
+    display    : inline-block;
+    font-family: FontAwesome;
+    font-size  : 50px;
+    color      : #fff;
+    position   : absolute;
+    left       : 30px;
+    bottom     : -40px;
+    text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* buscador */
+
+.search-container {
+    width  : 490px;
+    display: block;
+    margin : 0 auto;
+}
+
+input#search-bar {
+    margin   : 0 auto;
+    width    : 100%;
+    height   : 45px;
+    padding  : 0 20px;
+    font-size: 1rem;
+    border   : 1px solid #D0CFCE;
+    outline  : none;
+}
+
+input#search-bar> :focus {
+    border    : 1px solid #008ABF;
+    transition: 0.35s ease;
+    color     : #008ABF;
+}
+
+input#search-bar>focus> ::-webkit-input-placeholder {
+    transition: opacity 0.45s ease;
+    opacity   : 0;
+}
+
+input#search-bar>focus> ::-moz-placeholder {
+    transition: opacity 0.45s ease;
+    opacity   : 0;
+}
+
+input#search-bar>focus> :-ms-placeholder {
+    transition: opacity 0.45s ease;
+    opacity   : 0;
+}
+
+
+.search-icon {
+    position: relative;
+    float   : right;
+    width   : 75px;
+    height  : 75px;
+    top     : -62px;
+    /* right   : -45px; */
 }

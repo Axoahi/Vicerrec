@@ -6,60 +6,19 @@
     <title>index</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
         integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <!-- Style  -->
+    <link rel="stylesheet" type="text/css" href="/templates/public/css/complete.css">
 
-    <style type="text/css">
-        nav {
-            background-color: #465881 !important;
-        }
-
-        section {
-            text-align: center;
-            background-color: #fff;
-            border: #465881 3px solid;
-        }
-
-        h4 {
-            background-color: #465881;
-            color: #fff;
-        }
-
-        h6 {
-            font-weight: bold !important;
-        }
-
-        li {
-            text-align: left;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
-        integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
-        crossorigin="anonymous"></script>
-
-
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <a class="navbar-brand" href="#">Vicerrectorado</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Salir <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-        </div>
+    <nav class="menu navbar navbar-light">
+        <a class="navbar-brand">PDF inspect</a>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Salir <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
     </nav>
     <!-- Formulario para recoger el nombre del estudio-->
     <div class="container">
@@ -82,238 +41,111 @@
             </div>
         </div>
 
-
-        <!-- 
-        <div class="tabbable-panel">
-            <div class="tabbable-line">
-                <ul class="nav nav-tabs ">
-                    <li class="active">
-                        <a href="#tab_default_1" data-toggle="tab">
-                            codigo muy largo 1 </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane" id="tab_default_1">
-                        <div id="listado"></div>
-                    </div>
+        <div class="tabs">
+            <ul class="tabs-nav" id="list-PDFs">
+                <li><a href="#tab-1"></a></li>
+                <li><a href="#tab-2"></a></li>
+                <li><a href="#tab-3"></a></li>
+                <li><a href="#tab-4"></a></li>
+                <li><a href="#tab-5"></a></li>
+                <li><a href="#tab-6"></a></li>
+                <li><a href="#tab-7"></a></li>
+                <li><a href="#tab-8"></a></li>
+            </ul>
+            <div class="tabs-stage">
+                <div id="tab-1">
+                    <p id="listado"></p>
                 </div>
+                <div id="tab-2">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna auctor
+                        at.</p>
+                </div>
+                <div id="tab-3">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
+                        auctor
+                        at.</p>
+                </div>
+                <div id="tab-4">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
+                        auctor
+                        at.</p>
+                </div>
+                <div id="tab-5">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
+                        auctor
+                        at.</p>
+                </div>
+                <div id="tab-6">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
+                        auctor
+                        at.</p>
+                </div>
+                <div id="tab-7">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
+                        auctor
+                        at.</p>
+                </div>
+                <div id="tab-8">
+                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
+                        auctor
+                        at.</p>
+                </div>
+
             </div>
-        </div> -->
+        </div>
+
 
         <!-- Listado con los items -->
         <div id="listado"></div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-    <script>
-        function tablaHtml(datos) {
-            var htmlTable = ""
-            for (var i = 0; i < datos.length; i++) {
-
-                htmlTable +=
-                    "<h3>" + datos[i]['titulo'] + "</h3>" +
-                    "<p>" + " Código: " + datos[i]['codigo'] + " Año: "+ datos[i]['anyo'] + "</p>" +
-                    "<section>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h4>GESTIÓN DE TÍTULO</h4>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h6>Organización y desarrollo</h6>" +
-                    "<p>" + datos[i]['gestiontitulo']['organizacionydesarrollo'] + "</p>" +
-                    "</div>" +
-                    "<div class='col'>" +
-                    "<h6>Información y trasparencia</h6>" +
-                    "<p>" + datos[i]['gestiontitulo']['informacionytransparencia'] + "</p>" +
-                    "</div>" +
-                    "<div class='col'>" +
-                    "<h6>SGIC</h6>" +
-                    "<p>" + datos[i]['gestiontitulo']['SGIC'] + "</p>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h4>RECURSOS</h4>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h6>Personal Académico</h6>" +
-                    "<p>" + datos[i]['recursos']['personalacademico'] + "</p>" +
-                    "</div>" +
-                    "<div class='col'>" +
-                    "<h6>Personal Apoyo y Recursos materiales</h6>" +
-                    "<p>" + datos[i]['recursos']['apoyoyrecursosmateriales'] + "</p>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h4>RESULTADOS</h4>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h6>Resultados</h6>" +
-                    "<p>" + datos[i]['resultados']['resultados'] + "</p>" +
-                    "</div>" +
-                    "<div class='col'>" +
-                    "<h6>Indicadores satisfacción y rendimiento</h6>" +
-                    "<p>" + datos[i]['resultados']['indicadores'] + "</p>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h4>FINAL TOTAL</h4>" +
-                    "<h6 class='resultado'>" + datos[i]['finaltotal'] + "</h6>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h4>OBSERVACIONES</h4>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h6>Curriculum</h6>" +
-                    "<ul>"
-
-                for (var j = 0; j < datos[i]['recomendaciones']['curriculum'].length; j++) {
-                    htmlTable += "<li>" + datos[i]['recomendaciones']['curriculum'] + "</li>"
-                }
-
-                htmlTable +=
-                    "</ul>" +
-                    "</div>" +
-                    "<div class='col'>" +
-                    "<h6>Docencia</h6>" +
-                    "<ul>"
-
-                for (var j = 0; j < datos[i]['recomendaciones']['docentia'].length; j++) {
-                    htmlTable += "<li>" + datos[i]['recomendaciones']['docentia'] + "</li>"
-                }
-                htmlTable +=
-                    "</ul>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h6>WEB</h6>" +
-                    "<ul>"
-                for (var j = 0; j < datos[i]['recomendaciones']['web'].length; j++) {
-                    htmlTable += "<li>" + datos[i]['recomendaciones']['web'] + "</li>"
-                }
-                htmlTable +=
-                    "</ul>" +
-                    "</div>" +
-                    "<div class='col'>" +
-                    "<h6>Coordinación</h6>" +
-                    "<ul>"
-
-                for (var j = 0; j < datos[i]['recomendaciones']['coordinacion'].length; j++) {
-                    htmlTable += "<li>" + datos[i]['recomendaciones']['coordinacion'][j] + "</li>"
-                }
-                htmlTable +=
-                    "</ul>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col'>" +
-                    "<h6>Otras</h6>" +
-                    "<ul>"
-                for (var j = 0; j < datos[i]['recomendaciones']['otras'].length; j++) {
-                    htmlTable += "<li>" + datos[i]['recomendaciones']['otras'][j] + "</li>"
-                }
-                htmlTable +=
-                    "</ul>" +
-                    "</div>" +
-                    "</div>" +
-                    "</section>"+
-                    "<br>"
-            }
-
-            document.getElementById("listado").innerHTML = htmlTable;
-        };
-        var actualizar
-        //Rellenamos los datos de la tabla
-        $(document).ready(function () {
-            var aux = '{{ data|safe }}'
-            var datos = JSON.parse(aux)
-            if (datos.hasOwnProperty('id')) {
-                $.ajax({
-                    type: 'POST',
-                    url: "/verDetalles",
-                    data: aux,
-                    contentType: "application/json",
-                    encode: true,
-                    success: function rellena(data) {
-                        actualizar = data
-                        tablaHtml(data['comparativa'])
-                        document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
-                        //Actualizamos el boton
-                        document.getElementById("botonEstudio").setAttribute("onclick", "actualizarEstudio()");
-                        document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
-                        document.getElementById("nombre").value = data['nombre']
-                    },
-                    error: function (data) {
-                        alert("Algo ha fallado!!! :( ");
-                        console.log(data)
-                    }
-                });
-            } else {
-                tablaHtml(datos)
-                document.getElementById("listaAneca").value = aux;
-            }
-        });
-
-        //Guardamos el estudio en la bd
-        function guardarEstudio() {
-            var name = document.getElementById("nombre").value;
-            var estudio = {
-                "nombre": name,
-                "comparativa": []
-            };
-            var aux = '{{ data|safe }}'
-            var datos = JSON.parse(aux);
-
-            for (var i in datos) {
-                var item = datos[i];
-                estudio.comparativa.push(item);
-            }
-            $.ajax({
-                type: 'POST',
-                url: "/new",
-                data: JSON.stringify(estudio),
-                contentType: "application/json",
-                encode: true,
-                success: function (data) {
-                    alert("Estudio añadido!!! :) ");
-                    window.location.href = "/";
-                },
-                error: function (data) {
-                    alert("Algo ha fallado!!! :( ");
-                }
-            });
-            event.preventDefault();
-        };
-        //Guardamos el estudio en la bd
-        function actualizarEstudio() {
-            //actualizamos el nombre
-            var name = document.getElementById("nombre").value;
-            actualizar.nombre = name
-            //Aqui tendriamos que cojer los datos de la tabla(han eliminado archivos, han añadido archivos)
-            //actualizar.comparativa = 
-            console.log(actualizar)
-            alert("funciona");
-        };
-    </script>
-
-
 </body>
 
 </html>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+    integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="/templates/public/js/complete.js"></script>
+
+<script>
+    var actualizar
+    //Rellenamos los datos de la tabla
+    $(document).ready(function () {
+        var aux = '{{ data|safe }}'
+        var datos = JSON.parse(aux)
+        if (datos.hasOwnProperty('id')) {
+            $.ajax({
+                type: 'POST',
+                url: "/verDetalles",
+                data: aux,
+                contentType: "application/json",
+                encode: true,
+                success: function rellena(data) {
+                    actualizar = data
+                    tablaHtml(data['comparativa'])
+                    document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
+                    getPDFs(data['comparativa']);
+                    //Actualizamos el boton
+                    document.getElementById("botonEstudio").setAttribute("onclick", "actualizarEstudio()");
+                    document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
+                    document.getElementById("nombre").value = data['nombre']
+                },
+                error: function (data) {
+                    alert("Algo ha fallado!!! :( ");
+                    console.log(data)
+                }
+            });
+        } else {
+            tablaHtml(datos)
+            document.getElementById("listaAneca").value = aux;
+            getPDFs(datos);
+        }
+    });
+</script>
