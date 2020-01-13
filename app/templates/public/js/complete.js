@@ -2,12 +2,32 @@
 
 function tablaHtml(datos) {
     var htmlTable = ""
+
     for (var i = 0; i < datos.length; i++) {
 
         htmlTable +=
+            "<div id='tab-" + (i + 1) + "'>" +
+            "<p>" +
             "<h3>" + datos[i]['titulo'] + "</h3>" +
-            "<p>" + " Código: " + datos[i]['codigo'] + " Año: " + datos[i]['anyo'] + "</p>" +
             "<article>" +
+            "<section class='row'>" +
+            "<section class='col'>" +
+            "<h4>DATOS</h4>" +
+            "</section>" +
+            "</section>" +
+            "<section class='row'>" +
+            "<section class='col'>" +
+            "<h6>Código</h6>" +
+            "<p>" + datos[i]['codigo'] + "</p>" +
+            "</section>" +
+            "<section class='col'>" +
+            "<h6>año</h6>" +
+            "<p>" + datos[i]['anyo'] + "</p>" +
+            "</section>" +
+            "</section>" +
+            "<section class='row'>" +
+            "<section class='col'>" +
+
             "<section class='row'>" +
             "<section class='col'>" +
             "<h4>GESTIÓN DE TÍTULO</h4>" +
@@ -69,65 +89,130 @@ function tablaHtml(datos) {
             "</section>" +
             "</section>" +
             "<section class='row'>" +
-            "<section class='col'>" +
-            "<h6>Curriculum</h6>" +
-            "<ul>"
+            "<section class='col'>"
+        if (datos[i]['recomendaciones']['curriculum'].length > 0) {
+            htmlTable +=
+                "<h6>Curriculum</h6>" +
+                "<fieldset class='tasks-list'>"
+        }
 
         for (var j = 0; j < datos[i]['recomendaciones']['curriculum'].length; j++) {
-            htmlTable += "<li>" + datos[i]['recomendaciones']['curriculum'] + "</li>"
+            htmlTable +=
+                "<label class='tasks-list-item'>" +
+                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<span class='tasks-list-mark'></span>" +
+                "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['curriculum'][j] + "</span>" +
+                "</label>"
         }
 
         htmlTable +=
-            "</ul>" +
+            "</fieldset>" +
             "</section>" +
-            "<section class='col'>" +
-            "<h6>Docencia</h6>" +
-            "<ul>"
+            "</section>" +
+            "<section class='row'>" +
+            "<section class='col'>"
+        if (datos[i]['recomendaciones']['docentia'].length > 0) {
+            htmlTable +=
+                "<h6>Docencia</h6>" +
+                "<fieldset class='tasks-list'>"
+        }
 
         for (var j = 0; j < datos[i]['recomendaciones']['docentia'].length; j++) {
-            htmlTable += "<li>" + datos[i]['recomendaciones']['docentia'][j] + "</li>"
+            htmlTable +=
+                "<label class='tasks-list-item'>" +
+                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<span class='tasks-list-mark'></span>" +
+                "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['docentia'][j] + "</span>" +
+                "</label>"
         }
+
         htmlTable +=
-            "</ul>" +
+            "</fieldset>" +
             "</section>" +
             "</section>" +
             "<section class='row'>" +
-            "<section class='col'>" +
-            "<h6>WEB</h6>" +
-            "<ul>"
-        for (var j = 0; j < datos[i]['recomendaciones']['web'].length; j++) {
-            htmlTable += "<li>" + datos[i]['recomendaciones']['web'][j] + "</li>"
+            "<section class='col'>"
+        if (datos[i]['recomendaciones']['web'].length > 0) {
+            htmlTable +=
+                "<h6>WEB</h6>" +
+                "<fieldset class='tasks-list'>"
         }
+
+        for (var j = 0; j < datos[i]['recomendaciones']['web'].length; j++) {
+            htmlTable +=
+                "<label class='tasks-list-item'>" +
+                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<span class='tasks-list-mark'></span>" +
+                "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['web'][j] + "</span>" +
+                "</label>"
+        }
+
         htmlTable +=
-            "</ul>" +
+            "</fieldset>" +
             "</section>" +
-            "<section class='col'>" +
-            "<h6>Coordinación</h6>" +
-            "<ul>"
+            "</section>" +
+            "<section class='row'>" +
+            "<section class='col'>"
+        if (datos[i]['recomendaciones']['coordinacion'].length > 0) {
+            htmlTable +=
+                "<h6>Coordinación</h6>" +
+                "<fieldset class='tasks-list'>"
+        }
 
         for (var j = 0; j < datos[i]['recomendaciones']['coordinacion'].length; j++) {
-            htmlTable += "<li>" + datos[i]['recomendaciones']['coordinacion'][j] + "</li>"
+            htmlTable +=
+                "<label class='tasks-list-item'>" +
+                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<span class='tasks-list-mark'></span>" +
+                "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['coordinacion'][j] + "</span>" +
+                "</label>"
         }
+
         htmlTable +=
-            "</ul>" +
+            "</fieldset>" +
             "</section>" +
             "</section>" +
             "<section class='row'>" +
-            "<section class='col'>" +
-            "<h6>Otras</h6>" +
-            "<ul>"
-        for (var j = 0; j < datos[i]['recomendaciones']['otras'].length; j++) {
-            htmlTable += "<li>" + datos[i]['recomendaciones']['otras'][j] + "</li>"
+            "<section class='col'>"
+        if (datos[i]['recomendaciones']['otras'].length > 0) {
+            htmlTable +=
+                "<h6>Otras</h6>" +
+                "<fieldset class='tasks-list'>"
         }
+
+        for (var j = 0; j < datos[i]['recomendaciones']['otras'].length; j++) {
+            htmlTable +=
+                "<label class='tasks-list-item'>" +
+                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<span class='tasks-list-mark'></span>" +
+                "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['otras'][j] + "</span>" +
+                "</label>"
+        }
+
         htmlTable +=
             "</ul>" +
             "</section>" +
             "</section>" +
             "</article>" +
-            "<br>"
+            "</p>" +
+            "</div>"
     }
 
     document.getElementById("listado").innerHTML = htmlTable;
+
+    // Show the first tab by default
+    $('.tabs-stage div').hide();
+    $('.tabs-stage div:first').show();
+    $('.tabs-nav li:first').addClass('tab-active');
+
+    // Change tab class and display content
+    $('.tabs-nav a').on('click', function (event) {
+        event.preventDefault();
+        $('.tabs-nav li').removeClass('tab-active');
+        $(this).parent().addClass('tab-active');
+        $('.tabs-stage div').hide();
+        $($(this).attr('href')).show();
+    });
 };
 
 
@@ -135,46 +220,81 @@ function getPDFs(datos) {
     var aux = document.getElementById("list-PDFs");
     var aux2 = aux.getElementsByTagName("A");
     for (var j = 0; j < aux2.length; j++) {
-        if(datos[j] != undefined ){
+        if (datos[j] != undefined) {
             aux2[j].innerHTML = datos[j]['titulo'];
-        }else{
+        } else {
             var padre = aux2[j].parentNode.parentNode;
             padre.removeChild(aux2[j].parentNode);
             j--;
-        }  
+        }
     }
 };
 
 //Guardamos el estudio en la bd
-function guardarEstudio() {
-    var name = document.getElementById("nombre").value;
-    var estudio = {
-        "nombre": name,
-        "comparativa": []
-    };
-    var aux = '{{ data|safe }}'
-    var datos = JSON.parse(aux);
+// function guardarEstudio() {
+//     var name = document.getElementById("nombre").value;
+//     var estudio = {
+//         "nombre": name,
+//         "comparativa": []
+//     };
+//     var aux = '{{ data|safe }}'
+//     var datos = JSON.parse(aux);
 
-    for (var i in datos) {
-        var item = datos[i];
-        estudio.comparativa.push(item);
-    }
-    $.ajax({
-        type: 'POST',
-        url: "/new",
-        data: JSON.stringify(estudio),
-        contentType: "application/json",
-        encode: true,
-        success: function (data) {
-            alert("Estudio añadido!!! :) ");
-            window.location.href = "/";
-        },
-        error: function (data) {
-            alert("Algo ha fallado!!! :( ");
-        }
-    });
-    event.preventDefault();
-};
+//     for (var i in datos) {
+//         var item = datos[i];
+//         estudio.comparativa.push(item);
+//     }
+//     $.ajax({
+//         type: 'POST',
+//         url: "/new",
+//         data: JSON.stringify(estudio),
+//         contentType: "application/json",
+//         encode: true,
+//         success: function (data) {
+//             alert("Estudio añadido!!! :) ");
+//             window.location.href = "/";
+//         },
+//         error: function (data) {
+//             alert("Algo ha fallado!!! :( ");
+//         }
+//     });
+//     event.preventDefault();
+// };
+
+// var actualizar
+// //Rellenamos los datos de la tabla
+// $(document).ready(function () {
+//     var aux = {{ data|safe }}
+//     console.log(aux)
+//     var datos = JSON.parse(aux)
+//     if (datos.hasOwnProperty('id')) {
+//         $.ajax({
+//             type: 'POST',
+//             url: "/verDetalles",
+//             data: aux,
+//             contentType: "application/json",
+//             encode: true,
+//             success: function rellena(data) {
+//                 actualizar = data
+//                 tablaHtml(data['comparativa'])
+//                 document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
+//                 getPDFs(data['comparativa']);
+//                 //Actualizamos el boton
+//                 document.getElementById("botonEstudio").setAttribute("onclick", "actualizarEstudio()");
+//                 document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
+//                 document.getElementById("nombre").value = data['nombre']
+//             },
+//             error: function (data) {
+//                 alert("Algo ha fallado!!! :( ");
+//                 console.log(data)
+//             }
+//         });
+//     } else {
+//         tablaHtml(datos)
+//         document.getElementById("listaAneca").value = aux;
+//         getPDFs(datos);
+//     }
+// });
 
 //Guardamos el estudio en la bd
 function actualizarEstudio() {
@@ -183,21 +303,5 @@ function actualizarEstudio() {
     actualizar.nombre = name
     //Aqui tendriamos que cojer los datos de la tabla(han eliminado archivos, han añadido archivos)
     //actualizar.comparativa = 
-    console.log(actualizar)
     alert("funciona");
 };
-
-
-// Show the first tab by default
-$('.tabs-stage div').hide();
-$('.tabs-stage div:first').show();
-$('.tabs-nav li:first').addClass('tab-active');
-
-// Change tab class and display content
-$('.tabs-nav a').on('click', function (event) {
-    event.preventDefault();
-    $('.tabs-nav li').removeClass('tab-active');
-    $(this).parent().addClass('tab-active');
-    $('.tabs-stage div').hide();
-    $($(this).attr('href')).show();
-});

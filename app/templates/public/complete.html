@@ -3,11 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>index</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
-        integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
     <!-- Style  -->
     <link rel="stylesheet" type="text/css" href="/templates/public/css/complete.css">
+    <!-- Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+        integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 
 </head>
 
@@ -20,22 +25,21 @@
             </li>
         </ul>
     </nav>
+
     <!-- Formulario para recoger el nombre del estudio-->
     <div class="container">
         <div class="row">
             <div class="col-md">
                 <div class="form-group">
-                    <form id="formulario" action="{{url_for('getExcel')}}" method="POST">
-                        <br>
-                        <br>
-                        <br>
-                        <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio:</label>
-                        <input type="text" class="form-control" id="nombre" name="pynombre">
-                        <br>
+                    <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
+                        <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
+                        <input type="text" class="form-control" id="nombre" name="pynombre" placeholder="Nombre del">
+                        <a class="btn btn-new"> Añadir archivo</a>
+                        <a class="btn btn-compare">Vista comparativa</a>
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
-                        <input type="submit" class="btn-lg btn-primary" value="Bajar Archivo">
-                        <button onclick="guardarEstudio()" id="botonEstudio" type="button"
-                            class="btn-lg btn-primary">Guardar Estudio</button>
+                        <input type="submit" class="btn btn-pdf" value="Descargar">
+                        <button onclick="guardarEstudio()" id="botonEstudio" type="button" class="btn btn-next">Guardar
+                            Estudio</button>
                     </form>
                 </div>
             </div>
@@ -52,48 +56,8 @@
                 <li><a href="#tab-7"></a></li>
                 <li><a href="#tab-8"></a></li>
             </ul>
-            <div class="tabs-stage">
-                <div id="tab-1">
-                    <p id="listado"></p>
-                </div>
-                <div id="tab-2">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna auctor
-                        at.</p>
-                </div>
-                <div id="tab-3">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
-                        auctor
-                        at.</p>
-                </div>
-                <div id="tab-4">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
-                        auctor
-                        at.</p>
-                </div>
-                <div id="tab-5">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
-                        auctor
-                        at.</p>
-                </div>
-                <div id="tab-6">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
-                        auctor
-                        at.</p>
-                </div>
-                <div id="tab-7">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
-                        auctor
-                        at.</p>
-                </div>
-                <div id="tab-8">
-                    <p>Phasellus pharetra aliquet viverra. Donec scelerisque tincidunt diam, eu fringilla urna
-                        auctor
-                        at.</p>
-                </div>
-
-            </div>
+            <div class="tabs-stage" id="listado"></div>
         </div>
-
 
         <!-- Listado con los items -->
         <div id="listado"></div>
@@ -119,6 +83,7 @@
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
+        console.log('ESTO FUNCIONA' + aux)
         var datos = JSON.parse(aux)
         if (datos.hasOwnProperty('id')) {
             $.ajax({
@@ -148,4 +113,36 @@
             getPDFs(datos);
         }
     });
+
+
+    // Guardamos el estudio en la bd
+    function guardarEstudio() {
+        var name = document.getElementById("nombre").value;
+        var estudio = {
+            "nombre": name,
+            "comparativa": []
+        };
+        var aux = '{{ data|safe }}'
+        var datos = JSON.parse(aux);
+
+        for (var i in datos) {
+            var item = datos[i];
+            estudio.comparativa.push(item);
+        }
+        $.ajax({
+            type: 'POST',
+            url: "/new",
+            data: JSON.stringify(estudio),
+            contentType: "application/json",
+            encode: true,
+            success: function (data) {
+                alert("Estudio añadido!!! :) ");
+                window.location.href = "/";
+            },
+            error: function (data) {
+                alert("Algo ha fallado!!! :( ");
+            }
+        });
+        event.preventDefault();
+    };
 </script>

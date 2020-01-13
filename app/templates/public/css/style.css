@@ -205,10 +205,31 @@ input#search-bar>focus> :-ms-placeholder {
 
 
 .search-icon {
-    position: relative;
-    float   : right;
-    width   : 75px;
-    height  : 75px;
-    top     : -62px;
+    position   : relative;
+    float      : right;
+    width      : 75px;
+    height     : 75px;
+    top        : -62px;
     /* right   : -45px; */
+}
+
+
+
+
+
+table th,
+table td {
+    text-align: center;
+}
+
+table tr:nth-child(even) {
+    background-color: #BEF2F5
+}
+
+.pagination li:hover {
+    cursor: pointer;
+}
+
+table tbody tr {
+    display: none;
 }

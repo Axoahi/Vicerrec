@@ -149,9 +149,9 @@ def archivoPermitido(fileName):
 
 
 # Procesamiento de subida de archivo, previo a muestra de
-@app.route("/newEst", methods=['POST', 'GET'])
-def newEstudio():
-    return render_template('public/mongoDB.html')
+# @app.route("/newEst", methods=['POST', 'GET'])
+# def newEstudio():
+#     return render_template('public/mongoDB.html')
 
 
 @app.route("/new", methods=['POST'])
@@ -162,9 +162,9 @@ def crearNuevoEstudio():
 
 
 # Listado de estudios
-@app.route("/listado", methods=['POST', 'GET'])
-def listado():
-    return render_template('public/mongoDB.html')
+# @app.route("/listado", methods=['POST', 'GET'])
+# def listado():
+#     return render_template('public/mongoDB.html')
 
 
 @app.route("/list", methods=['POST', 'GET'])
@@ -180,7 +180,7 @@ def listaEstudios():
     return Response(json.dumps(listadoJson),  mimetype='application/json')
 
 
-# Detalles de un estudio
+# INICIO Detalles de un estudio
 @app.route("/detalles/<id>", methods=["GET"])
 def detalles(id):
     datajson = {"id": id}
@@ -193,6 +193,7 @@ def verDetalles():
     detalles = mongoDB.findEstudio(data['id'])
     detalles['_id'] = str(detalles['_id'])
     return Response(json.dumps(detalles), mimetype='application/json')
+# FIN Detalles de un estudio
 
 
 # Actualizar un estudio
