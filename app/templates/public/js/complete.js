@@ -265,7 +265,6 @@ function getPDFs(datos) {
 // //Rellenamos los datos de la tabla
 // $(document).ready(function () {
 //     var aux = {{ data|safe }}
-//     console.log(aux)
 //     var datos = JSON.parse(aux)
 //     if (datos.hasOwnProperty('id')) {
 //         $.ajax({

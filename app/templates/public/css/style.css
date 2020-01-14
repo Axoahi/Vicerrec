@@ -118,8 +118,13 @@ h1 {
 .it .btn-check {
     cursor     : pointer;
     line-height: 54px;
-    color      : red;
+    color      : #849ACF;
 }
+.it .btn-check:hover {
+    color      : #ED6B47;
+}
+
+
 
 .it .uploadDoc {
     margin-bottom: 20px;
@@ -217,14 +222,14 @@ input#search-bar>focus> :-ms-placeholder {
 
 
 
-table th,
+/* table th,
 table td {
     text-align: center;
-}
+} */
 
-table tr:nth-child(even) {
+/* table tr:nth-child(even) {
     background-color: #BEF2F5
-}
+} */
 
 .pagination li:hover {
     cursor: pointer;

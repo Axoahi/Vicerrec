@@ -83,7 +83,6 @@
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
-        console.log('ESTO FUNCIONA' + aux)
         var datos = JSON.parse(aux)
         if (datos.hasOwnProperty('id')) {
             $.ajax({

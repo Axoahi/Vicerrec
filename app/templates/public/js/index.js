@@ -1,6 +1,7 @@
 //onInit()
 $(document).ready(function () {
     rellenaEstudios();
+    getPagination('#myTable');
 });
 
 function rellenaEstudios() {
@@ -48,21 +49,8 @@ function eliminarEstudio(aux) {
     event.preventDefault();
 }
 
-// function readURL(input) {
-//     if (input.files && input.files[0]) {
-//         var reader = new FileReader();
-
-//         reader.onload = function (e) {
-//             $('#blah')
-//                 .attr('src', e.target.result);
-//         };
-
-//         reader.readAsDataURL(input.files[0]);
-//     }
-// }
-
-
-var fileTypes = ['pdf', 'docx', 'rtf', 'jpg', 'jpeg', 'png', 'txt'];  //acceptable file types
+//var fileTypes = ['pdf', 'docx', 'rtf', 'jpg', 'jpeg', 'png', 'txt'];  //acceptable file types
+var fileTypes = ['pdf'];  //acceptable file types
 function readURL(input) {
     if (input.files && input.files[0]) {
         var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
@@ -121,7 +109,7 @@ $(document).ready(function () {
     });
 
     $(".btn-new").on('click', function () {
-        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Upload document</span><input type="file" class="upload up" id="up" onchange="readURL(this);" /></div></div><div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div></div>');
+        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Upload document</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
     });
 
     $(document).on("click", "a.btn-check", function () {
@@ -133,19 +121,7 @@ $(document).ready(function () {
     });
 });
 
-
-
-
-
-
-
-
-
-getPagination('#myTable');
-//getPagination('.table-class');
-//getPagination('table');
-
-/*					PAGINATION 
+/*PAGINATION 
 - on change max rows select options fade out all rows gt option value mx = 5
 - append pagination list as per numbers of rows / max rows option (20row/5= 4pages )
 - each pagination li on click -> fade out all tr gt max rows * li num and (5*pagenum 2 = 10 rows)
@@ -153,14 +129,10 @@ getPagination('#myTable');
 - fade in all tr between (maxRows*PageNum) and (maxRows*pageNum)- MaxRows 
 */
 
-
 function getPagination(table) {
     var lastPage = 1;
-
     $('#maxRows')
         .on('change', function (evt) {
-            //$('.paginationprev').html('');						// reset pagination
-
             lastPage = 1;
             $('.pagination')
                 .find('li')
@@ -168,20 +140,17 @@ function getPagination(table) {
                 .remove();
             var trnum = 0; // reset tr counter
             var maxRows = parseInt($(this).val()); // get Max Rows from select option
-
             if (maxRows == 5000) {
                 $('.pagination').hide();
             } else {
                 $('.pagination').show();
             }
-
             var totalRows = $(table + ' tbody tr').length; // numbers of rows
             $(table + ' tr:gt(0)').each(function () {
                 // each TR in  table and not the header
                 trnum++; // Start Counter
                 if (trnum > maxRows) {
                     // if tr number gt maxRows
-
                     $(this).hide(); // fade it out
                 }
                 if (trnum <= maxRows) {
@@ -205,8 +174,8 @@ function getPagination(table) {
             </li>'
                         )
                         .show();
-                } // end for i
-            } // end if row count > max rows
+                } 
+            } 
             $('.pagination [data-page="1"]').addClass('active'); // add active class to the first li
             $('.pagination li').on('click', function (evt) {
                 // on click each page
@@ -233,7 +202,6 @@ function getPagination(table) {
                 var trIndex = 0; // reset tr counter
                 $('.pagination li').removeClass('active'); // remove active class from all li
                 $('.pagination [data-page="' + lastPage + '"]').addClass('active'); // add active class to the clicked
-                // $(this).addClass('active');					// add active class to the clicked
                 limitPagging();
                 $(table + ' tr:gt(0)').each(function () {
                     // each tr in table not the header
@@ -246,22 +214,16 @@ function getPagination(table) {
                         $(this).hide();
                     } else {
                         $(this).show();
-                    } //else fade in
-                }); // end of for each tr in table
-            }); // end of on click pagination list
+                    }
+                }); 
+            }); 
             limitPagging();
         })
         .val(5)
         .change();
-
-    // end of on select change
-
-    // END OF PAGINATION
 }
 
 function limitPagging() {
-    // alert($('.pagination li').length)
-
     if ($('.pagination li').length > 7) {
         if ($('.pagination li.active').attr('data-page') <= 3) {
             $('.pagination li:gt(5)').hide();
@@ -272,24 +234,17 @@ function limitPagging() {
             $('.pagination [data-page="next"]').show();
             for (let i = (parseInt($('.pagination li.active').attr('data-page')) - 2); i <= (parseInt($('.pagination li.active').attr('data-page')) + 2); i++) {
                 $('.pagination [data-page="' + i + '"]').show();
-
             }
-
         }
     }
 }
 
 $(function () {
-    // Just to append id number for each row
     $('table tr:eq(0)').prepend('<th> ID </th>');
-
     var id = 0;
-
     $('table tr:gt(0)').each(function () {
         id++;
         $(this).prepend('<td>' + id + '</td>');
     });
 });
 
-//  Developed By Yasser Mas
-// yasser.mas2@gmail.com
