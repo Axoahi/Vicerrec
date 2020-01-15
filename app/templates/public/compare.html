@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Estudio</title>
+    <!-- Style  -->
+    <link rel="stylesheet" type="text/css" href="/templates/public/css/compare.css">
+    <!-- Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+        integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="menu navbar navbar-light">
+        <a class="navbar-brand">PDF inspect</a>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Salir <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="form-group">
+                    <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
+                        <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
+                        <input type="text" class="form-control" id="nombre" name="pynombre" placeholder="Nombre del">
+                        <a class="btn btn-new"> Añadir archivo</a>
+                        <a class="btn btn-compare" href="/complete">Vista detalle</a>
+                        <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
+                        <input type="submit" class="btn btn-pdf" value="Descargar">
+                        <button onclick="guardarEstudio()" id="botonEstudio" type="button" class="btn btn-next">Guardar
+                            Estudio</button>
+                    </form>
+                </div>
+            </div>
+    </section>
+
+    <section>
+        <div id="table-scroll" class="table-scroll">
+            <table id="main-table" class="main-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Documento</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Año</th>
+                        <th scope="col">Organización y desarrollo</th>
+                        <th scope="col">Información y trasparencia</th>
+                        <th scope="col">SGIC</th>
+                        <th scope="col">Personal Académico</th>
+                        <th scope="col">Personal Apoyo y Recursos materiales</th>
+                        <th scope="col">Resultados</th>
+                        <th scope="col">Indicadores satisfacción y rendimiento</th>
+                        <th scope="col">FINAL TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>First top Column</th>
+                        <td>Cell content<br>
+                            test </td>
+                        <td><a href="#">Cell content longer</a></td>
+                        <td>Cell content with more content and more content Cell </td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                    </tr>
+                    <tr>
+                        <th>Máster Universitario en Optometría Avanzada y Salud Visual por la Universidad de Alicante</th>
+                        <td>4314867</td>
+                        <td>2014</td>
+                        <td>Se alcanza</td>
+                        <td>Se alcanza</td>
+                        <td>Se alcanza parcialmente</td>
+                        <td>Se alcanza</td>
+                        <td>Se alcanza</td>
+                        <td>Se alcanza</td>
+                        <td>Se alcanza parcialmente</td>
+                        <td>Se alcanza</td>
+                    </tr>
+                    <tr>
+                        <th>Left Column</th>
+                        <td>Cell content</td>
+                        <td><a href="#">Cell content longer</a></td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                    </tr>
+                    <tr>
+                        <th>Left Column</th>
+                        <td>Cell content</td>
+                        <td>Cell content longer</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                    </tr>
+                    <tr>
+                        <th>Left Column</th>
+                        <td>Cell content</td>
+                        <td>Cell content longer</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                        <td>Cell content</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- https://codepen.io/shyam3x3x3x/pen/vYEroPo -->
+
+
+</body>
+
+</html>
+<!-- jQuery,Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+    integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="/templates/public/js/compare.js"></script>

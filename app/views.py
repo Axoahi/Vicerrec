@@ -24,6 +24,7 @@ app.config["CLIENT_DIRECTORY"] = os.getcwd() + "/data/"
 def root_dir():  # pragma: no cover
     return os.path.abspath(os.path.dirname(__file__))
 
+
 def get_file(filename):  # pragma: no cover
     try:
         src = os.path.join(root_dir(), filename)
@@ -42,27 +43,7 @@ def get_file(filename):  # pragma: no cover
 def index():
     return render_template("/public/index.html")
 
-#  Carga de css y js
-@app.route('/<path:path>')
-def get_resource(path):  # pragma: no cover
-    mimetypes = {
-        ".css": "text/css",
-        ".html": "text/html",
-        ".js": "application/javascript",
-    }
-    complete_path = os.path.join(root_dir(), path)
-    ext = os.path.splitext(path)[1]
-    mimetype = mimetypes.get(ext, "text/html")
-    content = get_file(complete_path)
-    return Response(content, mimetype=mimetype)
-
-
-# Página de carga de archivos
-@app.route("/upload", methods=['POST', 'GET'])
-def loadWebpage():
-    return render_template("public/upload.html")
-
-# Procesamiento de subida de archivo, previo a muestra de
+# Página complete
 @app.route("/complete", methods=['POST', "GET"])
 def upload():
     # Borramos todos los archivos excel que existan previamente en el servidor
@@ -104,6 +85,24 @@ def upload():
                     print("El archivo no existe")
     return render_template("public/complete.html", data=json.dumps(textoSacado))
 
+# Página compare
+@app.route("/compare")
+def compare():
+    return render_template("/public/compare.html")
+
+#  Carga de css y js
+@app.route('/<path:path>')
+def get_resource(path):  # pragma: no cover
+    mimetypes = {
+        ".css": "text/css",
+        ".html": "text/html",
+        ".js": "application/javascript",
+    }
+    complete_path = os.path.join(root_dir(), path)
+    ext = os.path.splitext(path)[1]
+    mimetype = mimetypes.get(ext, "text/html")
+    content = get_file(complete_path)
+    return Response(content, mimetype=mimetype)
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
@@ -122,7 +121,7 @@ def getExcel():
     except FileNotFoundError:
         abort(404)
 
-
+# borrado de un excel 
 @app.route("/borraExcel", methods=['POST'])
 def borraExcel():
     nombre = request.form["pynombre"]
@@ -133,7 +132,6 @@ def borraExcel():
         print("Archivo Excel eliminado")
     else:
         print("El archivo Excel no existe")
-
 
 def archivoPermitido(fileName):
     # 1 seg: Se mira que sea un archivo.
@@ -148,25 +146,13 @@ def archivoPermitido(fileName):
         return False
 
 
-# Procesamiento de subida de archivo, previo a muestra de
-# @app.route("/newEst", methods=['POST', 'GET'])
-# def newEstudio():
-#     return render_template('public/mongoDB.html')
-
-
 @app.route("/new", methods=['POST'])
 def crearNuevoEstudio():
     estudio = request.get_json()
     id = mongoDB.crearEstudio(estudio)
     return render_template("public/complete.html")
 
-
-# Listado de estudios
-# @app.route("/listado", methods=['POST', 'GET'])
-# def listado():
-#     return render_template('public/mongoDB.html')
-
-
+# Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
     response = mongoDB.listaEstudios()
@@ -179,34 +165,33 @@ def listaEstudios():
         listadoJson.append(element)
     return Response(json.dumps(listadoJson),  mimetype='application/json')
 
+# Ruta para comparativa guardada
+@app.route("/compare/<id>", methods=["GET"])
+def getIdStudyComparative(id):
+    datajson = {"id": id}
+    return render_template("public/compare.html", data=json.dumps(datajson))
 
-# INICIO Detalles de un estudio
+
+# Ruta para detalle guardado
 @app.route("/detalles/<id>", methods=["GET"])
 def detalles(id):
     datajson = {"id": id}
     return render_template("public/complete.html", data=json.dumps(datajson))
 
-
+# Carga de estudio 
 @app.route("/verDetalles", methods=['POST', 'GET'])
 def verDetalles():
     data = request.get_json(force=True)
     detalles = mongoDB.findEstudio(data['id'])
     detalles['_id'] = str(detalles['_id'])
     return Response(json.dumps(detalles), mimetype='application/json')
-# FIN Detalles de un estudio
 
-
-# Actualizar un estudio
+# Actualizar un estudio (hay que hacerlo)
 @app.route("/actualizar", methods=['POST', 'GET'])
 def actualizar():
-    return render_template('public/mongoDB.html')
+    return render_template('public/complete.html')
 
-# Detalles de un estudio
-@app.route("/borrar", methods=['POST', 'GET'])
-def borrar():
-    return render_template('public/mongoDB.html')
-
-
+# Borrado de estudio (cuando borra no actualiza la lista)
 @app.route("/borrarEstudio", methods=['POST', 'GET'])
 def borrarEstudio():
     estudio = request.get_json(force=True)

@@ -1,5 +1,3 @@
-
-
 function tablaHtml(datos) {
     var htmlTable = ""
 
@@ -27,7 +25,6 @@ function tablaHtml(datos) {
             "</section>" +
             "<section class='row'>" +
             "<section class='col'>" +
-
             "<section class='row'>" +
             "<section class='col'>" +
             "<h4>GESTIÓN DE TÍTULO</h4>" +
