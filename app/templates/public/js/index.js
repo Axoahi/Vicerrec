@@ -26,7 +26,7 @@ function rellenaEstudios() {
 function verEstudio(aux) {
     var id = aux.substr(1)
     var estudio = JSON.stringify({ "id": id })
-    window.location.href = "/detalles/" + id
+    window.location.href = "/detail/" + id
 }
 
 function eliminarEstudio(aux) {

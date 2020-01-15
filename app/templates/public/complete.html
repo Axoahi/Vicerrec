@@ -32,11 +32,12 @@
                 <div class="form-group">
                     <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
                         <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
-                        <input type="text" class="form-control" id="nombre" name="pynombre" placeholder="Nombre del">
+                        <input type="text" class="form-control" id="nombre" name="pynombre" placeholder="Nombre del estudio">
                         <a class="btn btn-new"> Añadir archivo</a>
                         <input class="btn btn-compare" onclick="goComparativeInterface();" value="Vista comparativa">
                         <!-- href="/compare" -->
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
+                        <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
                         <input type="submit" class="btn btn-pdf" value="Descargar">
                         <button onclick="guardarEstudio()" id="botonEstudio" type="button" class="btn btn-next">Guardar
                             Estudio</button>
@@ -84,7 +85,6 @@
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
-        console.log(aux)
         var datos = JSON.parse(aux)
         idStudy = datos.id
         if (datos.hasOwnProperty('id')) {
@@ -117,9 +117,13 @@
     });
 
     function goComparativeInterface() {
-        window.location.href = "/compare/" + idStudy
+       
+        if (idStudy != undefined) {
+            window.location.href = "/compare/" + idStudy
+        } else {
+            window.location.href = "/compare/" + idStudy
+        }
     }
-
 
     // Guardamos el estudio en la bd
     function guardarEstudio() {
