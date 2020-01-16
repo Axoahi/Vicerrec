@@ -10,7 +10,8 @@ import json
 tika.initVM()
 
 
-def extraeInfo(fileName):
+def extraeInfo(fileName, acepUser):
+
     ###### BÚSQUEDA DE RECOMENDACIONES ################################
     recomendaciones = [['curriculum', 'currículum', 'currícula', 'curricula'],
                        ['docentia', 'DOCENTIA', 'Docentia'],
@@ -19,6 +20,11 @@ def extraeInfo(fileName):
                        ['se recomienda', 'se aconseja', 'optimizar', 'revisar', 'baja respuesta',
                         'baja participación', 'baja satisfacción', 'insatisfacción', 'abandono',
                         'se debe', 'se propone', 'CAT']]
+
+    for i in range(len(recomendaciones)):
+        recomendaciones[i] = recomendaciones[i] + acepUser[i]
+
+    print(recomendaciones)
 
     parsed = parser.from_file(fileName)
     textoraw = parsed['content']

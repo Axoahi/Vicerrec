@@ -44,29 +44,31 @@ def aplanarRecomendaciones(lista):
     return recomendacion
 
 def exportarExcel(nombreExcel, listadoJSON):
-    lista = ["codigo","titulo", "anyo","crit1","crit2","crit3","crit4","crit5","crit6","crit7","final","curriculum","docentia","web","coordinacion","otras"]
+    lista = ["Código","Título", "Año","Organización y desarrollo","Información y transparencia","SGIC",
+             "Personal Académico","Apoyo y recursos materiales","Resultados","Indicadores","Nota Final",
+             "CURRÍCULUM","DOCENTIA","WEB","COORDINACIÓN","OTRAS"]
     df = pd.DataFrame(columns=lista)
     for i in range(0,len(listadoJSON)):
         print("ITERACION;", i)
         item = listadoJSON[i]
-        codigo = item["codigo"]
-        titulo = item["titulo"]
-        anyo = item["anyo"]
-        crit1 = item["gestiontitulo"]["organizacionydesarrollo"]
-        crit2 = item["gestiontitulo"]["informacionytransparencia"]
-        crit3 = item["gestiontitulo"]["SGIC"]
-        crit4 = item["recursos"]["personalacademico"]
-        crit5 = item["recursos"]["apoyoyrecursosmateriales"]
-        crit6 = item["resultados"]["resultados"]
-        crit7 = item["resultados"]["indicadores"]
-        final = item["finaltotal"]
+        Codigo = item["codigo"]
+        Titulo = item["titulo"]
+        Anyo = item["anyo"]
+        Organizacion_y_desarrollo = item["gestiontitulo"]["organizacionydesarrollo"]
+        Informacion_y_transparencia = item["gestiontitulo"]["informacionytransparencia"]
+        SGIC = item["gestiontitulo"]["SGIC"]
+        Personal_academico = item["recursos"]["personalacademico"]
+        Apoyo_y_recursos_materiales = item["recursos"]["apoyoyrecursosmateriales"]
+        Resultados = item["resultados"]["resultados"]
+        Indicadores = item["resultados"]["indicadores"]
+        Nota_Final = item["finaltotal"]
         curriculum = aplanarRecomendaciones(item["recomendaciones"]["curriculum"])
         docentia = aplanarRecomendaciones(item["recomendaciones"]["docentia"])
         web = aplanarRecomendaciones(item["recomendaciones"]["web"])
         coordinacion = aplanarRecomendaciones(item["recomendaciones"]["coordinacion"])
         otras = aplanarRecomendaciones(item["recomendaciones"]["otras"])
        
-        data = [codigo,titulo,anyo,crit1,crit2,crit3,crit4,crit5,crit6,crit7,final,curriculum,docentia,web,coordinacion,otras]
+        data = [Codigo,Titulo,Anyo,Organizacion_y_desarrollo,Informacion_y_transparencia,SGIC,Personal_academico,Apoyo_y_recursos_materiales,Resultados,Indicadores,Nota_Final,curriculum,docentia,web,coordinacion,otras]
         df_item = pd.DataFrame([data],columns=lista)
         df = df.append(df_item)
     df.to_excel(os.getcwd() + "/data/" + nombreExcel + ".xls")
