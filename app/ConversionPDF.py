@@ -411,11 +411,15 @@ def reordena(frases, otrosJSON, recomendaciones):
                     listaOrdenada[intcc].append(sent)
 
     ###Añadimos las frases de Otros
-    # 1ro flateamos el JSON y eliminamos listas vacías
+    # 1ro Flateamos el JSON y eliminamos listas vacías
     merged = itertools.chain(*otrosJSON)
     flated = list(merged)
     cleanSent = [x for x in flated if x != '[]']
     listaOrdenada.append(cleanSent)
+    # 2do Eliminamos duplicados convirtiendo a dict y a list
+    listaSinDup = []
+    for i in listaOrdenada:
+        listaSinDup.append(list(dict.fromkeys(i)))
 
     # Devolvemos la lista ordenada a la cuál se le ha anexado listaOtros flateada
-    return (listaOrdenada)
+    return (listaSinDup)
