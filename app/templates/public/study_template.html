@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>index</title>
+    <!-- Style  -->
+    <link rel="stylesheet" type="text/css" href="/templates/public/css/study.css">
+    <!-- Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+        integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="menu navbar navbar-light">
+        <a class="navbar-brand">PDF inspect</a>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Salir <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="form-group">
+                    <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
+                        <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
+                        <input type="text" class="form-control" id="nombre" name="pynombre"
+                            placeholder="Nombre del estudio">
+                        <a class="btn btn-new"> Añadir archivo</a>
+                        <input class="btn btn-compare" onclick="goComparativeInterface();" value="Vista comparativa">
+                        <!-- href="/compare" -->
+                        <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
+                        <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
+                        <input type="submit" class="btn btn-pdf" value="Descargar">
+                        <button onclick="guardarEstudio()" id="botonEstudio" type="button" class="btn btn-next">Guardar
+                            Estudio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- vista detalle  -->
+    {% block content_detail %}
+    {% endblock %}
+    <!-- vista comparativa -->
+    {% block content_tabla %}
+    {% endblock %}
+</body>
+
+</html>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+    integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="/templates/public/js/study.js"></script>
+
+<script>
+    var actualizar
+    var idStudy
+    //Rellenamos los datos de la tabla
+    $(document).ready(function () {
+        var aux = '{{ data|safe }}'
+        var datos = JSON.parse(aux)
+        idStudy = datos.id
+        if (datos.hasOwnProperty('id')) {
+            $.ajax({
+                type: 'POST',
+                url: "/verDetalles",
+                data: aux,
+                contentType: "application/json",
+                encode: true,
+                success: function rellena(data) {
+                    actualizar = data
+                    detailHtml(data['comparativa'])
+                    document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
+                    getPDFs(data['comparativa']);
+                    //Actualizamos el boton
+                    document.getElementById("botonEstudio").setAttribute("onclick", "actualizarEstudio()");
+                    document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
+                    document.getElementById("nombre").value = data['nombre']
+                },
+                error: function (data) {
+                    alert("Algo ha fallado!!! :( ");
+                    console.log(data)
+                }
+            });
+        } else {
+            detailHtml(datos)
+            document.getElementById("listaAneca").value = aux;
+            getPDFs(datos);
+        }
+    });
+
+    function goComparativeInterface() {
+
+        if (idStudy != undefined) {
+            window.location.href = "/compare/" + idStudy
+        } else {
+            window.location.href = "/compare/" + idStudy
+        }
+    }
+
+    // Guardamos el estudio en la bd
+    function guardarEstudio() {
+        var name = document.getElementById("nombre").value;
+        var estudio = {
+            "nombre": name,
+            "comparativa": []
+        };
+        var aux = '{{ data|safe }}'
+        var datos = JSON.parse(aux);
+
+        for (var i in datos) {
+            var item = datos[i];
+            estudio.comparativa.push(item);
+        }
+        $.ajax({
+            type: 'POST',
+            url: "/new",
+            data: JSON.stringify(estudio),
+            contentType: "application/json",
+            encode: true,
+            success: function (data) {
+                alert("Estudio añadido!!! :) ");
+                window.location.href = "/";
+            },
+            error: function (data) {
+                alert("Algo ha fallado!!! :( ");
+            }
+        });
+        event.preventDefault();
+    };
+</script>

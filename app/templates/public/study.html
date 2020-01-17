@@ -1,0 +1,46 @@
+{% extends 'public/study.html'%}
+
+{% block content_detail %}
+<div class="container">
+    <div class="tabs">
+        <ul class="tabs-nav" id="list-PDFs">
+            <li><a href="#tab-1"></a></li>
+            <li><a href="#tab-2"></a></li>
+            <li><a href="#tab-3"></a></li>
+            <li><a href="#tab-4"></a></li>
+            <li><a href="#tab-5"></a></li>
+            <li><a href="#tab-6"></a></li>
+            <li><a href="#tab-7"></a></li>
+            <li><a href="#tab-8"></a></li>
+        </ul>
+        <div class="tabs-stage" id="listado"></div>
+    </div>
+    <div id="listado"></div>
+</div>
+{% endblock %}
+
+{% block content_tabla %}
+<section class="comparative">
+    <div id="table-scroll" class="table-scroll">
+        <table id="main-table" class="main-table">
+            <thead>
+                <tr>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">Organización y desarrollo</th>
+                    <th scope="col">Información y trasparencia</th>
+                    <th scope="col">SGIC</th>
+                    <th scope="col">Personal Académico</th>
+                    <th scope="col">Personal Apoyo y Recursos materiales</th>
+                    <th scope="col">Resultados</th>
+                    <th scope="col">Indicadores satisfacción y rendimiento</th>
+                    <th scope="col">FINAL TOTAL</th>
+                </tr>
+            </thead>
+            <tbody id="listDocs">
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
