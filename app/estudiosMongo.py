@@ -20,8 +20,8 @@ def findEstudio(id):
 	estudio = collection.find({'_id': ObjectId(id)})
 	return estudio[0]
 
-def actualizarEstudio(id, estudio):
-	collection.replace_one({'_id': ObjectId(id)},estudio)
+def actualizarEstudio(estudio):
+	collection.replace_one({'_id': ObjectId(estudio['id'])},estudio)
 	return id
 
 def borrarEstudio(id):

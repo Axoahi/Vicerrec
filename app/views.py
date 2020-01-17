@@ -170,12 +170,16 @@ def GuardarEstudio():
 # Actualizar un estudio
 @app.route("/actualizar", methods=['POST', 'GET'])
 def actualizar():
-    return render_template('public/complete.html')
+    estudio = request.get_json(force=True)
+    done = estudiosMongo.actualizarEstudio(estudio)
+    print(done)
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
     response = estudiosMongo.listaEstudios()
+    print(response)
     listadoJson = []
     for item in response:
         element = {
@@ -208,11 +212,12 @@ def verAcepciones():
     acepciones['_id'] = str(acepciones['_id'])
     return Response(json.dumps(acepciones), mimetype='application/json')
 
-@app.route("/updateMeaning"), methods=['POST']
+@app.route("/updateMeaning", methods=['POST'])
 def updateAcepcion():
     listaAcepciones = request.get_json(force=True)
-    
-
+    listaAcepciones['user'] = 'default'
+    acepcion = acepcionesMongo.actualizarAcepcion('default',listaAcepciones)
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True)
