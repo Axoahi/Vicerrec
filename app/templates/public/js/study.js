@@ -218,18 +218,18 @@ function tablaHtml(datos) {
     for (var i = 0; i < datos.length; i++) {
         htmlTable +=
             '<tr>' +
-            '<th>' + datos[i]['titulo']  + '</th>' +
-            '<td>' + datos[i]['codigo']  + '</td>' +
-            '<td>' + datos[i]['anyo']  + '</td>' +
-            '<td>' + datos[i]['gestiontitulo']['organizacionydesarrollo']  + '</td>' +
-            '<td>' + datos[i]['gestiontitulo']['informacionytransparencia']  + '</td>' +
-            '<td>' + datos[i]['gestiontitulo']['SGIC']  + '</td>' +
-            '<td>' + datos[i]['recursos']['personalacademico']  + '</td>' +
-            '<td>' + datos[i]['recursos']['apoyoyrecursosmateriales']  + '</td>' +
-            '<td>' + datos[i]['resultados']['resultados']  + '</td>' +
-            '<td>' + datos[i]['resultados']['indicadores']  + '</td>' +
-            '<td>' + datos[i]['finaltotal']  + '</td>' +
-            "</tr>" 
+            '<th>' + datos[i]['titulo'] + '</th>' +
+            '<td>' + datos[i]['codigo'] + '</td>' +
+            '<td>' + datos[i]['anyo'] + '</td>' +
+            '<td>' + datos[i]['gestiontitulo']['organizacionydesarrollo'] + '</td>' +
+            '<td>' + datos[i]['gestiontitulo']['informacionytransparencia'] + '</td>' +
+            '<td>' + datos[i]['gestiontitulo']['SGIC'] + '</td>' +
+            '<td>' + datos[i]['recursos']['personalacademico'] + '</td>' +
+            '<td>' + datos[i]['recursos']['apoyoyrecursosmateriales'] + '</td>' +
+            '<td>' + datos[i]['resultados']['resultados'] + '</td>' +
+            '<td>' + datos[i]['resultados']['indicadores'] + '</td>' +
+            '<td>' + datos[i]['finaltotal'] + '</td>' +
+            "</tr>"
     }
     document.getElementById("listDocs").innerHTML = htmlTable;
 };
@@ -249,12 +249,27 @@ function getPDFs(datos) {
     }
 };
 
+
+function showComparative() {
+    document.getElementById("detail").style.display = "none"
+    document.getElementById("comparative").style.display = "block"
+    document.getElementById("view").value = "Vista detalle"
+    document.getElementById("view").setAttribute("onclick", "showDetail()")
+
+}
+
+function showDetail() {
+    document.getElementById("detail").style.display = "block";
+    document.getElementById("comparative").style.display = "none";
+    document.getElementById("view").value = "Vista comparativa"
+    document.getElementById("view").setAttribute("onclick", "showComparative()")
+}
+
 //Guardamos el estudio en la bd
-function actualizarEstudio() {
-    //actualizamos el nombre
-    var name = document.getElementById("nombre").value;
-    actualizar.nombre = name
-    //Aqui tendriamos que cojer los datos de la tabla(han eliminado archivos, han añadido archivos)
-    //actualizar.comparativa = 
+function updateStudy() {
+    var actualizar
+    //var name = document.getElementById("nombre").value;
+    //actualizar.nombre = name
+    // actualizar.comparativa = 
     alert("funciona");
 };

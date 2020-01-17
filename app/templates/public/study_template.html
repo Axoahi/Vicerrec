@@ -34,12 +34,12 @@
                         <input type="text" class="form-control" id="nombre" name="pynombre"
                             placeholder="Nombre del estudio">
                         <a class="btn btn-new"> Añadir archivo</a>
-                        <input class="btn btn-compare" onclick="goComparativeInterface();" value="Vista comparativa">
+                        <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
                         <!-- href="/compare" -->
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
                         <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
                         <input type="submit" class="btn btn-pdf" value="Descargar">
-                        <button onclick="guardarEstudio()" id="botonEstudio" type="button" class="btn btn-next">Guardar
+                        <button id="botonEstudio" type="button" class="btn btn-next">Guardar
                             Estudio</button>
                     </form>
                 </div>
@@ -47,11 +47,15 @@
         </div>
     </div>
     <!-- vista detalle  -->
+
     {% block content_detail %}
     {% endblock %}
+
     <!-- vista comparativa -->
+
     {% block content_tabla %}
     {% endblock %}
+
 </body>
 
 </html>
@@ -69,13 +73,14 @@
 <script type="text/javascript" src="/templates/public/js/study.js"></script>
 
 <script>
-    var actualizar
     var idStudy
+    var myView = "detail"
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
         var datos = JSON.parse(aux)
         idStudy = datos.id
+        showDetail()
         if (datos.hasOwnProperty('id')) {
             $.ajax({
                 type: 'POST',
@@ -84,12 +89,12 @@
                 contentType: "application/json",
                 encode: true,
                 success: function rellena(data) {
-                    actualizar = data
                     detailHtml(data['comparativa'])
+                    tablaHtml(data['comparativa'])
                     document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
                     getPDFs(data['comparativa']);
                     //Actualizamos el boton
-                    document.getElementById("botonEstudio").setAttribute("onclick", "actualizarEstudio()");
+                    document.getElementById("botonEstudio").setAttribute("onclick", "updateStudy()");
                     document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
                     document.getElementById("nombre").value = data['nombre']
                 },
@@ -100,22 +105,16 @@
             });
         } else {
             detailHtml(datos)
+            tablaHtml(datos)
+            document.getElementById("botonEstudio").setAttribute("onclick", "saveStudy()");
+            document.getElementById("botonEstudio").innerHTML = "Guardar estudio"
             document.getElementById("listaAneca").value = aux;
             getPDFs(datos);
         }
     });
 
-    function goComparativeInterface() {
-
-        if (idStudy != undefined) {
-            window.location.href = "/compare/" + idStudy
-        } else {
-            window.location.href = "/compare/" + idStudy
-        }
-    }
-
     // Guardamos el estudio en la bd
-    function guardarEstudio() {
+    function saveStudy() {
         var name = document.getElementById("nombre").value;
         var estudio = {
             "nombre": name,

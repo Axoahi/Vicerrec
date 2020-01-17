@@ -1,7 +1,7 @@
-{% extends 'public/study.html'%}
+{% extends 'public/study_template.html'%}
 
 {% block content_detail %}
-<div class="container">
+<section class="container" id="detail">
     <div class="tabs">
         <ul class="tabs-nav" id="list-PDFs">
             <li><a href="#tab-1"></a></li>
@@ -16,11 +16,11 @@
         <div class="tabs-stage" id="listado"></div>
     </div>
     <div id="listado"></div>
-</div>
+</section>
 {% endblock %}
 
 {% block content_tabla %}
-<section class="comparative">
+<section class="comparative" id="comparative">
     <div id="table-scroll" class="table-scroll">
         <table id="main-table" class="main-table">
             <thead>
