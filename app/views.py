@@ -101,8 +101,6 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-
-                #listaAcep = [["mama", "papa"], ["coche", "carro"], ["oye", "escucha"], [], ["añado", "a", "otros"]]
                 textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
