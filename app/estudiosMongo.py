@@ -7,6 +7,7 @@ client = pymongo.MongoClient(uri)
 database = client['vice']
 collection = database['estudio']
 
+########CRUD de la BD con la coleccion ESTUDIO#################
 def crearEstudio(estudio):
 	_id = collection.insert_one(estudio).inserted_id
 	return _id
@@ -26,6 +27,7 @@ def actualizarEstudio(id, estudio):
 def borrarEstudio(id):
 	collection.delete_one({"_id": ObjectId(id)})
 	print("Item borrado")
+
 
 
 

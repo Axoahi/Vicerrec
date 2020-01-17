@@ -1,7 +1,8 @@
 # coding=utf-8
 from flask import jsonify
 import glob
-import mongoDB
+import estudiosMongo
+import acepcionesMongo
 import ConversionPDF
 import os
 from werkzeug.utils import secure_filename
@@ -163,7 +164,7 @@ def archivoPermitido(fileName):
 @app.route("/new", methods=['POST'])
 def GuardarEstudio():
     estudio = request.get_json()
-    id = mongoDB.crearEstudio(estudio)
+    id = estudiosMongo.crearEstudio(estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 # Actualizar un estudio
@@ -174,7 +175,7 @@ def actualizar():
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
-    response = mongoDB.listaEstudios()
+    response = estudiosMongo.listaEstudios()
     listadoJson = []
     for item in response:
         element = {
@@ -189,7 +190,7 @@ def listaEstudios():
 @app.route("/verDetalles", methods=['POST', 'GET'])
 def verDetalles():
     data = request.get_json(force=True)
-    detalles = mongoDB.findEstudio(data['id'])
+    detalles = estudiosMongo.findEstudio(data['id'])
     detalles['_id'] = str(detalles['_id'])
     return Response(json.dumps(detalles), mimetype='application/json')
 
@@ -197,8 +198,21 @@ def verDetalles():
 @app.route("/borrarEstudio", methods=['POST', 'GET'])
 def borrarEstudio():
     estudio = request.get_json(force=True)
-    mongoDB.borrarEstudio(estudio['id'])
+    estudiosMongo.borrarEstudio(estudio['id'])
     return render_template("public/index.html")
+
+################METODOS PARA TRATAR CON LAS ACEPCIONES
+@app.route("/viewMeaning",methods=['GET'])
+def verAcepciones():
+    acepciones = acepcionesMongo.findAcepcionesByUser('default')
+    acepciones['_id'] = str(acepciones['_id'])
+    return Response(json.dumps(acepciones), mimetype='application/json')
+
+@app.route("/updateMeaning"), methods=['POST']
+def updateAcepcion():
+    listaAcepciones = request.get_json(force=True)
+    
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True)
