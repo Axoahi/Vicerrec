@@ -209,8 +209,7 @@ def borrarEstudio():
 @app.route("/viewMeaning",methods=['GET'])
 def verAcepciones():
     acepciones = acepcionesMongo.findAcepcionesByUser('default')
-    acepciones['_id'] = str(acepciones['_id'])
-    return Response(json.dumps(acepciones), mimetype='application/json')
+    return Response(json.dumps(acepciones['acepciones']), mimetype='application/json')
 
 @app.route("/updateMeaning", methods=['POST'])
 def updateAcepcion():
