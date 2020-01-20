@@ -264,12 +264,3 @@ function showDetail() {
     document.getElementById("view").value = "Vista comparativa"
     document.getElementById("view").setAttribute("onclick", "showComparative()")
 }
-
-//Guardamos el estudio en la bd
-function updateStudy() {
-    var actualizar
-    //var name = document.getElementById("nombre").value;
-    //actualizar.nombre = name
-    // actualizar.comparativa = 
-    alert("funciona");
-};
