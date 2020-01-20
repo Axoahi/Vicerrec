@@ -89,6 +89,7 @@
                 contentType: "application/json",
                 encode: true,
                 success: function rellena(data) {
+                    console.log(data)
                     detailHtml(data['comparativa'])
                     tablaHtml(data['comparativa'])
                     document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
@@ -130,6 +131,38 @@
         $.ajax({
             type: 'POST',
             url: "/new",
+            data: JSON.stringify(estudio),
+            contentType: "application/json",
+            encode: true,
+            success: function (data) {
+                alert("Estudio añadido!!! :) ");
+                window.location.href = "/";
+            },
+            error: function (data) {
+                alert("Algo ha fallado!!! :( ");
+            }
+        });
+        event.preventDefault();
+    };
+
+
+    function updateStudy() {
+        var name = document.getElementById("nombre").value;
+        var estudio = {
+            "id": idStudy,
+            "nombre": name,
+            "comparativa": []
+        };
+        var aux = '{{ data|safe }}'
+        var datos = JSON.parse(aux);
+
+        for (var i in datos) {
+            var item = datos[i];
+            estudio.comparativa.push(item);
+        }
+        $.ajax({
+            type: 'POST',
+            url: "/updateStudy",
             data: JSON.stringify(estudio),
             contentType: "application/json",
             encode: true,

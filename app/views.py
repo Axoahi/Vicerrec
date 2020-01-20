@@ -157,7 +157,7 @@ def GuardarEstudio():
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 # Actualizar un estudio
-@app.route("/actualizar", methods=['POST', 'GET'])
+@app.route("/updateStudy", methods=['POST', 'GET'])
 def actualizar():
     estudio = request.get_json(force=True)
     id = estudio['id']
