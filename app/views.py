@@ -160,9 +160,9 @@ def GuardarEstudio():
 @app.route("/actualizar", methods=['POST', 'GET'])
 def actualizar():
     estudio = request.get_json(force=True)
-    print(estudio)
-    done = estudiosMongo.actualizarEstudio(estudio)
-    print(done)
+    id = estudio['id']
+    del estudio['id']
+    done = estudiosMongo.actualizarEstudio(id,estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 # Listado de estudios guardados
@@ -185,7 +185,9 @@ def listaEstudios():
 def verDetalles():
     data = request.get_json(force=True)
     detalles = estudiosMongo.findEstudio(data['id'])
-    detalles['_id'] = str(detalles['_id'])
+    if '_id' in detalles:
+        detalles['id'] = str(detalles['_id'])
+        del detalles['_id']
     return Response(json.dumps(detalles), mimetype='application/json')
 
 # Borrado de estudio (cuando borra no actualiza la lista)
