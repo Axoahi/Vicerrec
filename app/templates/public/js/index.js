@@ -1,5 +1,7 @@
 //onInit()
 $(document).ready(function () {
+    document.getElementById("acepUser").value = JSON.stringify(
+        {"curriculum": ["corre","pillo"],"docentia": [],"web": ["acp1"],"coordinacion": ["ojo", "oreja"],"otros": ["uno", "dos"]})
     rellenaEstudios();
     getPagination('#myTable');
 });

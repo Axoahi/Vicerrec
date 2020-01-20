@@ -10,7 +10,8 @@ import json
 tika.initVM()
 
 
-def extraeInfo(fileName):
+def extraeInfo(fileName, acepUser):
+
     ###### BÚSQUEDA DE RECOMENDACIONES ################################
     recomendaciones = [['curriculum', 'currículum', 'currícula', 'curricula'],
                        ['docentia', 'DOCENTIA', 'Docentia'],
@@ -19,6 +20,11 @@ def extraeInfo(fileName):
                        ['se recomienda', 'se aconseja', 'optimizar', 'revisar', 'baja respuesta',
                         'baja participación', 'baja satisfacción', 'insatisfacción', 'abandono',
                         'se debe', 'se propone', 'CAT']]
+
+    for i in range(len(recomendaciones)):
+        recomendaciones[i] = recomendaciones[i] + acepUser[i]
+
+    print(recomendaciones)
 
     parsed = parser.from_file(fileName)
     textoraw = parsed['content']
@@ -405,11 +411,15 @@ def reordena(frases, otrosJSON, recomendaciones):
                     listaOrdenada[intcc].append(sent)
 
     ###Añadimos las frases de Otros
-    # 1ro flateamos el JSON y eliminamos listas vacías
+    # 1ro Flateamos el JSON y eliminamos listas vacías
     merged = itertools.chain(*otrosJSON)
     flated = list(merged)
     cleanSent = [x for x in flated if x != '[]']
     listaOrdenada.append(cleanSent)
+    # 2do Eliminamos duplicados convirtiendo a dict y a list
+    listaSinDup = []
+    for i in listaOrdenada:
+        listaSinDup.append(list(dict.fromkeys(i)))
 
     # Devolvemos la lista ordenada a la cuál se le ha anexado listaOtros flateada
-    return (listaOrdenada)
+    return (listaSinDup)

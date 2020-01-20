@@ -62,6 +62,13 @@ def detalles(id):
 def upload():
     # Borramos todos los archivos excel que existan previamente en el servidor
     files = glob.glob(app.config["CLIENT_DIRECTORY"]+"*.xls")
+
+    # Convertimos el texto a JSON, para luego extraer los campos y pasarlos a lista
+    acepsFrontend = request.form["pyacepUser"]
+    dictAcepUser = ast.literal_eval(acepsFrontend)
+    acepUser = list(dictAcepUser.values())
+    print(acepUser)
+
     for f in files:
         os.remove(f)
 
@@ -89,7 +96,7 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                textoSacado.append(ConversionPDF.extraeInfo(destination))
+                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
