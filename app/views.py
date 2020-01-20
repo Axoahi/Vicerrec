@@ -160,6 +160,7 @@ def GuardarEstudio():
 @app.route("/updateStudy", methods=['POST', 'GET'])
 def actualizar():
     estudio = request.get_json(force=True)
+    print(estudio)
     done = estudiosMongo.actualizarEstudio(estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
