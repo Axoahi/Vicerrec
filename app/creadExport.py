@@ -71,7 +71,7 @@ def exportarExcel(nombreExcel, listadoJSON):
         data = [Codigo,Titulo,Anyo,Organizacion_y_desarrollo,Informacion_y_transparencia,SGIC,Personal_academico,Apoyo_y_recursos_materiales,Resultados,Indicadores,Nota_Final,curriculum,docentia,web,coordinacion,otras]
         df_item = pd.DataFrame([data],columns=lista)
         df = df.append(df_item)
-    df.to_excel(os.getcwd() + "/data/" + nombreExcel + ".xls")
+    df.to_excel(os.getcwd() + "/data/" + nombreExcel + ".xls", index=False)
 
     return nombreExcel
 
