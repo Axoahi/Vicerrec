@@ -74,6 +74,7 @@
 
 <script>
     var idStudy
+    var study
     var myView = "detail"
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
@@ -88,20 +89,20 @@
                 data: aux,
                 contentType: "application/json",
                 encode: true,
-                success: function rellena(data) {
-                    console.log(data)
-                    detailHtml(data['comparativa'])
-                    tablaHtml(data['comparativa'])
-                    document.getElementById("listaAneca").value = JSON.stringify(data['comparativa']);
-                    getPDFs(data['comparativa']);
+                success: function rellena(res) {
+                    study = res
+                    detailHtml(res['comparativa'])
+                    tablaHtml(res['comparativa'])
+                    document.getElementById("listaAneca").value = JSON.stringify(res['comparativa']);
+                    getPDFs(res['comparativa']);
                     //Actualizamos el boton
                     document.getElementById("botonEstudio").setAttribute("onclick", "updateStudy()");
                     document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
-                    document.getElementById("nombre").value = data['nombre']
+                    document.getElementById("nombre").value = res['nombre']
                 },
-                error: function (data) {
+                error: function (res) {
                     alert("Algo ha fallado!!! :( ");
-                    console.log(data)
+                    console.log(res)
                 }
             });
         } else {
@@ -146,34 +147,37 @@
     };
 
 
-    function updateStudy() {
-        var name = document.getElementById("nombre").value;
-        var estudio = {
-            "id": idStudy,
-            "nombre": name,
-            "comparativa": []
-        };
-        var aux = '{{ data|safe }}'
-        var datos = JSON.parse(aux);
+            // estudio = {
+        //     "id": idStudy,
+        //     "nombre": name,
+        //     "comparativa": [
+        //         {
+        //             "codigo":{},
+        //             "titulo": {},
+        //             "anyo": {},
+        //             "gestiontitulo": {
+        //                 "organizacionydesarrollo": {},
+        //                 "informacionytransparencia": {},
+        //                 "SGIC": {}
+        //             },
+        //             "recursos": {
+        //                 "personalacademico": {},
+        //                 "apoyoyrecursosmateriales": {}
+        //             },
+        //             "resultados": {
+        //                 "resultados": {},
+        //                 "indicadores": {}
+        //             },
+        //             "finaltotal": "FAVORABLE",
+        //             "recomendaciones": {
+        //                 "curriculum": [],
+        //                 "docentia": [],
+        //                 "web": [],
+        //                 "coordinacion": [],
+        //                 "otras": []
+        //             }
+        //         }
+        //     ]
+        // };
 
-        for (var i in datos) {
-            var item = datos[i];
-            estudio.comparativa.push(item);
-        }
-        $.ajax({
-            type: 'POST',
-            url: "/updateStudy",
-            data: JSON.stringify(estudio),
-            contentType: "application/json",
-            encode: true,
-            success: function (data) {
-                alert("Estudio añadido!!! :) ");
-                window.location.href = "/";
-            },
-            error: function (data) {
-                alert("Algo ha fallado!!! :( ");
-            }
-        });
-        event.preventDefault();
-    };
 </script>

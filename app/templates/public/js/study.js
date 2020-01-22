@@ -96,7 +96,7 @@ function detailHtml(datos) {
         for (var j = 0; j < datos[i]['recomendaciones']['curriculum'].length; j++) {
             htmlTable +=
                 "<label class='tasks-list-item'>" +
-                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<input type='checkbox' name='task_1' id='curriculum_" + i + j + "' value='1' class='tasks-list-cb'>" +
                 "<span class='tasks-list-mark'></span>" +
                 "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['curriculum'][j] + "</span>" +
                 "</label>"
@@ -117,7 +117,7 @@ function detailHtml(datos) {
         for (var j = 0; j < datos[i]['recomendaciones']['docentia'].length; j++) {
             htmlTable +=
                 "<label class='tasks-list-item'>" +
-                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<input type='checkbox' name='task_1' id='docentia_" + i + j + "' value='1' class='tasks-list-cb'>" +
                 "<span class='tasks-list-mark'></span>" +
                 "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['docentia'][j] + "</span>" +
                 "</label>"
@@ -138,7 +138,7 @@ function detailHtml(datos) {
         for (var j = 0; j < datos[i]['recomendaciones']['web'].length; j++) {
             htmlTable +=
                 "<label class='tasks-list-item'>" +
-                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<input type='checkbox' name='task_1' id='web_" + i + j + "' value='1' class='tasks-list-cb'>" +
                 "<span class='tasks-list-mark'></span>" +
                 "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['web'][j] + "</span>" +
                 "</label>"
@@ -159,7 +159,7 @@ function detailHtml(datos) {
         for (var j = 0; j < datos[i]['recomendaciones']['coordinacion'].length; j++) {
             htmlTable +=
                 "<label class='tasks-list-item'>" +
-                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<input type='checkbox' name='task_1' id='coordinacion_" + i + j + "' value='1' class='tasks-list-cb'>" +
                 "<span class='tasks-list-mark'></span>" +
                 "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['coordinacion'][j] + "</span>" +
                 "</label>"
@@ -180,7 +180,7 @@ function detailHtml(datos) {
         for (var j = 0; j < datos[i]['recomendaciones']['otras'].length; j++) {
             htmlTable +=
                 "<label class='tasks-list-item'>" +
-                "<input type='checkbox' name='task_1' value='1' class='tasks-list-cb'>" +
+                "<input type='checkbox' name='task_1' id='otras_" + i + j + "' value='1' class='tasks-list-cb'>" +
                 "<span class='tasks-list-mark'></span>" +
                 "<span class='tasks-list-desc'>" + datos[i]['recomendaciones']['otras'][j] + "</span>" +
                 "</label>"
@@ -193,6 +193,7 @@ function detailHtml(datos) {
             "</article>" +
             "</p>" +
             "</div>"
+
     }
 
     document.getElementById("listado").innerHTML = htmlTable;
@@ -229,7 +230,13 @@ function tablaHtml(datos) {
             '<td>' + datos[i]['resultados']['resultados'] + '</td>' +
             '<td>' + datos[i]['resultados']['indicadores'] + '</td>' +
             '<td>' + datos[i]['finaltotal'] + '</td>' +
+            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
             "</tr>"
+
     }
     document.getElementById("listDocs").innerHTML = htmlTable;
 };
@@ -264,3 +271,76 @@ function showDetail() {
     document.getElementById("view").value = "Vista comparativa"
     document.getElementById("view").setAttribute("onclick", "showComparative()")
 }
+
+function updateStudy() {
+    var prueba
+    var name = document.getElementById("nombre").value;
+    var elem_otras = 0
+    var elem_curriculum = 0
+    var elem_docentia = 0
+    var elem_web = 0
+    var elem_coordinacion = 0
+    var estudio = {
+        "id": idStudy,
+        "nombre": name,
+        "comparativa": study.comparativa
+    };
+
+    for (var i = 0; i < study.comparativa.length; i++) {
+        for (var j = 0; j < study.comparativa[i]['recomendaciones']['curriculum'].length; j++) {
+            if ($('#curriculum_' + i + elem_curriculum).prop('checked')) {
+                this.study.comparativa[i]['recomendaciones']['curriculum'].splice(j, 1)
+                j--
+            }
+            elem_curriculum++
+        }
+
+        for (var j = 0; j < study.comparativa[i]['recomendaciones']['docentia'].length; j++) {
+            if ($('#docentia_' + i + elem_docentia).prop('checked')) {
+                this.study.comparativa[i]['recomendaciones']['docentia'].splice(j, 1)
+                j--
+            }
+            elem_docentia++
+        }
+
+        for (var j = 0; j < study.comparativa[i]['recomendaciones']['web'].length; j++) {
+            if ($('#web_' + i + elem_web).prop('checked')) {
+                this.study.comparativa[i]['recomendaciones']['web'].splice(j, 1)
+                j--
+            }
+            elem_web++
+        }
+
+        for (var j = 0; j < study.comparativa[i]['recomendaciones']['coordinacion'].length; j++) {
+            if ($('#coordinacion_' + i + elem_coordinacion).prop('checked')) {
+                this.study.comparativa[i]['recomendaciones']['coordinacion'].splice(j, 1)
+                j--
+            }
+            elem_coordinacion++
+        }
+
+        for (var j = 0; j < study.comparativa[i]['recomendaciones']['otras'].length; j++) {
+            if ($('#otras_' + i + elem_otras).prop('checked')) {
+                this.study.comparativa[i]['recomendaciones']['otras'].splice(j, 1)
+                j--
+            }
+            elem_otras++
+        }
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: "/updateStudy",
+        data: JSON.stringify(estudio),
+        contentType: "application/json",
+        encode: true,
+        success: function (data) {
+            alert("Estudio actualizado!!! :) ");
+            window.location.href = "/";
+        },
+        error: function (data) {
+            alert("Algo ha fallado!!! :( ");
+        }
+    });
+    event.preventDefault();
+};
