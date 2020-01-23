@@ -67,7 +67,6 @@ def upload():
     acepsFrontend = request.form["pyacepUser"]
     dictAcepUser = ast.literal_eval(acepsFrontend)
     acepUser = list(dictAcepUser.values())
-    print(acepUser)
 
     for f in files:
         os.remove(f)
@@ -105,18 +104,20 @@ def upload():
                 else:
                     print("El archivo no existe")
 
-    return render_template("public/study.html", data=json.dumps(textoSacado))
+    return Response(json.dumps(textoSacado), mimetype='application/json')
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
 def getExcel():
+    target = app.config["CLIENT_DIRECTORY"]
+    # Si no existe el directorio donde dejar los archivos, se crea
+    if not os.path.isdir(target):
+        os.mkdir(target)
     nombre = request.form["pynombre"]
     listado = request.form["pylistadoAneca"]
     newlistado = ast.literal_eval(listado)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar
     nombreFile = creadExport.exportarExcel(nombre, newlistado) + ".xls"
-    print(os.getcwd())
-    print(app.config['CLIENT_DIRECTORY'])
     try:
         return send_from_directory(
             app.config["CLIENT_DIRECTORY"], filename=nombreFile, as_attachment=True
@@ -169,7 +170,6 @@ def actualizar():
 @app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
     response = estudiosMongo.listaEstudios()
-    print(response)
     listadoJson = []
     for item in response:
         element = {
