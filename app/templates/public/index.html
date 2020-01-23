@@ -29,7 +29,8 @@
 
         <h4>Crear estudio:</h4>
         <div class="row it">
-            <form class="col-sm-offset-1 col-sm-10" id="upload-form"  action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <form class="col-sm-offset-1 col-sm-10" id="upload-form" action="{{ url_for('upload') }}" method="POST"
+                enctype="multipart/form-data">
                 <div id="uploader">
                     <div class="row uploadDoc">
                         <div class="col-sm-3">
@@ -38,22 +39,46 @@
                                 <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon">
                                 <span class="upl" id="upload">Subir documento</span>
                                 <input type="hidden" id="acepUser" value="" name="pyacepUser">
-                                <input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);">
+                                <input class="form-control-file upload up" id="file-picker" type="file" name="file"
+                                    accept="pdf/*" onchange="readURL(this);">
                             </div>
                         </div>
                         <!-- <div class="col-sm-4">
                             <input type="text" class="form-control" name="" placeholder="Tipo">
                         </div> -->
-                        <div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div>
+                        <div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="text-center">
                     <a class="btn btn-new"> Añadir nuevo</a>
+                    <a class="btn btn-next" href="#acep"> Acepciones</a>
                     <input type="submit" value="Comenzar" id="upload-button" class="btn btn-next">
                 </div>
             </form>
         </div>
-
+        <div id="acep" class="overlay">
+            <div class="popup">
+                <h2>Acepciones</h2><a class="close" href="#">×</a>
+                <div class="content">
+                    <label for="curriculum">Curriculum</label>
+                    <input type="text" class="form-control" id="curriculum" value="">
+                    <label for="coordinacion">Coordinación</label>
+                    <input type="text" class="form-control" id="coordinacion">
+                    <label for="web">Web</label>
+                    <input type="text" class="form-control" id="web">
+                    <label for="docencia">Docentia</label>
+                    <input type="text" class="form-control" id="docencia">
+                    <label for="otras">Otras</label>
+                    <input type="text" class="form-control" id="otras">
+                    <div class="text-center it">
+                        <a class="btn btn-next" href="javascript:putAcep()"> Acepciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <h4>Cargar estudio:</h4>
         <div class="row">
             <form class="search-container">
@@ -91,7 +116,7 @@
                 <ul class="pagination">
                     <li data-page="prev">
                         <span><i class="material-icons">skip_previous</i><span class="sr-only">(current)
-                        </span></span>
+                            </span></span>
                     </li>
                     <li data-page="next" id="prev">
                         <span><i class="material-icons">skip_next</i> <span class="sr-only">(current)</span></span>
@@ -99,7 +124,7 @@
                 </ul>
             </nav>
         </div>
-    </div> 
+    </div>
 
 
 

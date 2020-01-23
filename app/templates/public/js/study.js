@@ -213,32 +213,286 @@ function detailHtml(datos) {
     });
 };
 
+// VERDE: Excelente, Se alcanza, Satisfactorio, Satisfactoria, Se supera excelentemente
+// AMARILLO: Adecuada, Adecuado, Se alcanza parcialmente
+// ROJO: Insuficiente, No se alcanza
 
-function tablaHtml(datos) {
+ function tablaHtml(datos) {
     var htmlTable = ""
+    var perfect = ["Excelente", "Se alcanza", "Satisfactorio", 'Satisfactoria', "Se supera excelentemente", 'Favorable']
+    var good = ['Adecuada', 'Adecuado', 'Se alcanza parcialmente', 'Suficiente']
+    var bad = ["Insuficiente", "No se alcanza"]
+    var state
+
     for (var i = 0; i < datos.length; i++) {
         htmlTable +=
             '<tr>' +
             '<th>' + datos[i]['titulo'] + '</th>' +
             '<td>' + datos[i]['codigo'] + '</td>' +
-            '<td>' + datos[i]['anyo'] + '</td>' +
-            '<td>' + datos[i]['gestiontitulo']['organizacionydesarrollo'] + '</td>' +
-            '<td>' + datos[i]['gestiontitulo']['informacionytransparencia'] + '</td>' +
-            '<td>' + datos[i]['gestiontitulo']['SGIC'] + '</td>' +
-            '<td>' + datos[i]['recursos']['personalacademico'] + '</td>' +
-            '<td>' + datos[i]['recursos']['apoyoyrecursosmateriales'] + '</td>' +
-            '<td>' + datos[i]['resultados']['resultados'] + '</td>' +
-            '<td>' + datos[i]['resultados']['indicadores'] + '</td>' +
-            '<td>' + datos[i]['finaltotal'] + '</td>' +
-            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#popup1"><i class="material-icons">open_in_new</i></a></td>' +
-            "</tr>"
+            '<td>' + datos[i]['anyo'] + '</td>'
 
+        // datos[i]['gestiontitulo']['organizacionydesarrollo']
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['gestiontitulo']['organizacionydesarrollo'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['gestiontitulo']['organizacionydesarrollo'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['gestiontitulo']['organizacionydesarrollo'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['gestiontitulo']['organizacionydesarrollo'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['gestiontitulo']['organizacionydesarrollo'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['gestiontitulo']['organizacionydesarrollo'] + '</td>'
+            }
+        }
+
+        // datos[i]['gestiontitulo']['informacionytransparencia']
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['gestiontitulo']['informacionytransparencia'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['gestiontitulo']['informacionytransparencia'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['gestiontitulo']['informacionytransparencia'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['gestiontitulo']['informacionytransparencia'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['gestiontitulo']['informacionytransparencia'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['gestiontitulo']['informacionytransparencia'] + '</td>'
+            }
+        }
+
+        // datos[i]['gestiontitulo']['SGIC']
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['gestiontitulo']['SGIC'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['gestiontitulo']['SGIC'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['gestiontitulo']['SGIC'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['gestiontitulo']['SGIC'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['gestiontitulo']['SGIC'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['gestiontitulo']['SGIC'] + '</td>'
+            }
+        }
+
+        // datos[i]['recursos']['personalacademico']
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['recursos']['personalacademico'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['recursos']['personalacademico'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['recursos']['personalacademico'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['recursos']['personalacademico'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['recursos']['personalacademico'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['recursos']['personalacademico'] + '</td>'
+            }
+        }
+
+        // datos[i]['recursos']['apoyoyrecursosmateriales']
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['recursos']['apoyoyrecursosmateriales'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['recursos']['apoyoyrecursosmateriales'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['recursos']['apoyoyrecursosmateriales'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['recursos']['apoyoyrecursosmateriales'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['recursos']['apoyoyrecursosmateriales'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['recursos']['apoyoyrecursosmateriales'] + '</td>'
+            }
+        }
+
+        // datos[i]['resultados']['resultados']
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['resultados']['resultados'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['resultados']['resultados'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['resultados']['resultados'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['resultados']['resultados'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['resultados']['resultados'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['resultados']['resultados'] + '</td>'
+            }
+        }
+
+        // datos[i]['resultados']['indicadores'] 
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['resultados']['indicadores'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['resultados']['indicadores'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['resultados']['indicadores'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['resultados']['indicadores'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['resultados']['indicadores'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['resultados']['indicadores'] + '</td>'
+            }
+        }
+
+        // datos[i]['finaltotal'] 
+        for (var j = 0; j < perfect.length; j++) {
+            state = datos[i]['finaltotal'].trim().localeCompare(perfect[j].trim())
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_perfect">' + datos[i]['finaltotal'] + '</td>'
+            }
+        }
+        for (var j = 0; j < good.length; j++) {
+            state = datos[i]['finaltotal'].trim().localeCompare(good[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_good">' + datos[i]['finaltotal'] + '</td>'
+            }
+        }
+
+        for (var j = 0; j < bad.length; j++) {
+            state = datos[i]['finaltotal'].trim().localeCompare(bad[j])
+            if (state == 0) {
+                htmlTable +=
+                    '<td class="state_bad">' + datos[i]['finaltotal'] + '</td>'
+            }
+        }
+
+        htmlTable +=
+            '<td><a href="#info_' + i + '0"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#info_' + i + '1"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#info_' + i + '2"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#info_' + i + '3"><i class="material-icons">open_in_new</i></a></td>' +
+            '<td><a href="#info_' + i + '4"><i class="material-icons">open_in_new</i></a></td>' +
+            "</tr>"
     }
     document.getElementById("listDocs").innerHTML = htmlTable;
+};
+
+function popupHtml(datos) {
+    var htmlTable = ""
+    for (var i = 0; i < datos.length; i++) {
+        for (var j = 0; j < 5; j++) {
+            htmlTable +=
+                '<div id="info_' + i + j + '"  class="overlay">' +
+                '<div class="popup">'
+
+
+            if (j == 0) {
+
+                htmlTable +=
+                    '<h2>Curriculum</h2>' +
+                    '<a class="close" href="#">&times;</a>' +
+                    '<div class="content">' +
+                    '<p>' + datos[i]['recomendaciones']['curriculum'] + '</p>'
+
+            } else if (j == 1) {
+
+                htmlTable +=
+                    '<h2>Docentia</h2>' +
+                    '<a class="close" href="#">&times;</a>' +
+                    '<div class="content">' +
+                    '<p>' + datos[i]['recomendaciones']['docentia'] + '</p>'
+
+            } else if (j == 2) {
+
+                htmlTable +=
+                    '<h2>Web</h2>' +
+                    '<a class="close" href="#">&times;</a>' +
+                    '<div class="content">' +
+                    '<p>' + datos[i]['recomendaciones']['web'] + '</p>'
+
+            } else if (j == 3) {
+
+                htmlTable +=
+                    '<h2>Coordinación</h2>' +
+                    '<a class="close" href="#">&times;</a>' +
+                    '<div class="content">' +
+                    '<p>' + datos[i]['recomendaciones']['coordinacion'] + '</p>'
+
+            } else if (j == 4) {
+
+                htmlTable +=
+                    '<h2>Otras</h2>' +
+                    '<a class="close" href="#">&times;</a>' +
+                    '<div class="content">' +
+                    '<p>' + datos[i]['recomendaciones']['otras'] + '</p>'
+
+            }
+
+            htmlTable +=
+                '</div>' +
+                '</div>' +
+                '</div>'
+        }
+    }
+
+    document.getElementById("listPopup").innerHTML = htmlTable;
 };
 
 

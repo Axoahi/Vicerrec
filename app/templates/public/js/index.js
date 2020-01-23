@@ -123,6 +123,24 @@ $(document).ready(function () {
     });
 });
 
+
+
+function putAcep(){
+    var acepciones ={"curriculum": [],"docentia": [],"web": [],"coordinacion": [],"otros": []}
+    var curriculum_form = document.getElementById("curriculum").value;
+    var curriculum=curriculum_form.split(",")
+    // var web = document.getElementById("web").value;
+    // var otras = document.getElementById("otras").value;
+    // var docentia = document.getElementById("docentia").value;
+    // var coordinacion = document.getElementById("coordinacion").value;
+    
+
+    acepciones["curriculum"].push(curriculum)
+    console.log(acepciones)
+
+    document.getElementById("acepUser").value = JSON.stringify( acepciones)
+}
+
 /*PAGINATION 
 - on change max rows select options fade out all rows gt option value mx = 5
 - append pagination list as per numbers of rows / max rows option (20row/5= 4pages )

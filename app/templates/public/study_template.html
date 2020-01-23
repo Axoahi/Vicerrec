@@ -93,6 +93,7 @@
                     study = res
                     detailHtml(res['comparativa'])
                     tablaHtml(res['comparativa'])
+                    popupHtml(res['comparativa'])
                     document.getElementById("listaAneca").value = JSON.stringify(res['comparativa']);
                     getPDFs(res['comparativa']);
                     //Actualizamos el boton
@@ -108,6 +109,7 @@
         } else {
             detailHtml(datos)
             tablaHtml(datos)
+            popupHtml(datos)
             document.getElementById("botonEstudio").setAttribute("onclick", "saveStudy()");
             document.getElementById("botonEstudio").innerHTML = "Guardar estudio"
             document.getElementById("listaAneca").value = aux;
@@ -118,17 +120,66 @@
     // Guardamos el estudio en la bd
     function saveStudy() {
         var name = document.getElementById("nombre").value;
+        var elem_otras = 0
+        var elem_curriculum = 0
+        var elem_docentia = 0
+        var elem_web = 0
+        var elem_coordinacion = 0
         var estudio = {
             "nombre": name,
             "comparativa": []
         };
         var aux = '{{ data|safe }}'
         var datos = JSON.parse(aux);
-
         for (var i in datos) {
             var item = datos[i];
             estudio.comparativa.push(item);
         }
+
+        for (var i = 0; i < estudio.comparativa.length; i++) {
+            console.log(estudio.comparativa)
+            for (var j = 0; j < estudio.comparativa[i]['recomendaciones']['curriculum'].length; j++) {
+                console.log(estudio.comparativa[i]['recomendaciones']['curriculum'])
+                if ($('#curriculum_' + i + elem_curriculum).prop('checked')) {
+                    estudio.comparativa[i]['recomendaciones']['curriculum'].splice(j, 1)
+                    j--
+                }
+                elem_curriculum++
+            }
+
+            for (var j = 0; j < estudio.comparativa[i]['recomendaciones']['docentia'].length; j++) {
+                if ($('#docentia_' + i + elem_docentia).prop('checked')) {
+                    estudio.comparativa[i]['recomendaciones']['docentia'].splice(j, 1)
+                    j--
+                }
+                elem_docentia++
+            }
+
+            for (var j = 0; j < estudio.comparativa[i]['recomendaciones']['web'].length; j++) {
+                if ($('#web_' + i + elem_web).prop('checked')) {
+                    estudio.comparativa[i]['recomendaciones']['web'].splice(j, 1)
+                    j--
+                }
+                elem_web++
+            }
+
+            for (var j = 0; j < estudio.comparativa[i]['recomendaciones']['coordinacion'].length; j++) {
+                if ($('#coordinacion_' + i + elem_coordinacion).prop('checked')) {
+                    estudio.comparativa[i]['recomendaciones']['coordinacion'].splice(j, 1)
+                    j--
+                }
+                elem_coordinacion++
+            }
+
+            for (var j = 0; j < estudio.comparativa[i]['recomendaciones']['otras'].length; j++) {
+                if ($('#otras_' + i + elem_otras).prop('checked')) {
+                    estudio.comparativa[i]['recomendaciones']['otras'].splice(j, 1)
+                    j--
+                }
+                elem_otras++
+            }
+        }
+
         $.ajax({
             type: 'POST',
             url: "/new",
@@ -145,39 +196,5 @@
         });
         event.preventDefault();
     };
-
-
-            // estudio = {
-        //     "id": idStudy,
-        //     "nombre": name,
-        //     "comparativa": [
-        //         {
-        //             "codigo":{},
-        //             "titulo": {},
-        //             "anyo": {},
-        //             "gestiontitulo": {
-        //                 "organizacionydesarrollo": {},
-        //                 "informacionytransparencia": {},
-        //                 "SGIC": {}
-        //             },
-        //             "recursos": {
-        //                 "personalacademico": {},
-        //                 "apoyoyrecursosmateriales": {}
-        //             },
-        //             "resultados": {
-        //                 "resultados": {},
-        //                 "indicadores": {}
-        //             },
-        //             "finaltotal": "FAVORABLE",
-        //             "recomendaciones": {
-        //                 "curriculum": [],
-        //                 "docentia": [],
-        //                 "web": [],
-        //                 "coordinacion": [],
-        //                 "otras": []
-        //             }
-        //         }
-        //     ]
-        // };
 
 </script>
