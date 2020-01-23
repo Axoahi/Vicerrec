@@ -214,7 +214,7 @@ function detailHtml(datos) {
 };
 
 // VERDE: Excelente, Se alcanza, Satisfactorio, Satisfactoria, Se supera excelentemente
-// AMARILLO: Adecuada, Adecuado, Se alcanza parcialmente
+// AMARILLO: Adecuada, Adecuado, Se alcanza parcialmente, Suficiente
 // ROJO: Insuficiente, No se alcanza
 
  function tablaHtml(datos) {

@@ -1,7 +1,7 @@
 //onInit()
 $(document).ready(function () {
     document.getElementById("acepUser").value = JSON.stringify(
-        {"curriculum": ["corre","pillo"],"docentia": [],"web": ["acp1"],"coordinacion": ["ojo", "oreja"],"otros": ["uno", "dos"]})
+        { "curriculum": ["corre", "pillo"], "docentia": [], "web": ["acp1"], "coordinacion": ["ojo", "oreja"], "otros": ["uno", "dos"] })
     rellenaEstudios();
     getPagination('#myTable');
 });
@@ -125,20 +125,36 @@ $(document).ready(function () {
 
 
 
-function putAcep(){
-    var acepciones ={"curriculum": [],"docentia": [],"web": [],"coordinacion": [],"otros": []}
-    var curriculum_form = document.getElementById("curriculum").value;
-    var curriculum=curriculum_form.split(",")
-    // var web = document.getElementById("web").value;
-    // var otras = document.getElementById("otras").value;
-    // var docentia = document.getElementById("docentia").value;
-    // var coordinacion = document.getElementById("coordinacion").value;
+function putAcep() {
+    var acepciones = { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
+    var curriculum_form = document.getElementById("curriculum").value
+    var curriculum = curriculum_form.split(",")
+    var docentia_form = document.getElementById("docentia").value
+    var docentia = docentia_form.split(",")
+    var web_form = document.getElementById("web").value
+    var web = web_form.split(",")
+    var coordinacion_form = document.getElementById("coordinacion").value
+    var coordinacion = coordinacion_form.split(",")
+    var otras_form = document.getElementById("otras").value
+    var otras = otras_form.split(",")
+    if(curriculum != ""){
+        acepciones["curriculum"] = curriculum
+    }
+    if(docentia != ""){
+        acepciones["docentia"] = docentia
+    }
+    if(web != ""){
+        acepciones["web"] = web
+    }
+    if(coordinacion != ""){
+        acepciones["coordinacion"] = coordinacion
+    }
+    if(otras != ""){
+        acepciones["otros"] = otras
+    }
     
-
-    acepciones["curriculum"].push(curriculum)
-    console.log(acepciones)
-
-    document.getElementById("acepUser").value = JSON.stringify( acepciones)
+    document.getElementById("acepUser").value = JSON.stringify(acepciones)
+    console.log(document.getElementById("acepUser").value)
 }
 
 /*PAGINATION 
@@ -194,8 +210,8 @@ function getPagination(table) {
             </li>'
                         )
                         .show();
-                } 
-            } 
+                }
+            }
             $('.pagination [data-page="1"]').addClass('active'); // add active class to the first li
             $('.pagination li').on('click', function (evt) {
                 // on click each page
@@ -235,8 +251,8 @@ function getPagination(table) {
                     } else {
                         $(this).show();
                     }
-                }); 
-            }); 
+                });
+            });
             limitPagging();
         })
         .val(5)
