@@ -32,7 +32,7 @@
                     <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
                         <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
                         <input type="text" class="form-control" id="nombre" name="pynombre"
-                            placeholder="Nombre del estudio">
+                            placeholder="Nombre del estudio" required>
                         <!-- <a class="btn btn-new"> Añadir archivo</a> -->
                         <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
                         <!-- href="/compare" -->
@@ -102,8 +102,7 @@
                     document.getElementById("nombre").value = res['nombre']
                 },
                 error: function (res) {
-                    alert("Algo ha fallado!!! :( ");
-                    console.log(res)
+                    alert("Algo ha fallado");
                 }
             });
         } else {
@@ -188,7 +187,7 @@
                 window.location.href = "/";
             },
             error: function (data) {
-                alert("Algo ha fallado!!! :( ");
+                alert("Algo ha fallado");
             }
         });
         event.preventDefault();

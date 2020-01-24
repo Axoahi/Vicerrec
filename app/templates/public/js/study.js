@@ -630,11 +630,10 @@ function updateStudy() {
         contentType: "application/json",
         encode: true,
         success: function (data) {
-            alert("Estudio actualizado!!! :) ");
             window.location.href = "/";
         },
         error: function (data) {
-            alert("Algo ha fallado!!! :( ");
+            alert("No se ha podido guardar");
         }
     });
     event.preventDefault();

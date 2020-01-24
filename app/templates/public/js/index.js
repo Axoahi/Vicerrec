@@ -79,7 +79,6 @@ function readURL(input) {
                     $(input).closest('.fileUpload').find(".icon").attr('src', 'https://image.flaticon.com/icons/svg/136/136538.svg');
                 }
                 else {
-                    //console.log('here=>'+$(input).closest('.uploadDoc').length);
                     $(input).closest('.uploadDoc').find(".docErr").slideUp('slow');
                 }
             }
@@ -87,7 +86,6 @@ function readURL(input) {
             reader.readAsDataURL(input.files[0]);
         }
         else {
-            //console.log('here=>'+$(input).closest('.uploadDoc').find(".docErr").length);
             $(input).closest('.uploadDoc').find(".docErr").fadeIn();
             setTimeout(function () {
                 $('.docErr').fadeOut('slow');
@@ -104,7 +102,6 @@ $(document).ready(function () {
         profilePicValue = profilePicValue.substr(fileNameStart + 1).substring(0, 20); /* isolates the filename */
         //var profilePicLabelText = $(".upl"); /* finds the label text */
         if (profilePicValue != '') {
-            //console.log($(this).closest('.fileUpload').find('.upl').length);
             $(this).closest('.fileUpload').find('.upl').html(profilePicValue); /* changes the label text */
         }
     });
@@ -153,7 +150,7 @@ function putAcep() {
     }
     
     document.getElementById("acepUser").value = JSON.stringify(acepciones)
-    console.log(document.getElementById("acepUser").value)
+    window.location.href = "#"
 }
 
 /*PAGINATION 
