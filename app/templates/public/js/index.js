@@ -1,7 +1,7 @@
 //onInit()
 $(document).ready(function () {
     document.getElementById("acepUser").value = JSON.stringify(
-        { "curriculum": ["corre", "pillo"], "docentia": [], "web": ["acp1"], "coordinacion": ["ojo", "oreja"], "otros": ["uno", "dos"] })
+        { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] })
     rellenaEstudios();
     getPagination('#myTable');
 });
@@ -41,8 +41,7 @@ function eliminarEstudio(aux) {
         contentType: "application/json",
         encode: true,
         success: function (data) {
-            alert("Estudio borrado!!! :) ");
-            rellenaEstudios();
+            window.location.href = "/";
         },
         error: function (data) {
             alert("Algo ha fallado!!! :( ");

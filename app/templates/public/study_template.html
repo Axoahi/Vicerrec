@@ -33,7 +33,7 @@
                         <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
                         <input type="text" class="form-control" id="nombre" name="pynombre"
                             placeholder="Nombre del estudio">
-                        <a class="btn btn-new"> Añadir archivo</a>
+                        <!-- <a class="btn btn-new"> Añadir archivo</a> -->
                         <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
                         <!-- href="/compare" -->
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
@@ -137,9 +137,7 @@
         }
 
         for (var i = 0; i < estudio.comparativa.length; i++) {
-            console.log(estudio.comparativa)
             for (var j = 0; j < estudio.comparativa[i]['recomendaciones']['curriculum'].length; j++) {
-                console.log(estudio.comparativa[i]['recomendaciones']['curriculum'])
                 if ($('#curriculum_' + i + elem_curriculum).prop('checked')) {
                     estudio.comparativa[i]['recomendaciones']['curriculum'].splice(j, 1)
                     j--
@@ -187,7 +185,6 @@
             contentType: "application/json",
             encode: true,
             success: function (data) {
-                alert("Estudio añadido!!! :) ");
                 window.location.href = "/";
             },
             error: function (data) {

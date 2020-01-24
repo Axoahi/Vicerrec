@@ -104,7 +104,8 @@ def upload():
                 else:
                     print("El archivo no existe")
 
-    return Response(json.dumps(textoSacado), mimetype='application/json')
+    #return Response(json.dumps(textoSacado), mimetype='application/json')
+    return render_template("public/study.html", data=json.dumps(textoSacado))
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
@@ -113,7 +114,12 @@ def getExcel():
     # Si no existe el directorio donde dejar los archivos, se crea
     if not os.path.isdir(target):
         os.mkdir(target)
-    nombre = request.form["pynombre"]
+
+    print(request.form["pynombre"])
+    if  not request.form["pynombre"]:
+        nombre = "estudio"
+    else:
+        nombre = request.form["pynombre"]
     listado = request.form["pylistadoAneca"]
     newlistado = ast.literal_eval(listado)
     # Se crea el archivo y se devuelve ruta y nombre para bajar y eliminar

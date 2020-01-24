@@ -1,5 +1,9 @@
 * {
     font-family: 'Roboto', sans-serif;
+
+}
+body{
+    background-color: #f8f9fa !important;
 }
 
 .menu {
@@ -28,6 +32,10 @@ img {
 
 input[type=file] {
     padding: 10px;
+}
+
+.num-elem {
+    position: initial !important;
 }
 
 
@@ -101,7 +109,8 @@ h1 {
 }
 
 .it .btn-new,
-.it .btn-next {
+.it .btn-next,
+.it .btn-acep {
     margin          : 30px 0px;
     border-radius   : 0px;
     background-color: #7F8697;
@@ -119,6 +128,10 @@ h1 {
     cursor     : pointer;
     line-height: 54px;
     color      : #849ACF;
+}
+
+.btn-acep {
+    background-color: #ED6B47 !important;
 }
 
 .it .btn-check:hover {
@@ -222,15 +235,19 @@ input#search-bar>focus> :-ms-placeholder {
 
 
 
+.pagination-container {
+    display        : flex;
+    justify-content: flex-end;
+    font-size      : large;
+    margin-bottom  : 2em;
+}
 
-/* table th,
-table td {
-    text-align: center;
-} */
 
-/* table tr:nth-child(even) {
-    background-color: #BEF2F5
-} */
+.pagination {
+    display: flex;
+    justify-content: space-evenly;
+    color: #465881;
+}
 
 .pagination li:hover {
     cursor: pointer;
@@ -265,7 +282,7 @@ table tbody tr {
     padding      : 20px;
     background   : #fff;
     border-radius: 5px;
-    width        : 75%;
+    width        : 50%;
     position     : relative;
     transition   : all 5s ease-in-out;
 }
@@ -274,6 +291,12 @@ table tbody tr {
     margin-top : 0;
     color      : #333;
     font-family: Tahoma, Arial, sans-serif;
+    text-align : center;
+}
+
+.popup label {
+    margin-top: 1rem;
+
 }
 
 .popup .close {

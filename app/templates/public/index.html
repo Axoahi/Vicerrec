@@ -46,13 +46,13 @@
                         <!-- <div class="col-sm-4">
                             <input type="text" class="form-control" name="" placeholder="Tipo">
                         </div> -->
-                        <div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a>
-                        </div>
+                        <!-- <div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a>
+                        </div> -->
                     </div>
                 </div>
                 <div class="text-center">
                     <a class="btn btn-new"> Añadir nuevo</a>
-                    <a class="btn btn-next" href="#acep"> Acepciones</a>
+                    <a class="btn btn-acep" href="#acep"> Acepciones</a>
                     <input type="submit" value="Comenzar" id="upload-button" class="btn btn-next">
                 </div>
             </form>
@@ -61,18 +61,18 @@
             <div class="popup">
                 <h2>Acepciones</h2><a class="close" href="#">×</a>
                 <div class="content">
-                    <label for="curriculum">Curriculum</label>
+                    <label for="curriculum">Curriculum:</label>
                     <input type="text" class="form-control" id="curriculum" value="">
-                    <label for="coordinacion">Coordinación</label>
+                    <label for="coordinacion">Coordinación:</label>
                     <input type="text" class="form-control" id="coordinacion">
-                    <label for="web">Web</label>
+                    <label for="web">Web:</label>
                     <input type="text" class="form-control" id="web">
-                    <label for="docencia">Docentia</label>
+                    <label for="docencia">Docentia:</label>
                     <input type="text" class="form-control" id="docentia">
-                    <label for="otras">Otras</label>
+                    <label for="otras">Otras:</label>
                     <input type="text" class="form-control" id="otras">
                     <div class="text-center it">
-                        <a class="btn btn-next" href="javascript:putAcep()"> Acepciones</a>
+                        <a class="btn btn-acep" href="javascript:putAcep()"> Acepciones</a>
                     </div>
                 </div>
             </div>
@@ -80,22 +80,22 @@
     </div>
     <div class="container">
         <h4>Cargar estudio:</h4>
-        <div class="row">
+        <!-- <div class="row">
             <form class="search-container">
                 <input type="text" id="search-bar" placeholder="What can I help you with today?">
                 <a href="#"><img class="search-icon"
                         src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
             </form>
 
-        </div>
+        </div> -->
     </div>
 
     <div class="container">
-        <div class="form-group col-sm-2">
+        <div class="form-group col-sm-2 num-elem">
             <select class="form-control" name="state" id="maxRows">
                 <option value="5000">Todos</option>
                 <option value="5">5</option>
-                <option value="10">10</option>
+                <!-- <option value="10">10</option> -->
             </select>
 
         </div>
@@ -115,11 +115,11 @@
             <nav>
                 <ul class="pagination">
                     <li data-page="prev">
-                        <span><i class="material-icons">skip_previous</i><span class="sr-only">(current)
+                        <span><i class="material-icons">navigate_before</i><span class="sr-only">(current)
                             </span></span>
                     </li>
                     <li data-page="next" id="prev">
-                        <span><i class="material-icons">skip_next</i> <span class="sr-only">(current)</span></span>
+                        <span><i class="material-icons">navigate_next</i> <span class="sr-only">(current)</span></span>
                     </li>
                 </ul>
             </nav>

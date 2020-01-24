@@ -191,17 +191,6 @@ html {
     top       : 0;
 }
 
-/* safari and ios need the tfoot itself to be position:sticky also */
-/* .table-scroll tfoot,
-.table-scroll tfoot th,
-.table-scroll tfoot td {
-    position  : -webkit-sticky;
-    position  : sticky;
-    bottom    : 0;
-    background: #666;
-    color     : #fff;
-    z-index   : 4;
-} */
 
 
 /* testing links*/

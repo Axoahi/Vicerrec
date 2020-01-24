@@ -423,13 +423,48 @@ function detailHtml(datos) {
             }
         }
 
-        htmlTable +=
-            '<td><a href="#info_' + i + '0"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#info_' + i + '1"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#info_' + i + '2"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#info_' + i + '3"><i class="material-icons">open_in_new</i></a></td>' +
-            '<td><a href="#info_' + i + '4"><i class="material-icons">open_in_new</i></a></td>' +
-            "</tr>"
+        if(datos[i]['recomendaciones']['curriculum'].length == 0){
+            htmlTable +=
+                '<td><i class="material-icons">cancel_presentation</i></td>' 
+        }else{
+            htmlTable +=
+                '<td><a href="#info_' + i + '0" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+        }
+
+        if(datos[i]['recomendaciones']['docentia'].length == 0){
+            htmlTable +=
+                '<td><i class="material-icons">cancel_presentation</i></td>' 
+        }else{
+            htmlTable +=
+                '<td><a href="#info_' + i + '1" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+        }
+
+        if(datos[i]['recomendaciones']['web'].length == 0){
+            htmlTable +=
+                '<td><i class="material-icons">cancel_presentation</i></td>' 
+        }else{
+            htmlTable +=
+                '<td><a href="#info_' + i + '2" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+        }
+
+        if(datos[i]['recomendaciones']['coordinacion'].length == 0){
+            htmlTable +=
+                '<td><i class="material-icons">cancel_presentation</i></td>' 
+        }else{
+            htmlTable +=
+                '<td><a href="#info_' + i + '3" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+        }
+
+        if(datos[i]['recomendaciones']['otras'].length == 0){
+            htmlTable +=
+                '<td><i class="material-icons">cancel_presentation</i></td>' +
+                "</tr>"
+        }else{
+            htmlTable +=
+                '<td><a href="#info_' + i + '4" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' +
+                "</tr>"
+        }
+            
     }
     document.getElementById("listDocs").innerHTML = htmlTable;
 };
@@ -441,13 +476,11 @@ function popupHtml(datos) {
             htmlTable +=
                 '<div id="info_' + i + j + '"  class="overlay">' +
                 '<div class="popup">'
-
-
             if (j == 0) {
 
                 htmlTable +=
                     '<h2>Curriculum</h2>' +
-                    '<a class="close" href="#">&times;</a>' +
+                    '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
                     '<div class="content">' +
                     '<p>' + datos[i]['recomendaciones']['curriculum'] + '</p>'
 
@@ -455,7 +488,7 @@ function popupHtml(datos) {
 
                 htmlTable +=
                     '<h2>Docentia</h2>' +
-                    '<a class="close" href="#">&times;</a>' +
+                    '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
                     '<div class="content">' +
                     '<p>' + datos[i]['recomendaciones']['docentia'] + '</p>'
 
@@ -463,7 +496,7 @@ function popupHtml(datos) {
 
                 htmlTable +=
                     '<h2>Web</h2>' +
-                    '<a class="close" href="#">&times;</a>' +
+                    '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
                     '<div class="content">' +
                     '<p>' + datos[i]['recomendaciones']['web'] + '</p>'
 
@@ -471,7 +504,7 @@ function popupHtml(datos) {
 
                 htmlTable +=
                     '<h2>Coordinación</h2>' +
-                    '<a class="close" href="#">&times;</a>' +
+                    '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
                     '<div class="content">' +
                     '<p>' + datos[i]['recomendaciones']['coordinacion'] + '</p>'
 
@@ -479,7 +512,7 @@ function popupHtml(datos) {
 
                 htmlTable +=
                     '<h2>Otras</h2>' +
-                    '<a class="close" href="#">&times;</a>' +
+                    '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
                     '<div class="content">' +
                     '<p>' + datos[i]['recomendaciones']['otras'] + '</p>'
 
@@ -524,6 +557,14 @@ function showDetail() {
     document.getElementById("comparative").style.display = "none";
     document.getElementById("view").value = "Vista comparativa"
     document.getElementById("view").setAttribute("onclick", "showComparative()")
+}
+
+function showPopup(){
+    document.getElementById("comparative").style.display = "none";
+}
+
+function closePopup(){
+    document.getElementById("comparative").style.display = "block"; 
 }
 
 function updateStudy() {
