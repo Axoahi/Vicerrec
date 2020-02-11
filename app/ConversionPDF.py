@@ -1,5 +1,3 @@
-import json
-
 import tika
 import itertools
 from tika import parser
@@ -10,8 +8,7 @@ import json
 tika.initVM()
 
 
-def extraeInfo(fileName, acepUser):
-
+def extraeInfo(prueba2, acepUser, tipoInforme):
     ###### BÚSQUEDA DE RECOMENDACIONES ################################
     recomendaciones = [['curriculum', 'currículum', 'currícula', 'curricula'],
                        ['docentia', 'DOCENTIA', 'Docentia'],
@@ -24,58 +21,59 @@ def extraeInfo(fileName, acepUser):
     for i in range(len(recomendaciones)):
         recomendaciones[i] = recomendaciones[i] + acepUser[i]
 
-    print(recomendaciones)
-
-    parsed = parser.from_file(fileName)
-    textoraw = parsed['content']
-
-    # Eliminamos todas los saltos de línea para tenerlo todo junto
-    textofilter = re.sub("\\n", " ", textoraw)
-    prueba2 = re.sub("\\s\\s", " ", textofilter)
-
-    # Extracción de tipo de archivo
-    defRenova = "INFORME DEFINITIVO DE RENOVACIÓN DE LA ACREDITACIÓN"
-    provRenova = "INFORME PROVISIONAL DE RENOVACIÓN DE LA ACREDITACIÓN"
-    if (defRenova in prueba2):
-        tipoInforme = "Definitivo Renovación"
-    elif (provRenova in prueba2):
-        tipoInforme = "Provisional Renovación"
-
     # Extracción código
-    numRUCT = re.search("Número de RUCT:(.*) Fecha ", prueba2)
-    numRUCT = numRUCT[1].lstrip()
+    try:
+        numRUCT = re.search("Número de RUCT:(.*) Fecha ", prueba2)
+        numRUCT = numRUCT[1].lstrip()
+    except:
+        numRUCT = "--"
 
     # Extracción título
     titulo = re.search("(Título(.*) Universidad:)", prueba2)
     titulo = titulo[0].replace("Título: ", "").replace(" Universidad:", "")
 
     # Extracción año
-    anyo = re.search("verificación:\s*(\d*)\s*Valoración", prueba2)
-    anyo = anyo[1]
+    try:
+        anyo = re.search("verificación:\s*(\d*)\s*Valoración", prueba2)
+        anyo = anyo[1]
+    except:
+        anyo = "--"
 
     # Extracción universidad
     universidad = re.search("(Universidad: )(.*)Centro:", prueba2)
     universidad = universidad[0].replace("Universidad: ", "").replace(" Centro:", "")
 
     # Extracción rama
-    rama = re.search("(cimiento: )(.*)Créditos:", prueba2)
-    rama = rama[0].replace("cimiento: ", "").replace(" Créditos:", "")
+    try:
+        rama = re.search("(cimiento: )(.*)Créditos:", prueba2)
+        rama = rama[0].replace("cimiento: ", "").replace(" Créditos:", "")
+    except:
+        rama = "--"
 
     # Extracción créditos
-    creditos = re.search("(Créditos: )(\d+)", prueba2)
-    creditos = creditos[0].replace("Créditos: ", "")
+    try:
+        creditos = re.search("(Créditos: )(\d+)", prueba2)
+        creditos = creditos[0].replace("Créditos: ", "")
+    except:
+        creditos = "--"
 
     # Extracción nºplazas
-    nplazas = re.search("(Nº plazas: )(\d+)", prueba2)
-    nplazas = nplazas[0].replace("Nº plazas: ", "")
+    try:
+        nplazas = re.search("(Nº plazas: )(\d+)", prueba2)
+        nplazas = nplazas[0].replace("Nº plazas: ", "")
+    except:
+        nplazas = "--"
 
     # Extracción de centro (se me había olvidado, ups)
     centro = re.search("(Centro: )(.*)Rama de conocimiento:", prueba2)
     centro = centro[0].replace("Centro: ", "").replace(" Rama de conocimiento:", "")
 
     # Extracción de fecha
-    fecha = re.search("(Fecha verificación: )(\d+)", prueba2)
-    fecha = fecha[0].replace("Fecha verificación: ", "")
+    try:
+        fecha = re.search("(Fecha verificación: )(\d+)", prueba2)
+        fecha = fecha[0].replace("Fecha verificación: ", "")
+    except:
+        fecha = "--"
 
     #### Array de criterios ######
     ## Del 1 al 7, según criterios medidos. Para cada criterio
@@ -269,7 +267,7 @@ def extraeInfo(fileName, acepUser):
 
     # Extracción valoración global
     # Al añadir el ? dentro del (.*?) hacemos que no busque de manera tan greedy, y solo se queda con la primera solución
-    #valGlob = re.search("(Valoración global )(.*?)INFORME DEFINITIVO DE RENOVACIÓN", prueba2)
+    # valGlob = re.search("(Valoración global )(.*?)INFORME DEFINITIVO DE RENOVACIÓN", prueba2)
     valGlob = re.search("Valoración global (\w*)", prueba2)
     valGlob = valGlob[0].replace("Valoración global ", "").replace("INFORME DEFINITIVO DE RENOVACIÓN", "")
     # Esta línea elimina los espacios del string al principio (a la parte left, por eso la l del lstrip)
@@ -431,3 +429,27 @@ def reordena(frases, otrosJSON, recomendaciones):
 
     # Devolvemos la lista ordenada a la cuál se le ha anexado listaOtros flateada
     return (listaSinDup)
+
+
+# Abstracción para la detección de informes válidos y no válidos
+def validaInforme(fileName, acepUser):
+    parsed = parser.from_file(fileName)
+    textoraw = parsed['content']
+
+    # Eliminamos todas los saltos de línea para tenerlo todo junto
+    textofilter = re.sub("\\n", " ", textoraw)
+    prueba2 = re.sub("\\s\\s", " ", textofilter)
+
+    # Extracción de tipo de archivo
+    defRenova = "INFORME DEFINITIVO DE RENOVACIÓN DE LA ACREDITACIÓN"
+    provRenova = "INFORME PROVISIONAL DE RENOVACIÓN DE LA ACREDITACIÓN"
+    if (defRenova in prueba2):
+        tipoInforme = "Definitivo Renovación"
+        infoSacada = extraeInfo(prueba2, acepUser, tipoInforme)
+    elif (provRenova in prueba2):
+        tipoInforme = "Provisional Renovación"
+        infoSacada = extraeInfo(prueba2, acepUser, tipoInforme)
+    else:
+        infoSacada = False
+    #print(infoSacada)
+    return infoSacada

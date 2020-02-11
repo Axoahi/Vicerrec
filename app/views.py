@@ -97,7 +97,10 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
+                try:
+                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                except:
+                    textoSacado.append(False)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -107,6 +110,7 @@ def upload():
                     print("El archivo no existe")
 
     #return Response(json.dumps(textoSacado), mimetype='application/json')
+    print(textoSacado)
     return render_template("public/study.html", data=json.dumps(textoSacado))
 
 # Procesamiento de subida de archivo, previo a muestra de
