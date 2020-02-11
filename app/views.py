@@ -96,7 +96,7 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
+                textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
