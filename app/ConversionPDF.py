@@ -450,6 +450,6 @@ def validaInforme(fileName, acepUser):
         tipoInforme = "Provisional Renovación"
         infoSacada = extraeInfo(prueba2, acepUser, tipoInforme)
     else:
-        infoSacada = ""
-    print(infoSacada)
+        infoSacada = False
+    #print(infoSacada)
     return infoSacada
