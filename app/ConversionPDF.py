@@ -33,6 +33,14 @@ def extraeInfo(fileName, acepUser):
     textofilter = re.sub("\\n", " ", textoraw)
     prueba2 = re.sub("\\s\\s", " ", textofilter)
 
+    # Extracción de tipo de archivo
+    defRenova = "INFORME DEFINITIVO DE RENOVACIÓN DE LA ACREDITACIÓN"
+    provRenova = "INFORME PROVISIONAL DE RENOVACIÓN DE LA ACREDITACIÓN"
+    if (defRenova in prueba2):
+        tipoInforme = "Definitivo Renovación"
+    elif (provRenova in prueba2):
+        tipoInforme = "Provisional Renovación"
+
     # Extracción código
     numRUCT = re.search("Número de RUCT:(.*) Fecha ", prueba2)
     numRUCT = numRUCT[1].lstrip()
@@ -303,7 +311,7 @@ def extraeInfo(fileName, acepUser):
     # el JSON
     criteriosJSON = reordena(frasesJSON, otrosJSON, recomendaciones)
 
-    dataTo = creadExport.creaJSON(numRUCT, titulo, anyo, listValCrit, valGlob, criteriosJSON)
+    dataTo = creadExport.creaJSON(numRUCT, titulo, anyo, centro, tipoInforme, listValCrit, valGlob, criteriosJSON)
     # dataToFront = json.dumps(dataTo, sort_keys = False, indent = 2)
 
     return (dataTo)

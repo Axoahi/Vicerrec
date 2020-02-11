@@ -3,11 +3,13 @@ import pandas as pd
 import os
 import ast
 
-def creaJSON(codig, titulo, anyo, criterios, valoracionGlobal, observaciones):
+def creaJSON(codig, titulo, anyo, centro, tipoInforme, criterios, valoracionGlobal, observaciones):
     data = {
                 "codigo": codig,
                 "titulo": titulo,
                 "anyo": anyo,
+                "centro": centro,
+                "tipoInforme": tipoInforme,
                 "gestiontitulo": {
                     "organizacionydesarrollo": criterios[0],
                     "informacionytransparencia":criterios[1],
@@ -44,7 +46,7 @@ def aplanarRecomendaciones(lista):
     return recomendacion
 
 def exportarExcel(nombreExcel, listadoJSON):
-    lista = ["Código","Título", "Año","Organización y desarrollo","Información y transparencia","SGIC",
+    lista = ["Código","Título", "Año","Centro", "Tipo de informe", "Organización y desarrollo","Información y transparencia","SGIC",
              "Personal Académico","Apoyo y recursos materiales","Resultados","Indicadores","Nota Final",
              "CURRÍCULUM","DOCENTIA","WEB","COORDINACIÓN","OTRAS"]
     df = pd.DataFrame(columns=lista)
@@ -54,6 +56,8 @@ def exportarExcel(nombreExcel, listadoJSON):
         Codigo = item["codigo"]
         Titulo = item["titulo"]
         Anyo = item["anyo"]
+        Centro = item["centro"]
+        Tipo_de_Informe = item["tipoInforme"]
         Organizacion_y_desarrollo = item["gestiontitulo"]["organizacionydesarrollo"]
         Informacion_y_transparencia = item["gestiontitulo"]["informacionytransparencia"]
         SGIC = item["gestiontitulo"]["SGIC"]
@@ -68,7 +72,7 @@ def exportarExcel(nombreExcel, listadoJSON):
         coordinacion = aplanarRecomendaciones(item["recomendaciones"]["coordinacion"])
         otras = aplanarRecomendaciones(item["recomendaciones"]["otras"])
        
-        data = [Codigo,Titulo,Anyo,Organizacion_y_desarrollo,Informacion_y_transparencia,SGIC,Personal_academico,Apoyo_y_recursos_materiales,Resultados,Indicadores,Nota_Final,curriculum,docentia,web,coordinacion,otras]
+        data = [Codigo,Titulo,Anyo,Centro, Tipo_de_Informe, Organizacion_y_desarrollo,Informacion_y_transparencia,SGIC,Personal_academico,Apoyo_y_recursos_materiales,Resultados,Indicadores,Nota_Final,curriculum,docentia,web,coordinacion,otras]
         df_item = pd.DataFrame([data],columns=lista)
         df = df.append(df_item)
     df.to_excel(os.getcwd() + "/data/" + nombreExcel + ".xls", index=False)
