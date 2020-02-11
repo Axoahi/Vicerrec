@@ -138,14 +138,13 @@ h1 {
     color: #ED6B47;
 }
 
-
-
-.it .uploadDoc {
-    margin-bottom: 20px;
+#uploader{
+    display: flex;
 }
 
 .it .uploadDoc {
-    margin-bottom: 20px;
+    display: flex;
+    /* margin-bottom: 20px; */
 }
 
 .it .btn-orange img {

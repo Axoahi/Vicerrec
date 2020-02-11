@@ -107,7 +107,7 @@ $(document).ready(function () {
     });
 
     $(".btn-new").on('click', function () {
-        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Upload document</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
+        $("#uploader").append('<div class="uploadDoc"><div class="col-sm-10"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Upload document</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
     });
 
     $(document).on("click", "a.btn-check", function () {
@@ -150,7 +150,7 @@ function putAcep() {
     }
     
     document.getElementById("acepUser").value = JSON.stringify(acepciones)
-    window.location.href = "#"
+    window.location.href = ""
 }
 
 /*PAGINATION 
