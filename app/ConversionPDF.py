@@ -3,7 +3,7 @@ import itertools
 from tika import parser
 import re
 import creadExport
-import json
+import estadisticas as est
 
 tika.initVM()
 
@@ -446,10 +446,11 @@ def validaInforme(fileName, acepUser):
     if (defRenova in prueba2):
         tipoInforme = "Definitivo Renovación"
         infoSacada = extraeInfo(prueba2, acepUser, tipoInforme)
+        est.actualizarEstadistica(infoSacada["centro"])
     elif (provRenova in prueba2):
         tipoInforme = "Provisional Renovación"
         infoSacada = extraeInfo(prueba2, acepUser, tipoInforme)
+        est.actualizarEstadistica(infoSacada["centro"])
     else:
         infoSacada = False
-    #print(infoSacada)
     return infoSacada

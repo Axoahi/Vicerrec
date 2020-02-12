@@ -110,7 +110,6 @@ def upload():
                     print("El archivo no existe")
 
     #return Response(json.dumps(textoSacado), mimetype='application/json')
-    print(textoSacado)
     return render_template("public/study.html", data=json.dumps(textoSacado))
 
 # Procesamiento de subida de archivo, previo a muestra de
