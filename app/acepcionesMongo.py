@@ -21,11 +21,11 @@ def findAcepcionesByUser(user):
 	return acepcion[0]
 
 def actualizarAcepcion(user, acepcion):
-	collection.replace_one({'user': user},acepcion)
+	id = collection.replace_one({'user': user},acepcion)
 	return id
 
 def borrarAcepcion(id):
-	collection.delete_one({"_id": ObjectId(id)})
+	id = collection.delete_one({"_id": ObjectId(id)})
 	print("Item borrado")
 
 

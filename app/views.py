@@ -8,6 +8,7 @@ import estudiosMongo
 import acepcionesMongo
 import ConversionPDF
 import creadExport
+import estadisticas
 from werkzeug.utils import secure_filename
 from flask import request, redirect, url_for, Response
 from flask import render_template
@@ -217,6 +218,15 @@ def updateAcepcion():
     acepcion = acepcionesMongo.actualizarAcepcion('default', listaAcepciones)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
+#ESTADISTICAS
+@app.route("/stadistics", methods=['GET','POST'])
+def updateEstadisticas(titulacion):
+
+    success = estadisticas.actualizarEstadistica(titulacion)
+    if(success == True):
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+    else:
+        return json.dumps({'success': False}), 200, {'ContentType': 'application/json'}
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True)
