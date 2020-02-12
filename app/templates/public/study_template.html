@@ -30,9 +30,8 @@
             <div class="col-md">
                 <div class="form-group">
                     <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
-                        <!-- <label for="nombre" class="col-lg-2 col-form-label">Nombre del estudio</label> -->
                         <input type="text" class="form-control" id="nombre" name="pynombre"
-                            placeholder="Nombre del estudio" required>
+                            placeholder="Nombre del estudio">
                         <!-- <a class="btn btn-new"> Añadir archivo</a> -->
                         <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
                         <!-- href="/compare" -->
@@ -130,6 +129,12 @@
         };
         var aux = '{{ data|safe }}'
         var datos = JSON.parse(aux);
+
+        if(name == ""){
+            document.getElementById("nombre").focus()
+            return
+        }
+
         for (var i in datos) {
             var item = datos[i];
             estudio.comparativa.push(item);

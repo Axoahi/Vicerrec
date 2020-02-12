@@ -61,6 +61,7 @@ def detalles(id):
 # Página nuevo estudio
 @app.route("/study", methods=['POST', "GET"])
 def upload():
+
     # Borramos todos los archivos excel que existan previamente en el servidor
     files = glob.glob(app.config["CLIENT_DIRECTORY"]+"*.xls")
 
@@ -80,7 +81,7 @@ def upload():
     # Miramos que la lista de archivos a subir no esté vacía
     if request.files['file'].filename == '':
         print("Se debe de subir un archivo por lo menos")
-        return redirect(url_for('about'))
+        return redirect(url_for('index'))
     else:
         archiValidos = []
         textoSacado = []
