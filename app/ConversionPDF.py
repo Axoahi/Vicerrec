@@ -25,6 +25,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
     try:
         numRUCT = re.search("Número de RUCT:(.*) Fecha ", prueba2)
         numRUCT = numRUCT[1].lstrip()
+        if numRUCT == "":
+            numRUCT = "--"
     except:
         numRUCT = "--"
 
@@ -36,6 +38,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
     try:
         anyo = re.search("verificación:\s*(\d*)\s*Valoración", prueba2)
         anyo = anyo[1]
+        if anyo == "":
+            anyo = "--"
     except:
         anyo = "--"
 
@@ -47,6 +51,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
     try:
         rama = re.search("(cimiento: )(.*)Créditos:", prueba2)
         rama = rama[0].replace("cimiento: ", "").replace(" Créditos:", "")
+        if rama == "":
+            rama = "--"
     except:
         rama = "--"
 
@@ -54,6 +60,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
     try:
         creditos = re.search("(Créditos: )(\d+)", prueba2)
         creditos = creditos[0].replace("Créditos: ", "")
+        if creditos == "":
+            creditos = "--"
     except:
         creditos = "--"
 
@@ -61,6 +69,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
     try:
         nplazas = re.search("(Nº plazas: )(\d+)", prueba2)
         nplazas = nplazas[0].replace("Nº plazas: ", "")
+        if nplazas == "":
+            nplazas = "--"
     except:
         nplazas = "--"
 
@@ -72,6 +82,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
     try:
         fecha = re.search("(Fecha verificación: )(\d+)", prueba2)
         fecha = fecha[0].replace("Fecha verificación: ", "")
+        if fecha == "":
+            fecha = "--"
     except:
         fecha = "--"
 
@@ -311,7 +323,8 @@ def extraeInfo(prueba2, acepUser, tipoInforme):
 
     dataTo = creadExport.creaJSON(numRUCT, titulo, anyo, centro, tipoInforme, listValCrit, valGlob, criteriosJSON)
     # dataToFront = json.dumps(dataTo, sort_keys = False, indent = 2)
-
+    print(anyo)
+    print(dataTo)
     return (dataTo)
 
 
