@@ -218,9 +218,11 @@ def anyadirArchivos(json, files, acepciones):
                 else:
                     print("El archivo no existe")
     if id in json:
-        print("tiene ID")
+        return render_template("public/study.html", data=json.dumps(textoSacado))
     else:
-        print("no tiene ID")
+        textoCompleto = json
+        textoCompleto["comparativa"].append(textoSacado)
+        return render_template("public/study.html", data=json.dumps(textoCompleto))
     # json
     # textoSacado
 
