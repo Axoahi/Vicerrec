@@ -274,13 +274,8 @@ def updateAcepcion():
 
 #ESTADISTICAS
 @app.route("/stadistics", methods=['GET','POST'])
-def updateEstadisticas():
-
-    success = estadisticas.actualizarEstadistica("que te jodan")
-
-    success = estadisticas.actualizarEstadistica("informatica")
-
-    # success = estadisticas.actualizarEstadistica(titulacion)
+def updateEstadisticas(centro):
+    success = estadisticas.actualizarEstadistica(centro)
     if(success == True):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     else:
