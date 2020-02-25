@@ -176,7 +176,10 @@ def actualizar():
 
 #Añadir archivos a un estudio
 @app.route("/addFiles", methods=['POST'])
-def anyadirArchivos(json, files, acepciones):
+def anyadirArchivos():
+    json = request.get_json('estudio')
+    files = request.get_json('newFiles')
+    acepciones = request.get_json('acep')
 
     dictAcepUser = ast.literal_eval(acepciones)
     acepUser = list(dictAcepUser.values())
