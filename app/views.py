@@ -97,10 +97,7 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                try:
-                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
-                except:
-                    textoSacado.append(False)
+                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -177,6 +174,59 @@ def actualizar():
     done = estudiosMongo.actualizarEstudio(id,estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
+#Añadir archivos a un estudio
+@app.route("/addFiles", methods=['POST'])
+def anyadirArchivos(json, files, acepciones):
+
+    dictAcepUser = ast.literal_eval(acepciones)
+    acepUser = list(dictAcepUser.values())
+
+    #Limpiamos archivos antiguos del server
+    for f in files:
+        os.remove(f)
+
+    target = os.path.join(app.instance_path)
+    # Si no existe el directorio donde dejar los archivos, se crea
+    if not os.path.isdir(target):
+        os.mkdir(target)
+
+    # Miramos que la lista de archivos a subir no esté vacía
+    if len(files) == 0:
+        print("Se debe de subir un archivo por lo menos")
+        return redirect(url_for('index'))
+    else:
+        archiValidos = []
+        textoSacado = []
+        # Recorremos los archivos, y aplicamos seguridad básica
+        for file in files:
+            filename = file
+
+            # Si el archivo ha pasado la seguridad básica, se procesa.
+            if archivoPermitido(filename):
+                # Otra capa de seguridad
+                filename = secure_filename(filename)
+                destination = "/".join([target, filename])
+                # Se guarda el archivo
+                file.save(destination)
+                # Leemos law información del archivo
+                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
+
+                # Una vez se ha subido el archivo y se ha procesado, se elimina
+                if os.path.exists(destination):
+                    os.remove(destination)
+                    print("Archivo eliminado")
+                else:
+                    print("El archivo no existe")
+    if id in json:
+        print("tiene ID")
+    else:
+        print("no tiene ID")
+    # json
+    # textoSacado
+
+    #if tiene id devolvemos C
+    #if not devolvemos ABC
+
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
@@ -224,9 +274,8 @@ def updateAcepcion():
 
 #ESTADISTICAS
 @app.route("/stadistics", methods=['GET','POST'])
-def updateEstadisticas(titulacion):
-
-    success = estadisticas.actualizarEstadistica(titulacion)
+def updateEstadisticas(centro):
+    success = estadisticas.actualizarEstadistica(centro)
     if(success == True):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     else:
