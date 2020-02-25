@@ -1,6 +1,111 @@
+//onInit()
+$(document).ready(function () {
+    document.getElementById("acepUser").value = JSON.stringify(
+        { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] })
+});
+
+function showPopupAcep() {
+    document.getElementById("comparative").style.display = "none";
+    document.getElementById("detail").style.display = "none";
+}
+
+function closePopupAcep() {
+    document.getElementById("comparative").style.display = "block";
+    document.getElementById("detail").style.display = "block";
+}
+
+
+
+var fileTypes = ['pdf'];  //acceptable file types
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
+            isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
+
+        if (isSuccess) { //yes
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                if (extension == 'pdf') {
+                    $(input).closest('.fileUpload').find(".icon").attr('src', 'https://image.flaticon.com/icons/svg/179/179483.svg');
+                }
+                else {
+                    $(input).closest('.uploadDoc').find(".docErr").slideUp('slow');
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+        else {
+            $(input).closest('.uploadDoc').find(".docErr").fadeIn();
+            setTimeout(function () {
+                $('.docErr').fadeOut('slow');
+            }, 9000);
+        }
+    }
+}
+
+$(document).ready(function () {
+
+    $(document).on('change', '.up', function () {
+        var id = $(this).attr('id'); /* gets the filepath and filename from the input */
+        var profilePicValue = $(this).val();
+        var fileNameStart = profilePicValue.lastIndexOf('\\'); /* finds the end of the filepath */
+        profilePicValue = profilePicValue.substr(fileNameStart + 1).substring(0, 20); /* isolates the filename */
+        //var profilePicLabelText = $(".upl"); /* finds the label text */
+        if (profilePicValue != '') {
+            $(this).closest('.fileUpload').find('.upl').html(profilePicValue); /* changes the label text */
+        }
+    });
+
+    $(".btn-new").on('click', function () {
+        $("#uploader").append('<div class="uploadDoc"><div class="col-sm-10"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Subir documento</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
+    });
+
+    $(document).on("click", "a.btn-check", function () {
+        if ($(".uploadDoc").length > 1) {
+            $(this).closest(".uploadDoc").remove();
+        } else {
+            alert("You have to upload at least one document.");
+        }
+    });
+});
+
+
+
+function putAcep() {
+    var acepciones = { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
+    var curriculum_form = document.getElementById("curriculum").value
+    var curriculum = curriculum_form.split(",")
+    var docentia_form = document.getElementById("docentia").value
+    var docentia = docentia_form.split(",")
+    var web_form = document.getElementById("web").value
+    var web = web_form.split(",")
+    var coordinacion_form = document.getElementById("coordinacion").value
+    var coordinacion = coordinacion_form.split(",")
+    var otras_form = document.getElementById("otras").value
+    var otras = otras_form.split(",")
+    if (curriculum != "") {
+        acepciones["curriculum"] = curriculum
+    }
+    if (docentia != "") {
+        acepciones["docentia"] = docentia
+    }
+    if (web != "") {
+        acepciones["web"] = web
+    }
+    if (coordinacion != "") {
+        acepciones["coordinacion"] = coordinacion
+    }
+    if (otras != "") {
+        acepciones["otros"] = otras
+    }
+
+    document.getElementById("acepUser").value = JSON.stringify(acepciones)
+    window.location.href = ""
+}
+
+
 function detailHtml(datos) {
     var htmlTable = ""
-
     for (var i = 0; i < datos.length; i++) {
 
         htmlTable +=
@@ -19,7 +124,15 @@ function detailHtml(datos) {
             "<p>" + datos[i]['codigo'] + "</p>" +
             "</section>" +
             "<section class='col'>" +
-            "<h6>año</h6>" +
+            "<h6>Centro</h6>" +
+            "<p>" + datos[i]['centro'] + "</p>" +
+            "</section>" +
+            "<section class='col'>" +
+            "<h6>Tipo informe</h6>" +
+            "<p>" + datos[i]['tipoInforme'] + "</p>" +
+            "</section>" +
+            "<section class='col'>" +
+            "<h6>Año</h6>" +
             "<p>" + datos[i]['anyo'] + "</p>" +
             "</section>" +
             "</section>" +
@@ -217,13 +330,12 @@ function detailHtml(datos) {
 // AMARILLO: Adecuada, Adecuado, Se alcanza parcialmente, Suficiente
 // ROJO: Insuficiente, No se alcanza
 
- function tablaHtml(datos) {
+function tablaHtml(datos) {
     var htmlTable = ""
     var perfect = ["Excelente", "Se alcanza", "Satisfactorio", 'Satisfactoria', "Se supera excelentemente", 'Favorable']
     var good = ['Adecuada', 'Adecuado', 'Se alcanza parcialmente', 'Suficiente']
-    var bad = ["Insuficiente", "No se alcanza"]
+    var bad = ["Insuficiente", "No se alcanza", "Desfavorable"]
     var state
-
     for (var i = 0; i < datos.length; i++) {
         htmlTable +=
             '<tr>' +
@@ -423,48 +535,48 @@ function detailHtml(datos) {
             }
         }
 
-        if(datos[i]['recomendaciones']['curriculum'].length == 0){
+        if (datos[i]['recomendaciones']['curriculum'].length == 0) {
             htmlTable +=
-                '<td><i class="material-icons">cancel_presentation</i></td>' 
-        }else{
+                '<td><i class="material-icons">cancel_presentation</i></td>'
+        } else {
             htmlTable +=
-                '<td><a href="#info_' + i + '0" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+                '<td><a href="#info_' + i + '0" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>'
         }
 
-        if(datos[i]['recomendaciones']['docentia'].length == 0){
+        if (datos[i]['recomendaciones']['docentia'].length == 0) {
             htmlTable +=
-                '<td><i class="material-icons">cancel_presentation</i></td>' 
-        }else{
+                '<td><i class="material-icons">cancel_presentation</i></td>'
+        } else {
             htmlTable +=
-                '<td><a href="#info_' + i + '1" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+                '<td><a href="#info_' + i + '1" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>'
         }
 
-        if(datos[i]['recomendaciones']['web'].length == 0){
+        if (datos[i]['recomendaciones']['web'].length == 0) {
             htmlTable +=
-                '<td><i class="material-icons">cancel_presentation</i></td>' 
-        }else{
+                '<td><i class="material-icons">cancel_presentation</i></td>'
+        } else {
             htmlTable +=
-                '<td><a href="#info_' + i + '2" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+                '<td><a href="#info_' + i + '2" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>'
         }
 
-        if(datos[i]['recomendaciones']['coordinacion'].length == 0){
+        if (datos[i]['recomendaciones']['coordinacion'].length == 0) {
             htmlTable +=
-                '<td><i class="material-icons">cancel_presentation</i></td>' 
-        }else{
+                '<td><i class="material-icons">cancel_presentation</i></td>'
+        } else {
             htmlTable +=
-                '<td><a href="#info_' + i + '3" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' 
+                '<td><a href="#info_' + i + '3" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>'
         }
 
-        if(datos[i]['recomendaciones']['otras'].length == 0){
+        if (datos[i]['recomendaciones']['otras'].length == 0) {
             htmlTable +=
                 '<td><i class="material-icons">cancel_presentation</i></td>' +
                 "</tr>"
-        }else{
+        } else {
             htmlTable +=
                 '<td><a href="#info_' + i + '4" onclick="showPopup();"><i class="material-icons">open_in_new</i></a></td>' +
                 "</tr>"
         }
-            
+
     }
     document.getElementById("listDocs").innerHTML = htmlTable;
 };
@@ -489,32 +601,50 @@ function popupHtml(datos) {
                 htmlTable +=
                     '<h2>Docentia</h2>' +
                     '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
-                    '<div class="content">' +
-                    '<p>' + datos[i]['recomendaciones']['docentia'] + '</p>'
+                    '<div class="content">' + '<ul>'
+                for (var k = 0; k < datos[i]['recomendaciones']['docentia'].length; k++) {
+                    htmlTable +=
+                        '<li>' + datos[i]['recomendaciones']['docentia'][k] + '</li>'
+                }
+                htmlTable += "</ul>"
 
             } else if (j == 2) {
 
                 htmlTable +=
                     '<h2>Web</h2>' +
                     '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
-                    '<div class="content">' +
-                    '<p>' + datos[i]['recomendaciones']['web'] + '</p>'
+                    '<div class="content">' + '<ul>'
+                for (var k = 0; k < datos[i]['recomendaciones']['web'].length; k++) {
+                    htmlTable +=
+                        '<li>' + datos[i]['recomendaciones']['web'][k] + '</li>'
+                }
+                htmlTable += "</ul>"
+
 
             } else if (j == 3) {
 
                 htmlTable +=
                     '<h2>Coordinación</h2>' +
                     '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
-                    '<div class="content">' +
-                    '<p>' + datos[i]['recomendaciones']['coordinacion'] + '</p>'
+                    '<div class="content">' + '<ul>'
+                for (var k = 0; k < datos[i]['recomendaciones']['coordinacion'].length; k++) {
+                    htmlTable +=
+                        '<li>' + datos[i]['recomendaciones']['coordinacion'][k] + '</li>'
+                }
+                htmlTable += "</ul>"
+
 
             } else if (j == 4) {
 
                 htmlTable +=
                     '<h2>Otras</h2>' +
                     '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
-                    '<div class="content">' +
-                    '<p>' + datos[i]['recomendaciones']['otras'] + '</p>'
+                    '<div class="content">' + '<ul>'
+                for (var k = 0; k < datos[i]['recomendaciones']['otras'].length; k++) {
+                    htmlTable +=
+                        '<li>' + datos[i]['recomendaciones']['otras'][k] + '</li>'
+                }
+                htmlTable += "</ul>"
 
             }
 
@@ -559,12 +689,12 @@ function showDetail() {
     document.getElementById("view").setAttribute("onclick", "showComparative()")
 }
 
-function showPopup(){
+function showPopup() {
     document.getElementById("comparative").style.display = "none";
 }
 
-function closePopup(){
-    document.getElementById("comparative").style.display = "block"; 
+function closePopup() {
+    document.getElementById("comparative").style.display = "block";
 }
 
 function updateStudy() {

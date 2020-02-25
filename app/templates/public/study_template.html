@@ -27,24 +27,62 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md">
+            <div class="col-md it">
                 <div class="form-group">
                     <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
                         <input type="text" class="form-control" id="nombre" name="pynombre"
                             placeholder="Nombre del estudio">
-                        <!-- <a class="btn btn-new"> Añadir archivo</a> -->
+                        <div id="uploader" class="row"></div>
+                        <input type="hidden" id="acepUser" value="" name="pyacepUser">
+                        <a class="btn btn-new" title="suma archivos al estudio"> Añadir
+                            PDF</a>
+                        <a class="btn btn-next" onclick="sumarArchivos()" title="crea el estudio"> Añadir al estudio
+                        </a>
+                        <a class="btn btn-acep" href="#acep" title="añade palabras para localizar"> Acepciones</a>
                         <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
-                        <!-- href="/compare" -->
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
                         <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
                         <input type="submit" class="btn btn-pdf" value="Descargar">
-                        <button id="botonEstudio" type="button" class="btn btn-next">Guardar
+                        <button id="botonEstudio" type="button" class="btn btn-upda">Guardar
                             Estudio</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="acep" class="overlay">
+        <div class="popup">
+            <h2>Acepciones</h2><a class="close" href="#" onclick="closePopupAcep()">×</a>
+            <div class="content">
+                <label for="curriculum">Curriculum:</label>
+                <input type="text" class="form-control" id="curriculum" placeholder="ej:campo 1,campo 2">
+                <small>El sistema obtiene frases automáticamente con las palabras de la familia "currículum"</small>
+                <br>
+                <label for="coordinacion">Coordinación:</label>
+                <input type="text" class="form-control" id="coordinacion" placeholder="ej:campo 1,campo 2">
+                <small>El sistema obtiene frases automáticamente con las palabras de la familia "Docentia"</small>
+                <br>
+                <label for="web">Web:</label>
+                <input type="text" class="form-control" id="web" placeholder="ej:campo 1,campo 2">
+                <small>El sistema obtiene frases automáticamente con las palabras de la familia "web"</small> <br>
+                <label for="docencia">Docentia:</label>
+                <input type="text" class="form-control" id="docentia" placeholder="ej:campo 1,campo 2">
+                <small> El sistema obtiene frases automáticamente con las palabras de la familia
+                    "coordinación"</small> <br>
+                <label for="otras">Otras:</label>
+                <input type="text" class="form-control" id="otras" placeholder="ej:campo 1,campo 2">
+                <small> El sistema obtiene frases automáticamente con las palabras de la familia "recomendar",
+                    "aconsejar", "optimizar", "abandono" y con otras estructuras específicas formadas por "baja
+                    respuesta", "baja satisfacción", "se propone", "se debe"</small> <br>
+                <div class="text-center it">
+                    <a class="btn btn-next" href="javascript:putAcep()" onclick="closePopupAcep()"> Guardar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- vista detalle  -->
 
     {% block content_detail %}
@@ -54,6 +92,7 @@
 
     {% block content_tabla %}
     {% endblock %}
+
 
 </body>
 
@@ -115,6 +154,37 @@
         }
     });
 
+
+
+    function sumarArchivos() {
+
+        var acep = document.getElementById("acepUser").value
+        var estudio = JSON.stringify(study)
+        var newFiles = ""
+
+        // console.log(newFiles)
+        for (i = 0; i < document.getElementsByClassName("form-control-file").length; i++) {
+            newFiles += document.getElementsByClassName("form-control-file")[i].value + ","
+        }
+
+        var xmlhttp = new XMLHttpRequest();
+        //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
+        xmlhttp.open("POST", "/addFiles", false);
+        //Envias el header requerido para enviar parametros via POST
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //http.setRequestHeader("Content-length", files.length);
+        //http.setRequestHeader("Connection", "close");
+        //Enviamos la peticion
+        xmlhttp.send(estudio,newFiles, acep);
+        //Extraemos la información
+        //var newfiles = JSON.parse(xmlhttp.responseText);
+
+        // datos = datos + newfiles;
+        // console.log(newfiles)
+        // console.log(datos)
+    }
+
+
     // Guardamos el estudio en la bd
     function saveStudy() {
         var name = document.getElementById("nombre").value;
@@ -130,7 +200,7 @@
         var aux = '{{ data|safe }}'
         var datos = JSON.parse(aux);
 
-        if(name == ""){
+        if (name == "") {
             document.getElementById("nombre").focus()
             return
         }

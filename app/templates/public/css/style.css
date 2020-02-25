@@ -131,7 +131,7 @@ h1 {
 }
 
 .btn-acep {
-    background-color: #ED6B47 !important;
+    background-color: #F79C3E !important;
 }
 
 .it .btn-check:hover {
@@ -140,6 +140,7 @@ h1 {
 
 #uploader{
     display: flex;
+    justify-content: center;
 }
 
 .it .uploadDoc {

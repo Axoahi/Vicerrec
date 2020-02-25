@@ -1,8 +1,17 @@
+var acepciones = { "curriculum": ['juan', 'pepe'], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
+var curriculum = []
+var docentia = []
+var web = []
+var coordinacion = []
+var otras = []
+
+
 //onInit()
 $(document).ready(function () {
     document.getElementById("acepUser").value = JSON.stringify(
-        { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] })
+        { "curriculum": ['gato', 'oso'], "docentia": [], "web": [], "coordinacion": [], "otros": [] })
     rellenaEstudios();
+    showAcep();
     getPagination('#myTable');
 });
 
@@ -24,6 +33,7 @@ function rellenaEstudios() {
     }
     document.getElementById("listado").innerHTML = htmlListado;
 }
+
 
 function verEstudio(aux) {
     var id = aux.substr(1)
@@ -107,7 +117,7 @@ $(document).ready(function () {
     });
 
     $(".btn-new").on('click', function () {
-        $("#uploader").append('<div class="uploadDoc"><div class="col-sm-10"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Upload document</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
+        $("#uploader").append('<div class="uploadDoc"><div class="col-sm-10"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Subir documento</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
     });
 
     $(document).on("click", "a.btn-check", function () {
@@ -122,35 +132,92 @@ $(document).ready(function () {
 
 
 function putAcep() {
-    var acepciones = { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
     var curriculum_form = document.getElementById("curriculum").value
-    var curriculum = curriculum_form.split(",")
+    curriculum = curriculum_form.split(",")
     var docentia_form = document.getElementById("docentia").value
-    var docentia = docentia_form.split(",")
+    docentia = docentia_form.split(",")
     var web_form = document.getElementById("web").value
-    var web = web_form.split(",")
+    web = web_form.split(",")
     var coordinacion_form = document.getElementById("coordinacion").value
-    var coordinacion = coordinacion_form.split(",")
+    coordinacion = coordinacion_form.split(",")
     var otras_form = document.getElementById("otras").value
-    var otras = otras_form.split(",")
-    if(curriculum != ""){
+    otras = otras_form.split(",")
+    if (curriculum != "") {
         acepciones["curriculum"] = curriculum
     }
-    if(docentia != ""){
+    if (docentia != "") {
         acepciones["docentia"] = docentia
     }
-    if(web != ""){
+    if (web != "") {
         acepciones["web"] = web
     }
-    if(coordinacion != ""){
+    if (coordinacion != "") {
         acepciones["coordinacion"] = coordinacion
     }
-    if(otras != ""){
+    if (otras != "") {
         acepciones["otros"] = otras
     }
-    
+
     document.getElementById("acepUser").value = JSON.stringify(acepciones)
-    window.location.href = ""
+    showAcep()
+    window.location.href = "#"
+}
+
+function showAcep() {
+
+    var listAcepciones = ""
+
+    if (curriculum.length != 0 && docentia.length != 0 && web.length != 0 && coordinacion.length != 0 && otras.length != 0) {
+        listAcepciones +=
+            '<h5>Acepciones</h5>' +
+            '<ul>' + '<li>Curriculum: '
+
+        for (var i = 0; i < curriculum.length; i++) {
+            if (i < curriculum.length - 1)
+                listAcepciones += curriculum[i] + ', '
+            else
+                listAcepciones += curriculum[i] 
+        }
+
+        listAcepciones +=
+            '</li>' + '<li>Docentia: '
+
+        for (var i = 0; i < docentia.length; i++) {
+            if (i < docentia.length - 1)
+                listAcepciones += docentia[i] + ', '
+            else
+                listAcepciones += docentia[i]
+        }
+
+        listAcepciones += '</li>' + '<li>Web: '
+        for (var i = 0; i < web.length; i++) {
+            if (i < web.length - 1)
+                listAcepciones += web[i] + ', '
+            else
+                listAcepciones += web[i] 
+        }
+
+        listAcepciones += '</li>' + '<li>Coordinación: '
+        for (var i = 0; i < coordinacion.length; i++) {
+            if (i < coordinacion.length - 1)
+                listAcepciones += coordinacion[i] + ', '
+            else
+                listAcepciones += coordinacion[i]
+        }
+
+        listAcepciones += '</li>' + '<li>Otros: '
+        for (var i = 0; i < otras.length; i++) {
+            if (i < otras.length - 1)
+                listAcepciones += otras[i] + ', '
+            else
+                listAcepciones += otras[i] 
+        }
+
+        listAcepciones += '</li>' + '</ul>'
+
+    }
+
+    document.getElementById("listAcep").innerHTML = listAcepciones;
 }
 
 /*PAGINATION 
