@@ -38,7 +38,8 @@
                             PDF</a>
                         <a class="btn btn-next" onclick="sumarArchivos()" title="crea el estudio"> Añadir al estudio
                         </a>
-                        <a class="btn btn-acep" href="#acep" title="añade palabras para localizar"> Acepciones</a>
+                        <a class="btn btn-acep" href="#acep" title="añade palabras para localizar"
+                            onclick="showPopupAcep();"> Acepciones</a>
                         <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
                         <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
@@ -53,7 +54,7 @@
 
     <div id="acep" class="overlay">
         <div class="popup">
-            <h2>Acepciones</h2><a class="close" href="#" onclick="closePopupAcep()">×</a>
+            <h2>Acepciones</h2><a class="close" href="#" onclick="showDetail()">×</a>
             <div class="content">
                 <label for="curriculum">Curriculum:</label>
                 <input type="text" class="form-control" id="curriculum" placeholder="ej:campo 1,campo 2">
@@ -76,11 +77,12 @@
                     "aconsejar", "optimizar", "abandono" y con otras estructuras específicas formadas por "baja
                     respuesta", "baja satisfacción", "se propone", "se debe"</small> <br>
                 <div class="text-center it">
-                    <a class="btn btn-next" href="javascript:putAcep()" onclick="closePopupAcep()"> Guardar</a>
+                    <a class="btn btn-next" href="javascript:putAcep()" onclick="showDetail()"> Guardar</a>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div id="ErrorFiles" class="overlay">
         <div class="popup">
@@ -118,6 +120,10 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 <script type="text/javascript" src="/templates/public/js/study.js"></script>
+<!-- hacer pdf -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 <script>
     var idStudy
@@ -161,15 +167,15 @@
                     if (datos.length > 0)
                         i--
                 }
-            } 
+            }
 
             if (ErrorFiles) {
                 location.href = window.location + "#ErrorFiles"
                 showPopupErrorFilesHtml()
             }
 
-            if(datos.length == 0){
-                location.href="http://localhost"
+            if (datos.length == 0) {
+                location.href = "http://localhost"
             }
 
             detailHtml(datos)
@@ -191,14 +197,14 @@
         var linkFiles
 
         for (i = 0; i < document.getElementsByClassName("form-control-file").length; i++) {
-            if(i !=  document.getElementsByClassName("form-control-file").length -1){
-                linkFiles +=  document.getElementsByClassName("form-control-file")[i].value + ","
+            if (i != document.getElementsByClassName("form-control-file").length - 1) {
+                linkFiles += document.getElementsByClassName("form-control-file")[i].value + ","
 
-            }else{
+            } else {
                 linkFiles += document.getElementsByClassName("form-control-file")[i].value
-            } 
+            }
         }
-        var newFiles =JSON.stringify({ "listNewFiles": [linkFiles]})
+        var newFiles = JSON.stringify({ "listNewFiles": [linkFiles] })
 
         var xmlhttp = new XMLHttpRequest();
         //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
@@ -299,5 +305,46 @@
         });
         event.preventDefault();
     };
+
+
+
+    function Export() {
+        html2canvas(document.getElementById('main-table'), {
+            onrendered: function (canvas) {
+
+                // create intermediate canvas
+                var rotCanvas = document.createElement("canvas");
+
+                // swap width and height
+                rotCanvas.width = canvas.height;
+                rotCanvas.height = canvas.width;
+
+                // get context
+                var rctx = rotCanvas.getContext("2d");
+
+                // translate to center (rotation pivot)
+                rctx.translate(rotCanvas.width * 0.5, rotCanvas.height * 0.5);
+
+                // rotate -90° (CCW)
+                rctx.rotate(-Math.PI * 0.5);
+
+                // draw image offset so center of image is on top of pivot
+                rctx.drawImage(canvas, -canvas.width * 0.5, -canvas.height * 0.5);
+
+                // extract image from rotate canvas
+                //var data = rotCanvas.toDataURL('image/png');
+                 var data = canvas.toDataURL();
+
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("Table.pdf");
+
+            }
+        });
+    }
 
 </script>

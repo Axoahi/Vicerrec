@@ -9,11 +9,6 @@ function showPopupAcep() {
     document.getElementById("detail").style.display = "none";
 }
 
-function closePopupAcep() {
-    document.getElementById("comparative").style.display = "block";
-    document.getElementById("detail").style.display = "block";
-}
-
 function showPopupErrorFilesHtml() {
     document.getElementById("detail").style.display = "none";
 }
