@@ -14,6 +14,13 @@ function closePopupAcep() {
     document.getElementById("detail").style.display = "block";
 }
 
+function showPopupErrorFilesHtml() {
+    document.getElementById("detail").style.display = "none";
+}
+function closePopupErrorFilesHtml() {
+    document.getElementById("detail").style.display = "block";
+}
+
 
 
 var fileTypes = ['pdf'];  //acceptable file types
@@ -341,6 +348,8 @@ function tablaHtml(datos) {
             '<tr>' +
             '<th>' + datos[i]['titulo'] + '</th>' +
             '<td>' + datos[i]['codigo'] + '</td>' +
+            '<td>' + datos[i]['centro'] + '</td>' +
+            '<td>' + datos[i]['tipoInforme'] + '</td>' +
             '<td>' + datos[i]['anyo'] + '</td>'
 
         // datos[i]['gestiontitulo']['organizacionydesarrollo']

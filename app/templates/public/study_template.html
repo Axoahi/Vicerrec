@@ -82,6 +82,15 @@
         </div>
     </div>
 
+    <div id="ErrorFiles" class="overlay">
+        <div class="popup">
+            <h2>Archivos no validos</h2><a class="close" href="#" onclick="closePopupErrorFilesHtml()">×</a>
+            <div class="content">
+                <p>Ha introducido contenido no reconocidos por el sistema</p>
+            </div>
+        </div>
+    </div>
+
 
     <!-- vista detalle  -->
 
@@ -114,6 +123,7 @@
     var idStudy
     var study
     var myView = "detail"
+    var ErrorFiles = false
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
@@ -144,6 +154,24 @@
                 }
             });
         } else {
+            for (var i = 0; i < datos.length; i++) {
+                if (datos[i] == false) {
+                    datos.splice(i, 1)
+                    ErrorFiles = true;
+                    if (datos.length > 0)
+                        i--
+                }
+            }
+
+            if (ErrorFiles) {
+                location.href = window.location + "#ErrorFiles"
+                showPopupErrorFilesHtml()
+            }
+            
+            if(datos.length == 0){
+                location.href="http://localhost"
+            }
+
             detailHtml(datos)
             tablaHtml(datos)
             popupHtml(datos)
@@ -175,7 +203,7 @@
         //http.setRequestHeader("Content-length", files.length);
         //http.setRequestHeader("Connection", "close");
         //Enviamos la peticion
-        xmlhttp.send(estudio,newFiles, acep);
+        xmlhttp.send(estudio, newFiles, acep);
         //Extraemos la información
         //var newfiles = JSON.parse(xmlhttp.responseText);
 
