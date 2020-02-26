@@ -161,13 +161,13 @@
                     if (datos.length > 0)
                         i--
                 }
-            }
+            } 
 
             if (ErrorFiles) {
                 location.href = window.location + "#ErrorFiles"
                 showPopupErrorFilesHtml()
             }
-            
+
             if(datos.length == 0){
                 location.href="http://localhost"
             }
@@ -188,12 +188,17 @@
 
         var acep = document.getElementById("acepUser").value
         var estudio = JSON.stringify(study)
-        var newFiles = ""
+        var linkFiles
 
-        // console.log(newFiles)
         for (i = 0; i < document.getElementsByClassName("form-control-file").length; i++) {
-            newFiles += document.getElementsByClassName("form-control-file")[i].value + ","
+            if(i !=  document.getElementsByClassName("form-control-file").length -1){
+                linkFiles +=  document.getElementsByClassName("form-control-file")[i].value + ","
+
+            }else{
+                linkFiles += document.getElementsByClassName("form-control-file")[i].value
+            } 
         }
+        var newFiles =JSON.stringify({ "listNewFiles": [linkFiles]})
 
         var xmlhttp = new XMLHttpRequest();
         //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
@@ -203,13 +208,12 @@
         //http.setRequestHeader("Content-length", files.length);
         //http.setRequestHeader("Connection", "close");
         //Enviamos la peticion
+        console.log(estudio)
+        console.log(newFiles)
+        console.log(acep)
         xmlhttp.send(estudio, newFiles, acep);
         //Extraemos la información
         //var newfiles = JSON.parse(xmlhttp.responseText);
-
-        // datos = datos + newfiles;
-        // console.log(newfiles)
-        // console.log(datos)
     }
 
 
