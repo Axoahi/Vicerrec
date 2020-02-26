@@ -97,7 +97,10 @@ def upload():
                 # Se guarda el archivo
                 file.save(destination)
                 # Leemos la información del archivo
-                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
+                try:
+                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                except:
+                    textoSacado.append(False)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -106,7 +109,7 @@ def upload():
                 else:
                     print("El archivo no existe")
 
-    #return Response(json.dumps(textoSacado), mimetype='application/json')
+    # return Response(json.dumps(textoSacado), mimetype='application/json')
     return render_template("public/study.html", data=json.dumps(textoSacado))
 
 # Procesamiento de subida de archivo, previo a muestra de
@@ -118,7 +121,7 @@ def getExcel():
         os.mkdir(target)
 
     print(request.form["pynombre"])
-    if  not request.form["pynombre"]:
+    if not request.form["pynombre"]:
         nombre = "estudio"
     else:
         nombre = request.form["pynombre"]
@@ -171,10 +174,10 @@ def actualizar():
     estudio = request.get_json(force=True)
     id = estudio['id']
     del estudio['id']
-    done = estudiosMongo.actualizarEstudio(id,estudio)
+    done = estudiosMongo.actualizarEstudio(id, estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
-#Añadir archivos a un estudio
+# Añadir archivos a un estudio
 @app.route("/addFiles", methods=['POST'])
 def anyadirArchivos():
     json = request.get_json('estudio')
@@ -184,7 +187,7 @@ def anyadirArchivos():
     dictAcepUser = ast.literal_eval(acepciones)
     acepUser = list(dictAcepUser.values())
 
-    #Limpiamos archivos antiguos del server
+    # Limpiamos archivos antiguos del server
     for f in files:
         os.remove(f)
 
@@ -229,8 +232,8 @@ def anyadirArchivos():
     # json
     # textoSacado
 
-    #if tiene id devolvemos C
-    #if not devolvemos ABC
+    # if tiene id devolvemos C
+    # if not devolvemos ABC
 
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
@@ -277,14 +280,15 @@ def updateAcepcion():
     acepcion = acepcionesMongo.actualizarAcepcion('default', listaAcepciones)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
-#ESTADISTICAS
-@app.route("/stadistics", methods=['GET','POST'])
+# ESTADISTICAS
+@app.route("/stadistics", methods=['GET', 'POST'])
 def updateEstadisticas(centro):
     success = estadisticas.actualizarEstadistica(centro)
     if(success == True):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     else:
         return json.dumps({'success': False}), 200, {'ContentType': 'application/json'}
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True)
