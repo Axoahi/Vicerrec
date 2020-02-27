@@ -194,17 +194,14 @@
 
         var acep = document.getElementById("acepUser").value
         var estudio = JSON.stringify(study)
-        var linkFiles
+        var linkFiles = []
+        var name 
 
-        for (i = 0; i < document.getElementsByClassName("form-control-file").length; i++) {
-            if (i != document.getElementsByClassName("form-control-file").length - 1) {
-                linkFiles += document.getElementsByClassName("form-control-file")[i].value + ","
-
-            } else {
-                linkFiles += document.getElementsByClassName("form-control-file")[i].value
-            }
+        for (i = 0; i < document.getElementsByClassName("form-control-file").length; i++) {                
+            name = document.getElementsByClassName("form-control-file")[i].value.split("\\")
+            linkFiles.push(name[name.length-1])
         }
-        var newFiles = JSON.stringify({ "listNewFiles": [linkFiles] })
+        var newFiles = JSON.stringify({ "listNewFiles": linkFiles })
 
         var xmlhttp = new XMLHttpRequest();
         //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
@@ -214,9 +211,9 @@
         //http.setRequestHeader("Content-length", files.length);
         //http.setRequestHeader("Connection", "close");
         //Enviamos la peticion
-        console.log(estudio)
-        console.log(newFiles)
-        console.log(acep)
+       // console.log(estudio)
+          console.log(newFiles)
+        //console.log(acep)
         xmlhttp.send(estudio, newFiles, acep);
         //Extraemos la información
         //var newfiles = JSON.parse(xmlhttp.responseText);
@@ -332,8 +329,8 @@
                 rctx.drawImage(canvas, -canvas.width * 0.5, -canvas.height * 0.5);
 
                 // extract image from rotate canvas
-                //var data = rotCanvas.toDataURL('image/png');
-                 var data = canvas.toDataURL();
+                var data = rotCanvas.toDataURL('image/png');
+                //var data = canvas.toDataURL();
 
                 var docDefinition = {
                     content: [{

@@ -597,8 +597,12 @@ function popupHtml(datos) {
                 htmlTable +=
                     '<h2>Curriculum</h2>' +
                     '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
-                    '<div class="content">' +
-                    '<p>' + datos[i]['recomendaciones']['curriculum'] + '</p>'
+                    '<div class="content">' + '<ul>'
+                    for (var k = 0; k < datos[i]['recomendaciones']['curriculum'].length; k++) {
+                        htmlTable +=
+                            '<li>' + datos[i]['recomendaciones']['curriculum'][k] + '</li>'
+                    }
+                    htmlTable += "</ul>"
 
             } else if (j == 1) {
 
