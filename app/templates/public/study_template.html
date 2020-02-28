@@ -33,17 +33,18 @@
                         <input type="text" class="form-control" id="nombre" name="pynombre"
                             placeholder="Nombre del estudio">
                         <!-- <div id="uploader" class="row"></div> -->
-                        <input type="hidden" id="acepUser" value="" name="pyacepUser">
+                        <!-- <input type="hidden" id="acepUser" value="" name="pyacepUser"> -->
                         <!-- <a class="btn btn-new" title="suma archivos al estudio"> Añadir
                             PDF</a>
                         <a class="btn btn-next" onclick="sumarArchivos()" title="crea el estudio"> Añadir al estudio
                         </a> -->
                         <!-- <a class="btn btn-acep" href="#acep" title="añade palabras para localizar"
                             onclick="showPopupAcep();"> Acepciones</a> -->
-                        <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
+                        <input class="btn btn-add" id="moreFiles" onclick="showPopupMoreFiles()" value="Ampliar estudio">
+                        <input class="btn btn-compare" id="view" onclick="showComparative()" value="">
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
                         <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
-                        <input type="submit" class="btn btn-pdf" value="Descargar">
+                        <input type="submit" class="btn btn-pdf" value="Descargar excel">
                         <button id="botonEstudio" type="button" class="btn btn-upda">Guardar
                             Estudio</button>
                     </form>
@@ -53,7 +54,7 @@
     </div>
 
     <div class="row it">
-        <form class="col-sm-offset-1 col-sm-10" id="upload-form" action="{{ url_for('anyadirArchivos') }}" method="POST"
+        <form class="col-sm-offset-1 col-sm-10" id="moreFiles-form" action="{{ url_for('anyadirArchivos') }}" method="POST"
             enctype="multipart/form-data">
             <div id="uploader" class="row">
                 <div class="uploadDoc">
@@ -189,7 +190,6 @@
                     document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
                     document.getElementById("nombre").value = res['nombre']
                     document.getElementById("pointOfStudy").value = JSON.stringify(study)
-                    console.log( document.getElementById("pointOfStudy").value)
                 },
                 error: function (res) {
                     alert("Algo ha fallado");
@@ -224,7 +224,7 @@
             pointOfStudy
             getPDFs(datos);
         }
-
+        document.getElementById("moreFiles-form").style.display = "none"
         
     });
 

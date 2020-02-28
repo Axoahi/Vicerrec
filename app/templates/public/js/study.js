@@ -5,15 +5,27 @@ $(document).ready(function () {
 });
 
 function showPopupAcep() {
-    document.getElementById("comparative").style.display = "none";
-    document.getElementById("detail").style.display = "none";
+    document.getElementById("comparative").style.display = "none"
+    document.getElementById("detail").style.display = "none"
 }
 
 function showPopupErrorFilesHtml() {
-    document.getElementById("detail").style.display = "none";
+    document.getElementById("detail").style.display = "none"
 }
 function closePopupErrorFilesHtml() {
-    document.getElementById("detail").style.display = "block";
+    document.getElementById("detail").style.display = "block"
+}
+
+function showPopupMoreFiles() {
+    document.getElementById("moreFiles-form").style.display = "block"
+    document.getElementById("moreFiles").value = "Cerrar"
+    document.getElementById("moreFiles").setAttribute("onclick", "closePopupMoreFiles()")
+    
+}
+function closePopupMoreFiles() {
+    document.getElementById("moreFiles-form").style.display = "none"
+    document.getElementById("moreFiles").value = "Ampliar estudio"
+    document.getElementById("moreFiles").setAttribute("onclick", "showPopupMoreFiles()")
 }
 
 

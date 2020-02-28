@@ -71,7 +71,8 @@ label {
 .btn-new,
 .btn-upda,
 .btn-pdf,
-.btn-compare {
+.btn-compare,
+.btn-add {
     margin          : 30px 0px;
     border-radius   : 0px;
     background-color: #7F8697 !important;
@@ -85,11 +86,15 @@ label {
 }
 
 .btn-pdf {
-    background-color: #ED6B47 !important;
+    background-color: #8BAB54 !important;
 }
 
 .btn-compare {
-    background-color: #8BAB54 !important;
+    background-color: #ED6B47 !important; 
+}
+
+.btn-add {
+    background-color: #6750B5 !important;
 }
 
 .btn:hover {
@@ -144,7 +149,8 @@ label {
 
 .it .btn-new,
 .it .btn-next,
-.it .btn-acep {
+.it .btn-acep,
+.it .btn-add {
     margin          : 30px 0px;
     border-radius   : 0px;
     background-color: #7F8697;
