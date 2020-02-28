@@ -32,14 +32,14 @@
                     <form id="formulario" class="save" action="{{url_for('getExcel')}}" method="POST">
                         <input type="text" class="form-control" id="nombre" name="pynombre"
                             placeholder="Nombre del estudio">
-                        <div id="uploader" class="row"></div>
+                        <!-- <div id="uploader" class="row"></div> -->
                         <input type="hidden" id="acepUser" value="" name="pyacepUser">
-                        <a class="btn btn-new" title="suma archivos al estudio"> Añadir
+                        <!-- <a class="btn btn-new" title="suma archivos al estudio"> Añadir
                             PDF</a>
                         <a class="btn btn-next" onclick="sumarArchivos()" title="crea el estudio"> Añadir al estudio
-                        </a>
-                        <a class="btn btn-acep" href="#acep" title="añade palabras para localizar"
-                            onclick="showPopupAcep();"> Acepciones</a>
+                        </a> -->
+                        <!-- <a class="btn btn-acep" href="#acep" title="añade palabras para localizar"
+                            onclick="showPopupAcep();"> Acepciones</a> -->
                         <input class="btn btn-compare" id="view" onclick="showComparative();" value="">
                         <input type="hidden" id="listaAneca" value="" name="pylistadoAneca">
                         <input type="hidden" id="listaAcepciones" value="" name="pylistadoAneca">
@@ -50,6 +50,37 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row it">
+        <form class="col-sm-offset-1 col-sm-10" id="upload-form" action="{{ url_for('anyadirArchivos') }}" method="POST"
+            enctype="multipart/form-data">
+            <div id="uploader" class="row">
+                <div class="uploadDoc">
+                    <div class="col-sm-10">
+                        <div class="docErr">Por favor, elige un archivo valido</div>
+                        <div class="fileUpload btn btn-orange">
+                            <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon">
+                            <span class="upl" id="upload">Subir documento</span>
+                            <input type="hidden" id="acepUser" value="" name="pyacepUser">
+                            <input type="hidden" id="pointOfStudy" value="" name="pointOfStudy">
+                            <input class="form-control-file upload up" id="file-picker" type="file" name="file"
+                                accept="pdf/*" onchange="readURL(this);">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <a class="btn-check"><i class="material-icons">delete_outline</i></a>
+                    </div>
+                </div>
+            </div>
+            <div id="listAcep"></div>
+            <div class="text-center">
+                <a class="btn btn-new" title="suma archivos al estudio"> Añadir nuevo</a>
+                <a class="btn btn-acep" href="#acep" title="añade palabras para localizar" onclick="showPopupAcep();">Acepciones</a>
+                <input type="submit" value="Comenzar" id="upload-button" class="btn btn-next" title="crea el estudio">
+            </div>
+        </form>
     </div>
 
     <div id="acep" class="overlay">
@@ -82,7 +113,6 @@
             </div>
         </div>
     </div>
-
 
     <div id="ErrorFiles" class="overlay">
         <div class="popup">
@@ -125,6 +155,10 @@
 <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
+<script src="js/jquery.min.js"></script>
+<script src="js/jsPDF/dist/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+
 <script>
     var idStudy
     var study
@@ -148,12 +182,14 @@
                     detailHtml(res['comparativa'])
                     tablaHtml(res['comparativa'])
                     popupHtml(res['comparativa'])
-                    document.getElementById("listaAneca").value = JSON.stringify(res['comparativa']);
-                    getPDFs(res['comparativa']);
+                    document.getElementById("listaAneca").value = JSON.stringify(res['comparativa'])
+                    getPDFs(res['comparativa'])
                     //Actualizamos el boton
-                    document.getElementById("botonEstudio").setAttribute("onclick", "updateStudy()");
+                    document.getElementById("botonEstudio").setAttribute("onclick", "updateStudy()")
                     document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
                     document.getElementById("nombre").value = res['nombre']
+                    document.getElementById("pointOfStudy").value = JSON.stringify(study)
+                    console.log( document.getElementById("pointOfStudy").value)
                 },
                 error: function (res) {
                     alert("Algo ha fallado");
@@ -181,11 +217,15 @@
             detailHtml(datos)
             tablaHtml(datos)
             popupHtml(datos)
-            document.getElementById("botonEstudio").setAttribute("onclick", "saveStudy()");
+            document.getElementById("botonEstudio").setAttribute("onclick", "saveStudy()")
             document.getElementById("botonEstudio").innerHTML = "Guardar estudio"
-            document.getElementById("listaAneca").value = aux;
+            document.getElementById("listaAneca").value = aux
+            document.getElementById("pointOfStudy").value = aux
+            pointOfStudy
             getPDFs(datos);
         }
+
+        
     });
 
 
@@ -304,10 +344,10 @@
 
 
 
-    function Export() {
-        html2canvas(document.getElementById('main-table'), {
+    function Export2() {
+        window.scrollTo(0, 0)
+        html2canvas(document.getElementById('table-scroll'), {
             onrendered: function (canvas) {
-
                 // create intermediate canvas
                 var rotCanvas = document.createElement("canvas");
 
@@ -333,15 +373,120 @@
 
                 var docDefinition = {
                     content: [{
+                        allowTaint: true,
+                        foreignObjectRendering: true,
                         image: data,
                         width: 500,
-                        allowTaint: true
                     }]
                 };
                 pdfMake.createPdf(docDefinition).download("Table.pdf");
 
             }
         });
+
+        window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)
+    }
+
+
+
+    function Export() {
+        var doc = new jsPDF({
+            orientation: "p", //set orientation
+            unit: "pt", //set unit for document
+            format: "letter" //set document standard
+        });
+        var elementHTML = $('#table-scroll').html();
+        var specialElementHandlers = {
+            '#elementH': function (element, renderer) {
+                return true;
+            }
+        };
+        margins = {
+            top: 80,
+            bottom: 60,
+            left: 40,
+            width: 522
+        };
+
+        doc.fromHTML(elementHTML, margins.left, // x coord
+            margins.top, {
+
+            'width': 30,
+            'elementHandlers': specialElementHandlers
+        });
+
+        // Save the PDF
+        doc.save('sample-document.pdf');
+    }
+
+
+    function Export4() {
+
+        var doc = new jsPDF('p', 'pt');
+
+        var res = doc.autoTableHtmlToJson(document.getElementById("table-scroll"));
+        doc.autoTable(res.columns, res.data, { margin: { top: 80 } });
+
+        var header = function (data) {
+            doc.setFontSize(18);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
+            //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+            doc.text("Testing Report", data.settings.margin.left, 50);
+        };
+
+        var options = {
+            beforePageContent: header,
+            margin: {
+                top: 80
+            },
+            startY: doc.autoTableEndPosY() + 20
+        };
+
+        doc.autoTable(res.columns, res.data, options);
+
+        doc.save("table.pdf");
+    }
+
+    function Export6() {
+        console.log('entro')
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        // source can be HTML-formatted string, or a reference
+        // to an actual DOM element from which the text will be scraped.
+        source = $('#customers')[0];
+
+        // we support special element handlers. Register them with jQuery-style 
+        // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+        // There is no support for any other type of selectors 
+        // (class, of compound) at this time.
+        specialElementHandlers = {
+            // element with id of "bypass" - jQuery style selector
+            '#bypassme': function (element, renderer) {
+                // true = "handled elsewhere, bypass text extraction"
+                return true
+            }
+        };
+        margins = {
+            top: 80,
+            bottom: 60,
+            left: 40,
+            width: 522
+        };
+        // all coords and widths are in jsPDF instance's declared units
+        // 'inches' in this case
+        pdf.fromHTML(
+            source, // HTML string or DOM elem ref.
+            margins.left, // x coord
+            margins.top, {// y coord
+            'width': margins.width, // max width of content on PDF
+            'elementHandlers': specialElementHandlers
+        },
+            function (dispose) {
+                // dispose: object with X, Y of the last line add to the PDF 
+                //          this allow the insertion of new lines after html
+                pdf.save('Test.pdf');
+            }
+            , margins);
     }
 
 </script>
