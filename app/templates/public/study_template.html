@@ -169,6 +169,7 @@
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
         var datos = JSON.parse(aux)
+        console.log(datos)
         idStudy = datos.id
         showDetail()
         if (datos.hasOwnProperty('id')) {
@@ -178,20 +179,27 @@
                 data: aux,
                 contentType: "application/json",
                 encode: true,
-                success: function rellena(res) {
-                    study = res
-                    detailHtml(res['comparativa'])
-                    tablaHtml(res['comparativa'])
-                    popupHtml(res['comparativa'])
-                    document.getElementById("listaAneca").value = JSON.stringify(res['comparativa'])
-                    getPDFs(res['comparativa'])
+                success: function rellena(res) {   
+                    if(datos.hasOwnProperty('comparativa')){
+                        study = datos
+                        detailHtml(datos['comparativa'])
+                        tablaHtml(datos['comparativa'])
+                        popupHtml(datos['comparativa'])
+                        document.getElementById("listaAneca").value = JSON.stringify(datos['comparativa'])
+                        getPDFs(datos['comparativa'])
+                    }else{
+                        study = res
+                        detailHtml(res['comparativa'])
+                        tablaHtml(res['comparativa'])
+                        popupHtml(res['comparativa'])
+                        document.getElementById("listaAneca").value = JSON.stringify(res['comparativa'])
+                        getPDFs(res['comparativa'])
+                    }
                     //Actualizamos el boton
                     document.getElementById("botonEstudio").setAttribute("onclick", "updateStudy()")
                     document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
                     document.getElementById("nombre").value = res['nombre']
                     document.getElementById("pointOfStudy").value = JSON.stringify(study)
-                    console.log(document.getElementById("pointOfStudy").value)
-                    console.log("pointOfStudy")
                 },
                 error: function (res) {
                     alert("Algo ha fallado");
@@ -229,37 +237,6 @@
         document.getElementById("moreFiles-form").style.display = "none"
         
     });
-
-
-
-    function sumarArchivos() {
-
-        var acep = document.getElementById("acepUser").value
-        var estudio = JSON.stringify(study)
-        var linkFiles = []
-        var name
-
-        for (i = 0; i < document.getElementsByClassName("form-control-file").length; i++) {
-            name = document.getElementsByClassName("form-control-file")[i].value.split("\\")
-            linkFiles.push(name[name.length - 1])
-        }
-
-        var allJson = {}
-        allJson.study = estudio
-        allJson.newFiles = linkFiles
-        allJson.acep = acep
-
-        var xmlhttp = new XMLHttpRequest();
-        //Configuramos la conexion, variable.open("METODO", "URL","TIPO DE CONEXION" )
-        xmlhttp.open("POST", "/addFiles", false)
-        //Envias el header requerido para enviar parametros via POST
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-        //Enviamos la peticion
-        xmlhttp.send(allJson)
-        //Extraemos la información
-        //var newfiles = JSON.parse(xmlhttp.responseText);
-    }
-
 
     // Guardamos el estudio en la bd
     function saveStudy() {
