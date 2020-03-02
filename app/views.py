@@ -108,7 +108,6 @@ def upload():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-
     # return Response(json.dumps(textoSacado), mimetype='application/json')
     return render_template("public/study.html", data=json.dumps(textoSacado))
 
@@ -199,6 +198,7 @@ def anyadirArchivos():
     else:
         archiValidos = []
         textoSacado = []
+        listaFalses = []
         # Recorremos los archivos, y aplicamos seguridad básica
         for file in request.files.getlist("file"):
             filename = file.filename
@@ -214,7 +214,7 @@ def anyadirArchivos():
                 try:
                     textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
                 except:
-                    textoSacado.append(False)
+                    listaFalses.append(filename)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -222,14 +222,22 @@ def anyadirArchivos():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
+
+    # Convertimos los datos antinguos a JSON
+    oldData = json.loads(oldData)
+
     # Si existe id, solo, se devuelve solo la información nueva
     if "id" in oldData:
-        print(textoSacado)
-        return render_template("public/study.html", data=json.dumps(textoSacado))
+        for x in textoSacado:
+            oldData["comparativa"].append(x)
+        print(oldData)
+        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
     else:
-        textoCompleto = oldData
-        textoCompleto["comparativa"].append(textoSacado)
-        return render_template("public/study.html", data=json.dumps(textoCompleto))
+        print("No hay ID")
+        for x in textoSacado:
+            oldData.append(x)
+        print(oldData)
+        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
     # json
     # textoSacado
 
