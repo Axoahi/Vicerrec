@@ -190,6 +190,8 @@
                     document.getElementById("botonEstudio").innerHTML = "Actualizar estudio"
                     document.getElementById("nombre").value = res['nombre']
                     document.getElementById("pointOfStudy").value = JSON.stringify(study)
+                    console.log(document.getElementById("pointOfStudy").value)
+                    console.log("pointOfStudy")
                 },
                 error: function (res) {
                     alert("Algo ha fallado");

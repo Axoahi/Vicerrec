@@ -108,7 +108,6 @@ def upload():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-
     # return Response(json.dumps(textoSacado), mimetype='application/json')
     return render_template("public/study.html", data=json.dumps(textoSacado))
 
@@ -180,16 +179,12 @@ def actualizar():
 # Añadir archivos a un estudio
 @app.route("/addFiles", methods=['POST'])
 def anyadirArchivos():
-    json = request.get_json('estudio')
-    files = request.get_json('newFiles')
-    acepciones = request.get_json('acep')
-
-    dictAcepUser = ast.literal_eval(acepciones)
+    allData = request.form.to_dict('pointOfStudy')
+    acepciones = allData['pyacepUser']
+    dictAcepUser = ast.literal_eval(str(acepciones))
     acepUser = list(dictAcepUser.values())
 
-    # Limpiamos archivos antiguos del server
-    for f in files:
-        os.remove(f)
+    oldData = allData['pointOfStudy']
 
     target = os.path.join(app.instance_path)
     # Si no existe el directorio donde dejar los archivos, se crea
@@ -197,15 +192,16 @@ def anyadirArchivos():
         os.mkdir(target)
 
     # Miramos que la lista de archivos a subir no esté vacía
-    if len(files) == 0:
+    if request.files['file'].filename == '':
         print("Se debe de subir un archivo por lo menos")
         return redirect(url_for('index'))
     else:
         archiValidos = []
         textoSacado = []
+        listaFalses = []
         # Recorremos los archivos, y aplicamos seguridad básica
-        for file in files:
-            filename = file
+        for file in request.files.getlist("file"):
+            filename = file.filename
 
             # Si el archivo ha pasado la seguridad básica, se procesa.
             if archivoPermitido(filename):
@@ -214,8 +210,11 @@ def anyadirArchivos():
                 destination = "/".join([target, filename])
                 # Se guarda el archivo
                 file.save(destination)
-                # Leemos law información del archivo
-                textoSacado.append(ConversionPDF.extraeInfo(destination, acepUser))
+                # Leemos la información del archivo
+                try:
+                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                except:
+                    listaFalses.append(filename)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -223,12 +222,22 @@ def anyadirArchivos():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-    if id in json:
-        return render_template("public/study.html", data=json.dumps(textoSacado))
+
+    # Convertimos los datos antinguos a JSON
+    oldData = json.loads(oldData)
+
+    # Si existe id, solo, se devuelve solo la información nueva
+    if "id" in oldData:
+        for x in textoSacado:
+            oldData["comparativa"].append(x)
+        print(oldData)
+        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
     else:
-        textoCompleto = json
-        textoCompleto["comparativa"].append(textoSacado)
-        return render_template("public/study.html", data=json.dumps(textoCompleto))
+        print("No hay ID")
+        for x in textoSacado:
+            oldData.append(x)
+        print(oldData)
+        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
     # json
     # textoSacado
 
