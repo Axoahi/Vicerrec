@@ -165,8 +165,8 @@
     //Rellenamos los datos de la tabla
     $(document).ready(function () {
         var aux = '{{ data|safe }}'
+        var invalidFiles = '{{ listaNoValidos|safe }}'
         var datos = JSON.parse(aux)
-        console.log(datos)
         idStudy = datos.id
         showDetail()
         if (datos.hasOwnProperty('id')) {
