@@ -85,6 +85,7 @@ def upload():
     else:
         archiValidos = []
         textoSacado = []
+        listaFalses = []
         # Recorremos los archivos, y aplicamos seguridad básica
         for file in request.files.getlist("file"):
             filename = file.filename
@@ -98,9 +99,14 @@ def upload():
                 file.save(destination)
                 # Leemos la información del archivo
                 try:
-                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                    valid_file = ConversionPDF.validaInforme(destination,acepUser)
                 except:
-                    textoSacado.append(False)
+                    listaFalses.append(filename)
+
+                if valid_file:
+                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                else:
+                    listaFalses.append(filename)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
                 if os.path.exists(destination):
@@ -108,8 +114,8 @@ def upload():
                     print("Archivo eliminado")
                 else:
                     print("El archivo no existe")
-    # return Response(json.dumps(textoSacado), mimetype='application/json')
-    return render_template("public/study.html", data=json.dumps(textoSacado))
+    print(listaFalses)
+    return render_template("public/study.html", data=json.dumps(textoSacado), listaNoValidos=listaFalses)
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
@@ -212,8 +218,13 @@ def anyadirArchivos():
                 file.save(destination)
                 # Leemos la información del archivo
                 try:
-                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                    valid_file = ConversionPDF.validaInforme(destination,acepUser)
                 except:
+                    listaFalses.append(filename)
+
+                if valid_file:
+                    textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
+                else:
                     listaFalses.append(filename)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
@@ -231,18 +242,14 @@ def anyadirArchivos():
         for x in textoSacado:
             oldData["comparativa"].append(x)
         print(oldData)
+        print(listaFalses)
         return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
     else:
-        print("No hay ID")
         for x in textoSacado:
             oldData.append(x)
         print(oldData)
+        print(listaFalses)
         return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
-    # json
-    # textoSacado
-
-    # if tiene id devolvemos C
-    # if not devolvemos ABC
 
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
