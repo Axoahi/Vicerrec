@@ -1,4 +1,4 @@
-var acepciones = { "curriculum": ['juan', 'pepe'], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
+var acepciones = { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
 var curriculum = []
 var docentia = []
 var web = []

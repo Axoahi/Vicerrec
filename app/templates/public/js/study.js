@@ -1,3 +1,5 @@
+var acepciones = { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
+
 //onInit()
 $(document).ready(function () {
     document.getElementById("acepUser").value = JSON.stringify(
@@ -20,7 +22,7 @@ function showPopupMoreFiles() {
     document.getElementById("moreFiles-form").style.display = "block"
     document.getElementById("moreFiles").value = "Cerrar"
     document.getElementById("moreFiles").setAttribute("onclick", "closePopupMoreFiles()")
-    
+
 }
 function closePopupMoreFiles() {
     document.getElementById("moreFiles-form").style.display = "none"
@@ -86,17 +88,16 @@ $(document).ready(function () {
 
 
 function putAcep() {
-    var acepciones = { "curriculum": [], "docentia": [], "web": [], "coordinacion": [], "otros": [] }
     var curriculum_form = document.getElementById("curriculum").value
-    var curriculum = curriculum_form.split(",")
+    curriculum = curriculum_form.split(",")
     var docentia_form = document.getElementById("docentia").value
-    var docentia = docentia_form.split(",")
+    docentia = docentia_form.split(",")
     var web_form = document.getElementById("web").value
-    var web = web_form.split(",")
+    web = web_form.split(",")
     var coordinacion_form = document.getElementById("coordinacion").value
-    var coordinacion = coordinacion_form.split(",")
+    coordinacion = coordinacion_form.split(",")
     var otras_form = document.getElementById("otras").value
-    var otras = otras_form.split(",")
+    otras = otras_form.split(",")
     if (curriculum != "") {
         acepciones["curriculum"] = curriculum
     }
@@ -114,7 +115,68 @@ function putAcep() {
     }
 
     document.getElementById("acepUser").value = JSON.stringify(acepciones)
-    window.location.href = ""
+    showAcep()
+    window.location.href = "#"
+}
+
+
+function showAcep() {
+
+    console.log("eyyyyyy")
+
+    var listAcepciones = ""
+
+    if (curriculum.length != 0 && docentia.length != 0 && web.length != 0 && coordinacion.length != 0 && otras.length != 0) {
+        listAcepciones +=
+            '<h5>Acepciones</h5>' +
+            '<ul>' + '<li>Curriculum: '
+
+        for (var i = 0; i < curriculum.length; i++) {
+            if (i < curriculum.length - 1)
+                listAcepciones += curriculum[i] + ', '
+            else
+                listAcepciones += curriculum[i]
+        }
+
+        listAcepciones +=
+            '</li>' + '<li>Docentia: '
+
+        for (var i = 0; i < docentia.length; i++) {
+            if (i < docentia.length - 1)
+                listAcepciones += docentia[i] + ', '
+            else
+                listAcepciones += docentia[i]
+        }
+
+        listAcepciones += '</li>' + '<li>Web: '
+        for (var i = 0; i < web.length; i++) {
+            if (i < web.length - 1)
+                listAcepciones += web[i] + ', '
+            else
+                listAcepciones += web[i]
+        }
+
+        listAcepciones += '</li>' + '<li>Coordinación: '
+        for (var i = 0; i < coordinacion.length; i++) {
+            if (i < coordinacion.length - 1)
+                listAcepciones += coordinacion[i] + ', '
+            else
+                listAcepciones += coordinacion[i]
+        }
+
+        listAcepciones += '</li>' + '<li>Otros: '
+        for (var i = 0; i < otras.length; i++) {
+            if (i < otras.length - 1)
+                listAcepciones += otras[i] + ', '
+            else
+                listAcepciones += otras[i]
+        }
+
+        listAcepciones += '</li>' + '</ul>'
+
+    }
+
+    document.getElementById("listAcep").innerHTML = listAcepciones;
 }
 
 
@@ -610,11 +672,11 @@ function popupHtml(datos) {
                     '<h2>Curriculum</h2>' +
                     '<a class="close" href="#" onclick="closePopup();">&times;</a>' +
                     '<div class="content">' + '<ul>'
-                    for (var k = 0; k < datos[i]['recomendaciones']['curriculum'].length; k++) {
-                        htmlTable +=
-                            '<li>' + datos[i]['recomendaciones']['curriculum'][k] + '</li>'
-                    }
-                    htmlTable += "</ul>"
+                for (var k = 0; k < datos[i]['recomendaciones']['curriculum'].length; k++) {
+                    htmlTable +=
+                        '<li>' + datos[i]['recomendaciones']['curriculum'][k] + '</li>'
+                }
+                htmlTable += "</ul>"
 
             } else if (j == 1) {
 
@@ -788,3 +850,6 @@ function updateStudy() {
     });
     event.preventDefault();
 };
+
+
+
