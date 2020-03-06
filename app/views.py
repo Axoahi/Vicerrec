@@ -115,7 +115,7 @@ def upload():
                 else:
                     print("El archivo no existe")
     print(listaFalses)
-    return render_template("public/study.html", data=json.dumps(textoSacado), listaNoValidos=listaFalses)
+    return render_template("public/study.html", data=json.dumps(textoSacado), listaNoValidos=json.dumps(listaFalses))
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
@@ -241,15 +241,11 @@ def anyadirArchivos():
     if "id" in oldData:
         for x in textoSacado:
             oldData["comparativa"].append(x)
-        print(oldData)
-        print(listaFalses)
-        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
+        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=json.dumps(listaFalses))
     else:
         for x in textoSacado:
             oldData.append(x)
-        print(oldData)
-        print(listaFalses)
-        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=listaFalses)
+        return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=json.dumps(listaFalses))
 
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])

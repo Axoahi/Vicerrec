@@ -122,8 +122,6 @@ function putAcep() {
 
 function showAcep() {
 
-    console.log("eyyyyyy")
-
     var listAcepciones = ""
 
     if (curriculum.length != 0 && docentia.length != 0 && web.length != 0 && coordinacion.length != 0 && otras.length != 0) {
