@@ -17,6 +17,10 @@ function showPopupErrorFilesHtml() {
 function closePopupErrorFilesHtml() {
     document.getElementById("detail").style.display = "block"
 }
+function closePopupErrorFilesRedirectHtml() {
+    location.href = "http://localhost"
+}
+
 
 function showPopupMoreFiles() {
     document.getElementById("moreFiles-form").style.display = "block"
@@ -73,7 +77,7 @@ $(document).ready(function () {
     });
 
     $(".btn-new").on('click', function () {
-        $("#uploader").append('<div class="uploadDoc"><div class="col-sm-10"><div class="docErr">Por favor, elige un archivo valido</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Subir documento</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
+        $("#uploader").append('<div class="uploadDoc"><div class="col-sm-10"><div class="docErr">El archivo no es un PDF. No será procesado.</div><!--error--><div class="fileUpload btn btn-orange"> <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon"><span class="upl" id="upload">Subir documento</span><input class="form-control-file upload up" id="file-picker" type="file" name="file" accept="pdf/*" onchange="readURL(this);"</div></div></div><div class="col-sm-1"><a class="btn-check"><i class="material-icons">delete_outline</i></a></div></div>');
     });
 
     $(document).on("click", "a.btn-check", function () {
