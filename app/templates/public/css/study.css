@@ -347,8 +347,6 @@ tfoot th:first-child {
 
 /* popup */
 
-
-
 .overlay {
     position  : fixed;
     top       : 0;
@@ -373,7 +371,7 @@ tfoot th:first-child {
     border-radius: 5px;
     width        : 75%;
     position     : relative;
-    transition   : all 5s ease-in-out;
+    transition   : all .5s ease-in-out;
 }
 
 .popup h2 {

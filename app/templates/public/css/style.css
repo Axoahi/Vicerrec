@@ -282,9 +282,9 @@ table tbody tr {
     padding      : 20px;
     background   : #fff;
     border-radius: 5px;
-    width        : 50%;
+    width        : 75%;
     position     : relative;
-    transition   : all 5s ease-in-out;
+    transition   : all .5s ease-in-out;
 }
 
 .popup h2 {

@@ -347,3 +347,15 @@ $(function () {
     });
 });
 
+function showPopupAcep() {
+    document.getElementById("cargar").style.display = "none"
+    document.getElementById("crear").style.display = "none"
+    document.getElementById("titulo").style.display = "none"
+}
+
+function showIndex() {
+    document.getElementById("cargar").style.display = "block"
+    document.getElementById("crear").style.display = "flex"
+    document.getElementById("titulo").style.display = "block"
+}
+
