@@ -2,7 +2,8 @@
     font-family: 'Roboto', sans-serif;
 
 }
-body{
+
+body {
     background-color: #f8f9fa !important;
 }
 
@@ -138,13 +139,13 @@ h1 {
     color: #ED6B47;
 }
 
-#uploader{
-    display: flex;
+#uploader {
+    display        : flex;
     justify-content: center;
 }
 
 .it .uploadDoc {
-    display: flex;
+    display         : flex;
     /* margin-bottom: 20px; */
 }
 
@@ -244,9 +245,9 @@ input#search-bar>focus> :-ms-placeholder {
 
 
 .pagination {
-    display: flex;
+    display        : flex;
     justify-content: space-evenly;
-    color: #465881;
+    color          : #465881;
 }
 
 .pagination li:hover {
@@ -270,6 +271,7 @@ table tbody tr {
     transition: opacity 500ms;
     visibility: hidden;
     opacity   : 0;
+    overflow  : auto
 }
 
 .overlay:target {
