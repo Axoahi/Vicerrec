@@ -29,7 +29,12 @@
 {% endblock %}
 
 {% block content_tabla %}
+
 <section class="comparative" id="comparative">
+    <div class="btn-group">
+        <button type="button" class="btn btn-light" onclick="showPartialTable();">Parcial</button>
+        <button type="button" class="btn btn-light" onclick="showCompleteTable();">Completo</button>
+    </div>
     <div id="table-scroll" class="table-scroll">
         <table id="main-table" class="main-table">
             <thead>

@@ -34,6 +34,14 @@ function closePopupMoreFiles() {
     document.getElementById("moreFiles").setAttribute("onclick", "showPopupMoreFiles()")
 }
 
+function showCompleteTable() {
+    document.getElementById("table-scroll").style.overflow = "initial"
+}
+
+function showPartialTable() {
+    document.getElementById("table-scroll").style.overflow = "auto"
+}
+
 
 
 var fileTypes = ['pdf'];  //acceptable file types

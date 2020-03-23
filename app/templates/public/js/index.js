@@ -176,7 +176,7 @@ function showAcep() {
             if (i < curriculum.length - 1)
                 listAcepciones += curriculum[i] + ', '
             else
-                listAcepciones += curriculum[i] 
+                listAcepciones += curriculum[i]
         }
 
         listAcepciones +=
@@ -194,7 +194,7 @@ function showAcep() {
             if (i < web.length - 1)
                 listAcepciones += web[i] + ', '
             else
-                listAcepciones += web[i] 
+                listAcepciones += web[i]
         }
 
         listAcepciones += '</li>' + '<li>Coordinación: '
@@ -210,7 +210,7 @@ function showAcep() {
             if (i < otras.length - 1)
                 listAcepciones += otras[i] + ', '
             else
-                listAcepciones += otras[i] 
+                listAcepciones += otras[i]
         }
 
         listAcepciones += '</li>' + '</ul>'
