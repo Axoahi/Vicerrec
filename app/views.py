@@ -16,7 +16,6 @@ from flask import Flask, send_from_directory, after_this_request
 
 app = Flask(__name__)
 
-
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
 app.config["CLIENT_DIRECTORY"] = os.getcwd() + "/data/"
@@ -33,6 +32,7 @@ def get_file(filename):  # pragma: no cover
     except IOError as exc:
         return str(exc)
 
+
 #  Carga de css y js
 @app.route('/<path:path>')
 def get_resource(path):  # pragma: no cover
@@ -47,10 +47,12 @@ def get_resource(path):  # pragma: no cover
     content = get_file(complete_path)
     return Response(content, mimetype=mimetype)
 
+
 # Pagina index
 @app.route("/")
 def index():
     return render_template("/public/index.html")
+
 
 # Pagina estudio
 @app.route("/study/<id>", methods=["GET"])
@@ -58,12 +60,12 @@ def detalles(id):
     datajson = {"id": id}
     return render_template("public/study.html", data=json.dumps(datajson))
 
+
 # Página nuevo estudio
 @app.route("/study", methods=['POST', "GET"])
 def upload():
-
     # Borramos todos los archivos excel que existan previamente en el servidor
-    files = glob.glob(app.config["CLIENT_DIRECTORY"]+"*.xls")
+    files = glob.glob(app.config["CLIENT_DIRECTORY"] + "*.xls")
 
     # Convertimos el texto a JSON, para luego extraer los campos y pasarlos a lista
     acepsFrontend = request.form["pyacepUser"]
@@ -97,15 +99,19 @@ def upload():
                 destination = "/".join([target, filename])
                 # Se guarda el archivo
                 file.save(destination)
+                # Se inicializa archivo valido para evitar error
+                valid_file = None
+                introducido = False
                 # Leemos la información del archivo
                 try:
-                    valid_file = ConversionPDF.validaInforme(destination,acepUser)
+                    valid_file = ConversionPDF.validaInforme(destination, acepUser)
                 except:
                     listaFalses.append(filename)
+                    introducido = True
 
                 if valid_file:
                     textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
-                else:
+                elif not introducido:
                     listaFalses.append(filename)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
@@ -116,6 +122,7 @@ def upload():
                     print("El archivo no existe")
     print(listaFalses)
     return render_template("public/study.html", data=json.dumps(textoSacado), listaNoValidos=json.dumps(listaFalses))
+
 
 # Procesamiento de subida de archivo, previo a muestra de
 @app.route("/getExcel", methods=['POST'])
@@ -140,6 +147,7 @@ def getExcel():
         )
     except FileNotFoundError:
         abort(404)
+
 
 # borrado de un excel
 @app.route("/borraExcel", methods=['POST'])
@@ -166,12 +174,14 @@ def archivoPermitido(fileName):
     else:
         return False
 
+
 # Guardar estudio
 @app.route("/new", methods=['POST'])
 def GuardarEstudio():
     estudio = request.get_json()
     id = estudiosMongo.crearEstudio(estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
 
 # Actualizar un estudio
 @app.route("/updateStudy", methods=['POST', 'GET'])
@@ -181,6 +191,7 @@ def actualizar():
     del estudio['id']
     done = estudiosMongo.actualizarEstudio(id, estudio)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
 
 # Añadir archivos a un estudio
 @app.route("/addFiles", methods=['POST'])
@@ -216,15 +227,19 @@ def anyadirArchivos():
                 destination = "/".join([target, filename])
                 # Se guarda el archivo
                 file.save(destination)
+                # Se inicializa archivo valido para evitar error
+                valid_file = None
+                introducido = False
                 # Leemos la información del archivo
                 try:
-                    valid_file = ConversionPDF.validaInforme(destination,acepUser)
+                    valid_file = ConversionPDF.validaInforme(destination, acepUser)
                 except:
                     listaFalses.append(filename)
+                    introducido = True
 
                 if valid_file:
                     textoSacado.append(ConversionPDF.validaInforme(destination, acepUser))
-                else:
+                elif not introducido:
                     listaFalses.append(filename)
 
                 # Una vez se ha subido el archivo y se ha procesado, se elimina
@@ -247,6 +262,7 @@ def anyadirArchivos():
             oldData.append(x)
         return render_template("public/study.html", data=json.dumps(oldData), listaNoValidos=json.dumps(listaFalses))
 
+
 # Listado de estudios guardados
 @app.route("/list", methods=['POST', 'GET'])
 def listaEstudios():
@@ -258,7 +274,7 @@ def listaEstudios():
             'nombre': item['nombre']
         }
         listadoJson.append(element)
-    return Response(json.dumps(listadoJson),  mimetype='application/json')
+    return Response(json.dumps(listadoJson), mimetype='application/json')
 
 
 # Carga de estudio
@@ -271,12 +287,14 @@ def verDetalles():
         del detalles['_id']
     return Response(json.dumps(detalles), mimetype='application/json')
 
+
 # Borrado de estudio (cuando borra no actualiza la lista)
 @app.route("/borrarEstudio", methods=['POST', 'GET'])
 def borrarEstudio():
     estudio = request.get_json(force=True)
     estudiosMongo.borrarEstudio(estudio['id'])
     return render_template("public/index.html")
+
 
 # METODOS PARA TRATAR CON LAS ACEPCIONES
 @app.route("/viewMeaning", methods=['GET'])
@@ -292,11 +310,12 @@ def updateAcepcion():
     acepcion = acepcionesMongo.actualizarAcepcion('default', listaAcepciones)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
+
 # ESTADISTICAS
 @app.route("/stadistics", methods=['GET', 'POST'])
 def updateEstadisticas(centro):
     success = estadisticas.actualizarEstadistica(centro)
-    if(success == True):
+    if (success == True):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     else:
         return json.dumps({'success': False}), 200, {'ContentType': 'application/json'}
