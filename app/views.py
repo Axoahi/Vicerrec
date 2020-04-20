@@ -19,6 +19,7 @@ app = Flask(__name__)
 # Variable que nos marca que se permite subir
 app.config["ALLOWED_EXTENSIONS"] = ["pdf"]
 app.config["CLIENT_DIRECTORY"] = os.getcwd() + "/data/"
+app.config["MANUAL"] = os.getcwd() + "/manual/"
 
 
 def root_dir():  # pragma: no cover
@@ -309,6 +310,17 @@ def updateAcepcion():
     listaAcepciones['user'] = 'default'
     acepcion = acepcionesMongo.actualizarAcepcion('default', listaAcepciones)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+
+# Endpoint para descarga de Manual
+@app.route("/getManual", methods=['GET'])
+def getManual():
+    try:
+        return send_from_directory(
+            app.config["MANUAL"], filename="Manual.pdf", as_attachment=True
+        )
+    except FileNotFoundError:
+        abort(404)
 
 
 # ESTADISTICAS
