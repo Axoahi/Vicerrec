@@ -35,6 +35,24 @@ function rellenaEstudios() {
 }
 
 
+function downloadGuide() {
+    $.ajax({
+        type: 'GET',
+        url: "/getManual",
+        data: "",
+        contentType: "application/json",
+        encode: true,
+        success: function (data) {
+            console.log("lo hago")
+            // window.location.href = "/";
+        },
+        error: function (data) {
+            alert("No se ha podido descargar el manual");
+        }
+    });
+}
+
+
 function verEstudio(aux) {
     var id = aux.substr(1)
     var estudio = JSON.stringify({ "id": id })
