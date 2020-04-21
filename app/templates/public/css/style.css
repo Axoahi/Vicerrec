@@ -57,6 +57,8 @@ h1 {
 
 .help-icon{
     color: #fff;
+    cursor:pointer; 
+    cursor: hand
 }
 
 

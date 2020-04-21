@@ -36,20 +36,23 @@ function rellenaEstudios() {
 
 
 function downloadGuide() {
-    $.ajax({
-        type: 'GET',
-        url: "/getManual",
-        data: "",
-        contentType: "application/json",
-        encode: true,
-        success: function (data) {
-            console.log("lo hago")
-            // window.location.href = "/";
-        },
-        error: function (data) {
-            alert("No se ha podido descargar el manual");
-        }
-    });
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/getManual', true);
+    xhr.responseType = 'blob';
+
+    xhr.onload = function(e) {
+      if (this.status == 200) {
+        var blob = new Blob([this.response], {type: 'application/pdf'});
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "Manual.pdf";
+        link.click();       
+      }
+    };
+
+    xhr.send();
+
 }
 
 
